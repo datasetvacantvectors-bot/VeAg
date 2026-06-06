@@ -11,6 +11,9 @@ import ManageCases from './pages/ManageCases';
 import CaseDetail from './pages/CaseDetail';
 import EditProfile from './pages/EditProfile';
 import ManageSubscription from './pages/ManageSubscription';
+import ProductSearch from './pages/ProductSearch';
+import AdminLogin from './pages/AdminLogin';
+import AdminPanel from './pages/AdminPanel';
 import NotFound from './pages/NotFound';
 import TermsAndConditions from './pages/TermsAndConditions';
 import PrivacyPolicy from './pages/PrivacyPolicy';
@@ -72,6 +75,17 @@ function AppContent() {
           </ProtectedRoute>
         }
       />
+      {/* Product Search & Admin Routes */}
+      <Route
+        path="/dashboard/products"
+        element={
+          <ProtectedRoute>
+            <ProductSearch />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="/dashboard/admin" element={<AdminLogin />} />
+      <Route path="/dashboard/admin/panel" element={<AdminPanel />} />
       {/* Policy Pages - Outside Protected Route */}
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />

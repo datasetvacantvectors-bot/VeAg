@@ -1,7 +1,11 @@
 import express from 'express';
 import * as caseController from '../controllers/caseController.js';
+import authMiddleware from '../config/authMiddleware.js';
 
 const router = express.Router();
+
+// Apply auth middleware to all routes
+router.use(authMiddleware);
 
 // Create new case
 router.post('/', caseController.createCase);

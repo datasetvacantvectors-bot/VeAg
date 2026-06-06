@@ -334,7 +334,7 @@ const ManageCases = ({ daysRemaining }) => {
                 onClick={() => navigate('/register-case')}
                 className="mt-4 px-8 py-3 bg-green-600/80 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors border border-green-400/50 backdrop-blur-xl"
               >
-                {t.manageCases.registerFirstCase}
+                {t.manageCases.registerFirst} {t.manageCases.registerCase}
               </button>
             </div>
           </div>

@@ -29,6 +29,10 @@ export const getActiveSubscription = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     const subscription = await Subscription.findOne({ 
       userId, 
       isActive: true 
@@ -69,6 +73,10 @@ export const getSubscriptionHistory = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     const subscriptions = await Subscription.find({ userId })
       .sort({ createdAt: -1 });
 
@@ -90,6 +98,10 @@ export const getTransactionHistory = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     const transactions = await Transaction.find({ userId })
       .sort({ createdAt: -1 });
 
@@ -104,6 +116,10 @@ export const getTransactionHistory = async (req, res) => {
 export const createOrder = async (req, res) => {
   try {
     const { userId, userEmail, months } = req.body;
+
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
 
     // Validate months
     if (!months || months < PLAN_CONFIG.minMonths || months > PLAN_CONFIG.maxMonths) {
@@ -171,6 +187,10 @@ export const verifyPayment = async (req, res) => {
       razorpay_signature,
       userId
     } = req.body;
+
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
 
     // Verify signature
     const body = razorpay_order_id + '|' + razorpay_payment_id;

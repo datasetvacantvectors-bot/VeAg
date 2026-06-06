@@ -99,6 +99,52 @@ export const translations = {
       errorSignIn: "Failed to sign in with Google. Please try again."
     },
     
+    // Product Search
+    productSearch: {
+      title: "Product Search",
+      placeholders: [
+        "Search for agricultural products...",
+        "Find farming equipment...",
+        "Discover seeds & fertilizers...",
+        "Search organic products..."
+      ],
+      helperText: "VeAg Product Search - Find the best agricultural products for your needs.",
+      backToDashboard: "Back to Dashboard",
+      searchPlaceholder: "Search for agricultural products...",
+      searchButton: "Search",
+      recentSearches: "Recent Searches",
+      clear: "Clear",
+      clearAll: "Clear all",
+      resultsFound: "products found",
+      showing: "Showing",
+      of: "of",
+      products: "products",
+      updatingResults: "Updating results...",
+      noProductsFound: "No products found",
+      tryDifferentTerm: "Try a different search term.",
+      refresh: "Refresh",
+      noResults: "No results",
+      searchForProducts: "Search for products",
+      enterSearchTerm: "Enter a search term above to find products.",
+      somethingWentWrong: "Something went wrong",
+      retry: "Retry",
+      sort: {
+        label: "Sort",
+        relevance: "Relevance",
+        priceAsc: "Price: Low → High",
+        priceDesc: "Price: High → Low",
+        newest: "Newest First",
+        oldest: "Oldest First"
+      },
+      modal: {
+        description: "Description",
+        visitStore: "Visit Store",
+        disclaimer1Part1: "Price displayed may not be accurate and is subject to change without notice. The listed price was last fetched from the external seller's website",
+        disclaimer1Part2: ". Actual pricing, offers, discounts, and availability may vary at the time of purchase.",
+        disclaimer2: "VeAg acts solely as a product discovery platform and is not affiliated with, endorsed by, or responsible for any third-party sellers. We do not guarantee the accuracy of product information, pricing, stock availability, or delivery timelines. All transactions are conducted directly between you and the external seller. Please verify all details on the seller's website before making a purchase."
+      }
+    },
+    
     // Dashboard
     dashboard: {
       title: "Dashboard",
@@ -561,6 +607,51 @@ export const translations = {
       errorSignIn: "Google से साइन इन करने में विफल। कृपया पुनः प्रयास करें।"
     },
     
+    // Product Search
+    productSearch: {
+      title: "उत्पाद खोज",
+      placeholders: [
+        "कृषि उत्पाद खोजें...",
+        "खेती के उपकरण खोजें...",
+        "बीज और उर्वरक खोजें...",
+        "जैविक उत्पाद खोजें..."
+      ],
+      helperText: "VeAg उत्पाद खोज - अपनी आवश्यकताओं के लिए सर्वोत्तम कृषि उत्पाद खोजें।",
+      backToDashboard: "डैशबोर्ड पर वापस जाएं",
+      searchPlaceholder: "कृषि उत्पाद खोजें...",
+      searchButton: "खोजें",
+      recentSearches: "हाल की खोजें",
+      clear: "साफ़ करें",
+      resultsFound: "उत्पाद मिले",
+      showing: "दिखा रहे हैं",
+      of: "में से",
+      products: "उत्पाद",
+      updatingResults: "परिणाम अपडेट हो रहे हैं...",
+      noProductsFound: "कोई उत्पाद नहीं मिला",
+      tryDifferentTerm: "कोई अन्य खोज शब्द आज़माएं।",
+      refresh: "रीफ्रेश करें",
+      noResults: "कोई परिणाम नहीं",
+      searchForProducts: "उत्पाद खोजें",
+      enterSearchTerm: "उत्पाद खोजने के लिए ऊपर एक खोज शब्द दर्ज करें।",
+      somethingWentWrong: "कुछ गलत हो गया",
+      retry: "पुनः प्रयास करें",
+      sort: {
+        label: "क्रमबद्ध करें",
+        relevance: "प्रासंगिकता",
+        priceAsc: "कीमत: कम → अधिक",
+        priceDesc: "कीमत: अधिक → कम",
+        newest: "नवीनतम पहले",
+        oldest: "सबसे पुराना पहले"
+      },
+      modal: {
+        description: "विवरण",
+        visitStore: "स्टोर पर जाएं",
+        disclaimer1Part1: "प्रदर्शित मूल्य सटीक नहीं हो सकता है और बिना किसी सूचना के परिवर्तन के अधीन है। सूचीबद्ध मूल्य अंतिम बार बाहरी विक्रेता की वेबसाइट से प्राप्त किया गया था",
+        disclaimer1Part2: "। वास्तविक मूल्य निर्धारण, ऑफ़र, छूट और उपलब्धता खरीदारी के समय भिन्न हो सकती है।",
+        disclaimer2: "VeAg पूरी तरह से एक उत्पाद खोज मंच के रूप में कार्य करता है और किसी तीसरे पक्ष के विक्रेताओं से संबद्ध, समर्थित या जिम्मेदार नहीं है। हम उत्पाद जानकारी, मूल्य निर्धारण, स्टॉक उपलब्धता, या डिलीवरी समयसीमा की सटीकता की गारंटी नहीं देते हैं। सभी लेनदेन सीधे आपके और बाहरी विक्रेता के बीच किए जाते हैं। खरीदारी करने से पहले कृपया विक्रेता की वेबसाइट पर सभी विवरण सत्यापित करें।"
+      }
+    },
+    
     // Dashboard
     dashboard: {
       title: "डैशबोर्ड",
@@ -1021,6 +1112,51 @@ export const translations = {
       secureAccount: "আমরা আপনার অ্যাকাউন্ট সুরক্ষিত রাখতে Google ব্যবহার করি",
       informationUsage: "চালিয়ে যাওয়ার মাধ্যমে, আপনি আমাদের 1) নিয়ম ও শর্তাবলী, 2) গোপনীয়তা নীতি, 3) ফেরত, রিফান্ড এবং বাতিলকরণ নীতি এবং 4) শিপিং এবং ডেলিভারি নীতির সাথে সম্মত হন।",
       errorSignIn: "Google দিয়ে সাইন ইন করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
+    },
+    
+    // Product Search
+    productSearch: {
+      title: "পণ্য অনুসন্ধান",
+      placeholders: [
+        "কৃষি পণ্য খুঁজুন...",
+        "কৃষি সরঞ্জাম খুঁজুন...",
+        "বীজ ও সার খুঁজুন...",
+        "জৈব পণ্য খুঁজুন..."
+      ],
+      helperText: "VeAg পণ্য অনুসন্ধান - আপনার প্রয়োজনের জন্য সেরা কৃষি পণ্য খুঁজুন।",
+      backToDashboard: "ড্যাশবোর্ডে ফিরে যান",
+      searchPlaceholder: "কৃষি পণ্য খুঁজুন...",
+      searchButton: "অনুসন্ধান করুন",
+      recentSearches: "সাম্প্রতিক অনুসন্ধান",
+      clear: "মুছুন",
+      resultsFound: "পণ্য পাওয়া গেছে",
+      showing: "দেখাচ্ছে",
+      of: "এর মধ্যে",
+      products: "পণ্য",
+      updatingResults: "ফলাফল আপডেট করা হচ্ছে...",
+      noProductsFound: "কোনো পণ্য পাওয়া যায়নি",
+      tryDifferentTerm: "অন্য একটি শব্দ দিয়ে চেষ্টা করুন।",
+      refresh: "রিফ্রেশ করুন",
+      noResults: "কোন ফলাফল নেই",
+      searchForProducts: "পণ্য খুঁজুন",
+      enterSearchTerm: "পণ্য খুঁজতে উপরে একটি শব্দ লিখুন।",
+      somethingWentWrong: "কিছু ভুল হয়েছে",
+      retry: "পুনরায় চেষ্টা করুন",
+      sort: {
+        label: "সাজান",
+        relevance: "প্রাসঙ্গিকতা",
+        priceAsc: "দাম: কম → বেশি",
+        priceDesc: "দাম: বেশি → কম",
+        newest: "নতুনগুলো আগে",
+        oldest: "পুরনোগুলো আগে"
+      },
+      modal: {
+        description: "বিবরণ",
+        visitStore: "স্টোরে যান",
+        disclaimer1Part1: "প্রদর্শিত মূল্য সঠিক নাও হতে পারে এবং পূর্ব নোটিশ ছাড়াই পরিবর্তন সাপেক্ষ। তালিকাভুক্ত মূল্য সর্বশেষ বাহ্যিক বিক্রেতার ওয়েবসাইট থেকে আনা হয়েছিল",
+        disclaimer1Part2: "। কেনাকাটার সময় প্রকৃত মূল্য, অফার, ডিসকাউন্ট এবং প্রাপ্যতা ভিন্ন হতে পারে।",
+        disclaimer2: "VeAg শুধুমাত্র একটি পণ্য আবিষ্কারের প্ল্যাটফর্ম হিসাবে কাজ করে এবং কোনো তৃতীয় পক্ষের বিক্রেতার সাথে সম্পর্কিত, সমর্থিত বা তাদের জন্য দায়ী নয়। আমরা পণ্যের তথ্য, মূল্য, স্টকের প্রাপ্যতা বা ডেলিভারির সময়রেখার নির্ভুলতার গ্যারান্টি দিই না। সমস্ত লেনদেন সরাসরি আপনার এবং বাহ্যিক বিক্রেতার মধ্যে পরিচালিত হয়। কেনাকাটা করার আগে অনুগ্রহ করে বিক্রেতার ওয়েবসাইটে সমস্ত বিবরণ যাচাই করুন।"
+      }
     },
     
     // Dashboard

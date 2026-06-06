@@ -37,6 +37,11 @@ export const createCase = async (req, res) => {
   try {
     const { userId, cropName, diseaseObservation, images } = req.body;
 
+    // Authorization check
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     // Validation
     if (!userId || !cropName) {
       return res.status(400).json({ error: 'User ID and crop name are required' });
@@ -110,6 +115,11 @@ export const getUserCases = async (req, res) => {
   try {
     const { userId } = req.params;
 
+    // Authorization check
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     const cases = await Case.find({ userId })
       .sort({ createdAt: -1 });
 
@@ -140,6 +150,11 @@ export const getCaseById = async (req, res) => {
       });
     }
 
+    // Authorization check
+    if (req.user.userId !== caseData.userId) {
+      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+    }
+
     res.json({
       success: true,
       case: caseData
@@ -168,6 +183,11 @@ export const processCase = async (req, res) => {
         success: false,
         error: 'Case not found'
       });
+    }
+
+    // Authorization check
+    if (req.user.userId !== caseData.userId) {
+      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
     }
 
     // Check if case is already processing or completed
@@ -257,6 +277,11 @@ export const getCaseResult = async (req, res) => {
       });
     }
 
+    // Authorization check
+    if (req.user.userId !== result.userId) {
+      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+    }
+
     res.json({
       success: true,
       result
@@ -274,6 +299,14 @@ export const getCaseResult = async (req, res) => {
 export const getTreatmentInfo = async (req, res) => {
   try {
     const { caseId } = req.params;
+
+    const caseData = await Case.findOne({ caseId });
+    if (!caseData) return res.status(404).json({ success: false, error: 'Case not found' });
+    
+    // Authorization check
+    if (req.user.userId !== caseData.userId) {
+      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+    }
 
     const treatments = await TreatmentInfo.find({ caseId });
     const treatmentMap = {};
@@ -305,6 +338,11 @@ export const generateTreatmentInfo = async (req, res) => {
     const caseData = await Case.findOne({ caseId });
     if (!caseData) {
       return res.status(404).json({ success: false, error: 'Case not found' });
+    }
+
+    // Authorization check
+    if (req.user.userId !== caseData.userId) {
+      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
     }
 
     if (caseData.status !== 'completed') {

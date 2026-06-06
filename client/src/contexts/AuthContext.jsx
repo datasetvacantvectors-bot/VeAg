@@ -37,6 +37,7 @@ export const AuthProvider = ({ children }) => {
           return user;
         } else {
           localStorage.removeItem(CACHE_KEY);
+          localStorage.removeItem('veag_jwt_token');
         }
       }
     } catch (error) {
@@ -80,6 +81,10 @@ export const AuthProvider = ({ children }) => {
         `${import.meta.env.VITE_API_URL}/api/users/auth`,
         userData
       );
+
+      if (response.data.token) {
+        localStorage.setItem('veag_jwt_token', response.data.token);
+      }
       
       // Use data from database but keep fresh photoURL from Firebase
       const userWithId = {
@@ -105,6 +110,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await firebaseSignOut(auth);
       localStorage.removeItem(CACHE_KEY);
+      localStorage.removeItem('veag_jwt_token');
       setCurrentUser(null);
     } catch (error) {
       // console.error('Error signing out:', error);
@@ -120,10 +126,66 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // Setup Axios Interceptors
+    const requestInterceptor = axios.interceptors.request.use((config) => {
+      const token = localStorage.getItem('veag_jwt_token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        if (error.response && error.response.status === 401) {
+          // Token expired or invalid
+          try {
+            await firebaseSignOut(auth);
+          } catch(e) {}
+          localStorage.removeItem(CACHE_KEY);
+          localStorage.removeItem('veag_jwt_token');
+          setCurrentUser(null);
+        }
+        return Promise.reject(error);
+      }
+    );
+
+    const verifyServerToken = async (cachedUser) => {
+      try {
+        const token = localStorage.getItem('veag_jwt_token');
+        if (!token) throw new Error('No token');
+        
+        // Since interceptors are active, this will have the Bearer token
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/verify`);
+        if (response.data.valid) {
+          // Use the user data from server (it might be fresher)
+          const verifiedUser = {
+            ...response.data.user,
+            photoURL: auth.currentUser?.photoURL || cachedUser.photoURL
+          };
+          setCurrentUser(verifiedUser);
+          cacheUser(verifiedUser);
+        }
+      } catch (error) {
+        // Validation failed, clear everything
+        localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem('veag_jwt_token');
+        setCurrentUser(null);
+        try {
+          await firebaseSignOut(auth);
+        } catch(e) {}
+      } finally {
+        setLoading(false);
+      }
+    };
+
     // Check for cached user first
     const cached = getCachedUser();
-    if (cached) {
-      setCurrentUser(cached);
+    if (cached && localStorage.getItem('veag_jwt_token')) {
+      setCurrentUser(cached); // optimistic UI
+      verifyServerToken(cached); // Wait for server to verify token
+    } else {
       setLoading(false);
     }
 
@@ -146,6 +208,10 @@ export const AuthProvider = ({ children }) => {
             userData
           );
           
+          if (response.data.token) {
+            localStorage.setItem('veag_jwt_token', response.data.token);
+          }
+
           // Use data from database but keep fresh photoURL from Firebase
           const userWithId = {
             email: response.data.user.email,
@@ -163,11 +229,16 @@ export const AuthProvider = ({ children }) => {
       } else {
         setCurrentUser(null);
         localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem('veag_jwt_token');
       }
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+      unsubscribe();
+    };
   }, []);
 
   const value = {

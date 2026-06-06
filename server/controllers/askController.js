@@ -15,6 +15,10 @@ export const getMessages = async (req, res) => {
       return res.status(400).json({ error: 'userId is required' });
     }
 
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
     // Verify case belongs to user
     const caseDoc = await Case.findOne({ caseId });
     if (!caseDoc || caseDoc.userId !== userId) {
@@ -55,6 +59,10 @@ export const sendMessage = async (req, res) => {
 
     if (!userId || !message) {
       return res.status(400).json({ error: 'userId and message are required' });
+    }
+
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
     }
 
     // Validate text-only (no HTML, no URLs with scripts)
@@ -138,6 +146,10 @@ export const retryMessage = async (req, res) => {
 
     if (!userId) {
       return res.status(400).json({ error: 'userId is required' });
+    }
+
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
     }
 
     const chatMsg = await AskChat.findById(messageId);

@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import NameHistory from '../models/NameHistory.js';
 import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 // Generate unique userId
 const generateUserId = () => {
@@ -26,10 +27,17 @@ export const authenticateUser = async (req, res) => {
         user.photoURL = photoURL;
         await user.save();
       }
+
+      const token = jwt.sign(
+        { userId: user.userId, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      );
       
       // Return existing user data with updated photoURL
       return res.status(200).json({
         message: 'User authenticated',
+        token,
         userId: user.userId,
         user: {
           userId: user.userId,
@@ -54,8 +62,15 @@ export const authenticateUser = async (req, res) => {
 
     await user.save();
 
+    const token = jwt.sign(
+      { userId: user.userId, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
     res.status(201).json({
       message: 'User created successfully',
+      token,
       userId: user.userId,
       user: {
         userId: user.userId,
@@ -80,6 +95,11 @@ export const getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
     
+    // Authorization check
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden. You can only view your own profile.' });
+    }
+
     const user = await User.findOne({ userId });
     
     if (!user) {
@@ -111,6 +131,11 @@ export const getUserByEmail = async (req, res) => {
   try {
     const { email } = req.params;
     
+    // Authorization check
+    if (req.user.email !== email) {
+      return res.status(403).json({ message: 'Forbidden. You can only view your own profile.' });
+    }
+
     const user = await User.findOne({ email });
     
     if (!user) {
@@ -142,6 +167,11 @@ export const updateUserProfile = async (req, res) => {
   try {
     const { userId } = req.params;
     const { name } = req.body;
+
+    // Authorization check
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden. You can only update your own profile.' });
+    }
 
     const user = await User.findOne({ userId });
     
@@ -189,6 +219,11 @@ export const updateUserProfile = async (req, res) => {
 export const getNameHistory = async (req, res) => {
   try {
     const { userId } = req.params;
+
+    // Authorization check
+    if (req.user.userId !== userId) {
+      return res.status(403).json({ message: 'Forbidden. You can only view your own name history.' });
+    }
     
     const history = await NameHistory.find({ userId }).sort({ changedAt: -1 });
     
@@ -198,6 +233,36 @@ export const getNameHistory = async (req, res) => {
 
   } catch (error) {
     // console.error('Error in getNameHistory:', error);
+    res.status(500).json({ 
+      message: 'Server error',
+      error: error.message 
+    });
+  }
+};
+
+// Verify user token and return user
+export const verifyUserToken = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    
+    const user = await User.findOne({ userId });
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({
+      valid: true,
+      user: {
+        userId: user.userId,
+        email: user.email,
+        name: user.name,
+        photoURL: user.photoURL,
+        firebaseUid: user.firebaseUid
+      }
+    });
+
+  } catch (error) {
     res.status(500).json({ 
       message: 'Server error',
       error: error.message 
