@@ -312,13 +312,25 @@ export const handlePaymentFailure = async (req, res) => {
   try {
     const { razorpay_order_id, error } = req.body;
 
-    await Transaction.findOneAndUpdate(
-      { razorpayOrderId: razorpay_order_id },
-      { 
-        status: 'failed',
-        failureReason: error?.description || 'Payment failed'
-      }
-    );
+    if (!razorpay_order_id) {
+      return res.status(400).json({ error: 'razorpay_order_id is required.' });
+    }
+
+    // Find the transaction first to verify ownership
+    const transaction = await Transaction.findOne({ razorpayOrderId: razorpay_order_id });
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found.' });
+    }
+
+    // Authorization check - only the owner can mark their payment as failed
+    if (req.user.userId !== transaction.userId) {
+      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+    }
+
+    transaction.status = 'failed';
+    transaction.failureReason = error?.description || 'Payment failed';
+    await transaction.save();
 
     res.json({ message: 'Payment failure recorded' });
   } catch (error) {

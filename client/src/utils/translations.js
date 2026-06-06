@@ -128,6 +128,11 @@ export const translations = {
       enterSearchTerm: "Enter a search term above to find products.",
       somethingWentWrong: "Something went wrong",
       retry: "Retry",
+      searchingProducts: "Searching Products...",
+      firstPage: "First page",
+      previousPage: "Previous page",
+      nextPage: "Next page",
+      lastPage: "Last page",
       sort: {
         label: "Sort",
         relevance: "Relevance",
@@ -147,8 +152,10 @@ export const translations = {
     
     // Dashboard
     dashboard: {
-      title: "Dashboard",
+      title: "Your gateway to smart agriculture.",
       welcome: "Welcome",
+      support: "Support",
+      loadingDashboard: "Loading Dashboard...",
       quickActions: "Quick Actions",
       registerCase: "Register New Case",
       registerDesc: "Upload images for disease detection",
@@ -512,7 +519,7 @@ export const translations = {
     // Common
     veag: "VeAg",
     loading: "लोड हो रहा है...",
-    logout: "लॉग आउट",
+    logout: "लॉगआउट",
     goBack: "वापस जाएं",
     
     // Landing Page
@@ -622,6 +629,7 @@ export const translations = {
       searchButton: "खोजें",
       recentSearches: "हाल की खोजें",
       clear: "साफ़ करें",
+      clearAll: "सभी साफ़ करें",
       resultsFound: "उत्पाद मिले",
       showing: "दिखा रहे हैं",
       of: "में से",
@@ -635,6 +643,11 @@ export const translations = {
       enterSearchTerm: "उत्पाद खोजने के लिए ऊपर एक खोज शब्द दर्ज करें।",
       somethingWentWrong: "कुछ गलत हो गया",
       retry: "पुनः प्रयास करें",
+      searchingProducts: "उत्पाद खोज रहे हैं...",
+      firstPage: "पहला पृष्ठ",
+      previousPage: "पिछला पृष्ठ",
+      nextPage: "अगला पृष्ठ",
+      lastPage: "अंतिम पृष्ठ",
       sort: {
         label: "क्रमबद्ध करें",
         relevance: "प्रासंगिकता",
@@ -654,8 +667,10 @@ export const translations = {
     
     // Dashboard
     dashboard: {
-      title: "डैशबोर्ड",
+      title: "स्मार्ट कृषि के लिए आपका द्वार।",
       welcome: "स्वागत है",
+      support: "समर्थन",
+      loadingDashboard: "डैशबोर्ड लोड हो रहा है...",
       quickActions: "त्वरित क्रियाएं",
       registerCase: "नया केस पंजीकृत करें",
       registerDesc: "रोग पहचान के लिए चित्र अपलोड करें",
@@ -734,7 +749,7 @@ export const translations = {
       cancel: "रद्द करें",
       capturePhoto: "फोटो कैप्चर करें",
       capture: "कैप्चर करें",
-      closeCamera: "कैमरा बंद करें",
+      closeCamera: "केमरा बंद करें",
       maxImagesAlert: "अधिकतम 10 चित्र अपलोड किए जा सकते हैं",
       cameraError: "कैमरे तक पहुंचने में असमर्थ। कृपया अनुमतियां जांचें।",
       uploadingCloud: "क्लाउड स्टोरेज में अपलोड हो रहा है...",
@@ -1019,7 +1034,7 @@ export const translations = {
     // Common
     veag: "VeAg",
     loading: "লোড হচ্ছে...",
-    logout: "লগ আউট",
+    logout: "লগআউট",
     goBack: "ফিরে যান",
     
     // Landing Page
@@ -1129,6 +1144,7 @@ export const translations = {
       searchButton: "অনুসন্ধান করুন",
       recentSearches: "সাম্প্রতিক অনুসন্ধান",
       clear: "মুছুন",
+      clearAll: "সব মুছুন",
       resultsFound: "পণ্য পাওয়া গেছে",
       showing: "দেখাচ্ছে",
       of: "এর মধ্যে",
@@ -1142,6 +1158,11 @@ export const translations = {
       enterSearchTerm: "পণ্য খুঁজতে উপরে একটি শব্দ লিখুন।",
       somethingWentWrong: "কিছু ভুল হয়েছে",
       retry: "পুনরায় চেষ্টা করুন",
+      searchingProducts: "পণ্য অনুসন্ধান করা হচ্ছে...",
+      firstPage: "প্রথম পৃষ্ঠা",
+      previousPage: "পূর্ববর্তী পৃষ্ঠা",
+      nextPage: "পরবর্তী পৃষ্ঠা",
+      lastPage: "শেষ পৃষ্ঠা",
       sort: {
         label: "সাজান",
         relevance: "প্রাসঙ্গিকতা",
@@ -1161,8 +1182,10 @@ export const translations = {
     
     // Dashboard
     dashboard: {
-      title: "ড্যাশবোর্ড",
+      title: "স্মার্ট কৃষির জন্য আপনার প্রবেশদ্বার।",
       welcome: "স্বাগতম",
+      support: "সহায়তা",
+      loadingDashboard: "ড্যাশবোর্ড লোড হচ্ছে...",
       quickActions: "দ্রুত ক্রিয়া",
       registerCase: "নতুন কেস নিবন্ধন করুন",
       registerDesc: "রোগ সনাক্তকরণের জন্য ছবি আপলোড করুন",

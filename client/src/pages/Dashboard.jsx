@@ -214,7 +214,7 @@ const Dashboard = () => {
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            Loading Dashboard...
+            {t.dashboard?.loadingDashboard || "Loading Dashboard..."}
           </motion.p>
         </motion.div>
       </div>
@@ -333,7 +333,7 @@ const Dashboard = () => {
                 className="p-2 sm:p-2.5 bg-black/30 hover:bg-black/40 backdrop-blur-md border border-white/30 hover:border-white/50 rounded-full transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                title="Support"
+                title={t.dashboard?.support || "Support"}
               >
                 <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
               </motion.button>
@@ -502,7 +502,7 @@ const Dashboard = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
-                placeholder={placeholders[placeholderIndex]}
+                placeholder={(t.productSearch?.placeholders || placeholders)[placeholderIndex]}
                 className="flex-1 bg-transparent text-white text-[15px] sm:text-base font-medium tracking-wide placeholder-white/50 outline-none caret-amber-300"
                 autoComplete="off"
                 spellCheck="false"

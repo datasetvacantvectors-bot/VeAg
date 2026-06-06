@@ -427,7 +427,7 @@ const ProductSearch = () => {
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            Searching Products...
+            {t.productSearch.searchingProducts}
           </motion.p>
         </motion.div>
       </div>
@@ -784,8 +784,8 @@ const ProductSearch = () => {
               >
                 {/* Showing text */}
                 <p className="text-white/50 text-xs sm:text-sm">
-                  Showing <span className="text-white/80 font-medium">{showingStart}–{showingEnd}</span> of{' '}
-                  <span className="text-white/80 font-medium">{totalProducts}</span> products
+                  {t.productSearch.showing} <span className="text-white/80 font-medium">{showingStart}–{showingEnd}</span> {t.productSearch.of}{' '}
+                  <span className="text-white/80 font-medium">{totalProducts}</span> {t.productSearch.products}
                 </p>
 
                 {/* Pill pagination container */}
@@ -799,7 +799,7 @@ const ProductSearch = () => {
                         ? 'opacity-30 cursor-not-allowed text-white/40'
                         : 'hover:bg-white/15 text-white/70 hover:text-white'
                     }`}
-                    title="First page"
+                    title={t.productSearch.firstPage}
                   >
                     <ChevronsLeft className="w-4 h-4" />
                   </button>
@@ -813,7 +813,7 @@ const ProductSearch = () => {
                         ? 'opacity-30 cursor-not-allowed text-white/40'
                         : 'hover:bg-white/15 text-white/70 hover:text-white'
                     }`}
-                    title="Previous page"
+                    title={t.productSearch.previousPage}
                   >
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -861,7 +861,7 @@ const ProductSearch = () => {
                         ? 'opacity-30 cursor-not-allowed text-white/40'
                         : 'hover:bg-white/15 text-white/70 hover:text-white'
                     }`}
-                    title="Next page"
+                    title={t.productSearch.nextPage}
                   >
                     <ChevronRight className="w-4 h-4" />
                   </button>
@@ -875,7 +875,7 @@ const ProductSearch = () => {
                         ? 'opacity-30 cursor-not-allowed text-white/40'
                         : 'hover:bg-white/15 text-white/70 hover:text-white'
                     }`}
-                    title="Last page"
+                    title={t.productSearch.lastPage}
                   >
                     <ChevronsRight className="w-4 h-4" />
                   </button>
