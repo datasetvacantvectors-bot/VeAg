@@ -16,11 +16,22 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refreshKey = 0 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [internalRetry, setInternalRetry] = useState(0);
   
   useEffect(() => {
     setIsLoaded(false);
     setHasError(false);
-  }, [src, refreshKey]);
+    setInternalRetry(0);
+  }, [src]);
+
+  useEffect(() => {
+    if (hasError) {
+      setIsLoaded(false);
+      setHasError(false);
+      setInternalRetry(prev => prev + 1);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshKey]);
 
   return (
     <div className={`relative ${containerClassName}`}>
@@ -47,7 +58,7 @@ const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refresh
         </div>
       )}
       <img
-        key={`${src}-${refreshKey}`}
+        key={`${src}-${internalRetry}`}
         src={hasError ? '' : src}
         alt={alt}
         className={`absolute inset-0 w-full h-full ${imgClassName} transition-opacity duration-300 ${isLoaded && !hasError ? 'opacity-100' : 'opacity-0'}`}
