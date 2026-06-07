@@ -9,6 +9,7 @@ import caseRoutes from './routes/caseRoutes.js';
 import askRoutes from './routes/askRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import { appCheckVerification } from './config/appCheckMiddleware.js';
 
 // Load environment variables
 dotenv.config();
@@ -87,6 +88,9 @@ app.use((req, res, next) => {
 
   next();
 });
+
+// 3. Firebase App Check Middleware
+app.use(appCheckVerification);
 
 app.use(express.json({ limit: '50mb' })); // Increase limit for base64 images
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));

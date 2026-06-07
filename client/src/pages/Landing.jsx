@@ -977,7 +977,7 @@ const Landing = () => {
 
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
             <p>© {new Date().getFullYear()} VeAg. {t.landing.footer?.rights || 'All rights reserved'}</p>
-            <p className="text-sm text-gray-500 mt-2">Version 5.2.2</p>
+            <p className="text-sm text-gray-500 mt-2">Version 5.3.3</p>
           </div>
         </div>
       </footer>

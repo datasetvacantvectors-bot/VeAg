@@ -4,7 +4,8 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged 
 } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
+import { getToken } from 'firebase/app-check';
+import { auth, googleProvider, appCheck } from '../config/firebase';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -127,11 +128,23 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Setup Axios Interceptors
-    const requestInterceptor = axios.interceptors.request.use((config) => {
+    const requestInterceptor = axios.interceptors.request.use(async (config) => {
       const token = localStorage.getItem('veag_jwt_token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
+
+      if (appCheck) {
+        try {
+          const appCheckTokenResponse = await getToken(appCheck, false);
+          if (appCheckTokenResponse.token) {
+            config.headers['X-Firebase-AppCheck'] = appCheckTokenResponse.token;
+          }
+        } catch (err) {
+          // Network error fetching app check token. Do not log out!
+        }
+      }
+
       return config;
     });
 

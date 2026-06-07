@@ -1,11 +1,15 @@
 import express from 'express';
 import * as caseController from '../controllers/caseController.js';
 import authMiddleware from '../config/authMiddleware.js';
+import subscriptionMiddleware from '../config/subscriptionMiddleware.js';
 
 const router = express.Router();
 
 // Apply auth middleware to all routes
 router.use(authMiddleware);
+
+// Apply strict subscription validation to all case routes
+router.use(subscriptionMiddleware);
 
 // Create new case
 router.post('/', caseController.createCase);
