@@ -154,7 +154,10 @@ export const AuthProvider = ({ children }) => {
     const verifyServerToken = async (cachedUser) => {
       try {
         const token = localStorage.getItem('veag_jwt_token');
-        if (!token) throw new Error('No token');
+        if (!token) {
+          // Only clear if there's genuinely no token
+          throw new Error('No token');
+        }
         
         // Since interceptors are active, this will have the Bearer token
         const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/verify`);
@@ -168,13 +171,20 @@ export const AuthProvider = ({ children }) => {
           cacheUser(verifiedUser);
         }
       } catch (error) {
-        // Validation failed, clear everything
-        localStorage.removeItem(CACHE_KEY);
-        localStorage.removeItem('veag_jwt_token');
-        setCurrentUser(null);
-        try {
-          await firebaseSignOut(auth);
-        } catch(e) {}
+        // ONLY log out if the server specifically rejected the token (401/403) or no token was found
+        // The Axios interceptor already handles 401s, but we'll be safe here.
+        // We MUST NOT log out on network errors, 500s, or timeouts (e.g. server waking up)
+        if (error.message === 'No token' || (error.response && (error.response.status === 401 || error.response.status === 403))) {
+          localStorage.removeItem(CACHE_KEY);
+          localStorage.removeItem('veag_jwt_token');
+          setCurrentUser(null);
+          try {
+            await firebaseSignOut(auth);
+          } catch(e) {}
+        } else {
+          // On network error or server error, we keep the user logged in with cached data
+          // console.warn('Server verification failed but keeping session alive:', error.message);
+        }
       } finally {
         setLoading(false);
       }
