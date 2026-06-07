@@ -272,41 +272,43 @@ const EditProfile = () => {
             <form onSubmit={handleUpdateName}>
               <div>
                 <label className="block text-sm font-medium text-white mb-2">{t.editProfile.name}</label>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <input 
                     type="text" 
                     value={name} 
                     onChange={(e) => setName(e.target.value)}
                     disabled={!isEditing || loading}
-                    className="flex-1 px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white placeholder-white/50 focus:ring-2 focus:ring-white/50 focus:border-white/50 disabled:bg-white/5"
+                    className="flex-1 min-w-0 w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white placeholder-white/50 focus:ring-2 focus:ring-white/50 focus:border-white/50 disabled:bg-white/5"
                   />
-                  {!isEditing ? (
-                    <button
-                      type="button"
-                      onClick={() => setIsEditing(true)}
-                      className="px-6 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 border border-white/30 backdrop-blur-xl"
-                    >
-                      {t.editProfile.edit}
-                    </button>
-                  ) : (
-                    <>
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        className="px-6 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 disabled:opacity-50 backdrop-blur-xl border border-white/40"
-                      >
-                        {loading ? t.editProfile.saving : t.editProfile.save}
-                      </button>
+                  <div className="flex gap-2 w-full sm:w-auto">
+                    {!isEditing ? (
                       <button
                         type="button"
-                        onClick={handleCancel}
-                        disabled={loading}
-                        className="px-6 py-2 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 disabled:opacity-50 backdrop-blur-xl border border-white/30"
+                        onClick={() => setIsEditing(true)}
+                        className="flex-1 sm:flex-none whitespace-nowrap px-6 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 border border-white/30 backdrop-blur-xl"
                       >
-                        {t.editProfile.cancel}
+                        {t.editProfile.edit}
                       </button>
-                    </>
-                  )}
+                    ) : (
+                      <>
+                        <button
+                          type="submit"
+                          disabled={loading}
+                          className="flex-1 sm:flex-none whitespace-nowrap px-6 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 disabled:opacity-50 backdrop-blur-xl border border-white/40"
+                        >
+                          {loading ? t.editProfile.saving : t.editProfile.save}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCancel}
+                          disabled={loading}
+                          className="flex-1 sm:flex-none whitespace-nowrap px-6 py-2 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-all duration-300 disabled:opacity-50 backdrop-blur-xl border border-white/30"
+                        >
+                          {t.editProfile.cancel}
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             </form>

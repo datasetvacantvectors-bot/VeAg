@@ -1519,9 +1519,9 @@ const CaseDetail = ({ daysRemaining }) => {
 
                   {/* Save Report Button */}
                   <div className="px-4 pb-4 pt-7">
-                    <div className="relative">
+                    <div className="relative flex flex-col lg:block gap-3">
                       {!allSectionsFetched && (
-                        <div className="absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-full mb-1 px-3 py-1.5 backdrop-blur-xl border border-white/20 rounded-lg text-xs text-white/80 whitespace-nowrap pointer-events-none z-10">
+                        <div className="relative lg:absolute lg:-top-1 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-full lg:mb-1 lg:w-max lg:px-3 lg:py-1.5 lg:text-xs lg:text-white/80 lg:bg-transparent lg:shadow-none lg:pointer-events-none lg:z-10 w-full px-4 py-2.5 text-xs sm:text-sm text-white/90 text-center bg-black/20 shadow-inner backdrop-blur-xl border border-white/20 rounded-lg">
                           {t.generateReport.information || 'Please generate all the above 3 sections to enable report download and Ask VeAg'}
                         </div>
                       )}

@@ -503,7 +503,7 @@ const Dashboard = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
                 placeholder={(t.productSearch?.placeholders || placeholders)[placeholderIndex]}
-                className="flex-1 bg-transparent text-white text-[15px] sm:text-base font-medium tracking-wide placeholder-white/50 outline-none caret-amber-300"
+                className="flex-1 min-w-0 w-full bg-transparent text-white text-[15px] sm:text-base font-medium tracking-wide placeholder-white/50 outline-none caret-amber-300"
                 autoComplete="off"
                 spellCheck="false"
               />
@@ -518,7 +518,7 @@ const Dashboard = () => {
                     exit={{ opacity: 0, scale: 0.5 }}
                     transition={{ duration: 0.15 }}
                     onClick={() => { setSearchQuery(''); inputRef.current?.focus(); }}
-                    className="p-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors duration-200"
+                    className="flex-shrink-0 p-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors duration-200"
                   >
                     <X className="w-3.5 h-3.5 text-white/70" />
                   </motion.button>
@@ -528,7 +528,7 @@ const Dashboard = () => {
               {/* Submit button */}
               <motion.button
                 type="submit"
-                className={`px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 ${
+                className={`flex-shrink-0 whitespace-nowrap px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 ${
                   searchQuery.trim()
                     ? 'bg-gradient-to-r from-amber-500/80 to-orange-500/70 text-white border border-amber-400/40 hover:border-amber-300/60 shadow-lg shadow-amber-900/20'
                     : 'bg-white/15 text-white/70 border border-white/20 hover:bg-white/25 hover:text-white'
