@@ -20,6 +20,15 @@ connectDB();
 // Initialize Express app
 const app = express();
 
+// Health check route (Placed before CORS and App Check so it's globally accessible)
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'VeAg Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Middleware
 
 // Strict Allowed Origins
@@ -103,15 +112,6 @@ app.use('/api/cases', caseRoutes);
 app.use('/api/ask', askRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/admin', adminRoutes);
-
-// Health check route
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'VeAg Server is running',
-    timestamp: new Date().toISOString()
-  });
-});
 
 // 404 handler
 app.use('*', (req, res) => {
