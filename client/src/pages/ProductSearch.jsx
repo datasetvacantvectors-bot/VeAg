@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 import {
   ArrowLeft,
+  HelpCircle,
   Search,
   X,
   SearchX,
@@ -30,6 +31,7 @@ import {
   CalendarMinus,
   Loader2,
 } from 'lucide-react';
+import veagLogo from '../assets/veag_logo.svg';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
@@ -195,6 +197,10 @@ const ProductSearch = () => {
 
   /* ── State ────────────────────────────────────────────────────────────── */
   const [isLoading, setIsLoading] = useState(true);
+  const [showSupport, setShowSupport] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  const [navImageLoaded, setNavImageLoaded] = useState(false);
+  const [navImageError, setNavImageError] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [error, setError] = useState(null);
 
@@ -286,6 +292,11 @@ const ProductSearch = () => {
   );
 
   /* ── Trigger search on query / sort / page change ──────────────────── */
+  useEffect(() => {
+    setNavImageLoaded(false);
+    setNavImageError(false);
+  }, [currentUser?.photoURL]);
+
   useEffect(() => {
     searchProducts(query, currentPage, sort);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -464,24 +475,119 @@ const ProductSearch = () => {
       <div className="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-b from-green-600 to-green-700 z-10 pointer-events-none" />
 
       {/* ── Header Bar ───────────────────────────────────────────────── */}
-      <div className="bg-black/30 backdrop-blur-2xl border-b border-white/20 relative z-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            {/* Left */}
-            <div className="flex items-center gap-3">
-              <motion.button
-                onClick={() => navigate('/dashboard')}
-                className="p-2 bg-black/30 hover:bg-black/40 backdrop-blur-md border border-white/30 hover:border-white/50 rounded-full transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ArrowLeft className="w-5 h-5 text-white" />
-              </motion.button>
-              <h1 className="text-xl sm:text-2xl font-bold text-white drop-shadow-lg">{t.productSearch.title}</h1>
+      <header className="relative z-20 bg-black/30 backdrop-blur-2xl border-b border-white/20">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-6 h-6 text-white" />
+            </button>
+            
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {!logoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="relative w-6 h-6">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
+              <img 
+                src={veagLogo} 
+                alt="VeAg Logo" 
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLogoLoaded(true)}
+              />
             </div>
+
+            <span className="text-2xl font-bold text-white">VeAg</span>
           </div>
+
+            {/* Right */}
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setShowSupport(!showSupport)}
+                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <HelpCircle className="w-6 h-6 text-white" />
+              </button>
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+                {currentUser?.photoURL && !navImageError ? (
+                  <>
+                    {!navImageLoaded && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <div className="relative w-5 h-5">
+                          <motion.div
+                            className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          />
+                          <motion.div
+                            className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <img 
+                      src={currentUser.photoURL} 
+                      alt={currentUser.name}
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                      onLoad={() => setNavImageLoaded(true)}
+                      onError={() => setNavImageError(true)}
+                    />
+                  </>
+                ) : (
+                  <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
+                )}
+              </div>
+            </div>
         </div>
-      </div>
+      </header>
+
+      {/* Support Popup */}
+      <AnimatePresence>
+        {showSupport && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-20 right-6 z-50 bg-black/40 backdrop-blur-2xl border border-white/40 rounded-2xl p-6 shadow-2xl w-80"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-bold text-white">{t.editProfile?.needHelp || 'Need Help?'}</h3>
+              <button
+                onClick={() => setShowSupport(false)}
+                className="text-white/70 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-white/90 mb-4">
+              {t.editProfile?.supportText || "Have questions or need assistance? We're here to help!"}
+            </p>
+            <a
+              href="mailto:sarthak@vacantvectors.com"
+              className="block w-full bg-white/20 hover:bg-white/30 text-white text-center py-3 rounded-xl transition-colors border border-white/30"
+            >
+              {t.editProfile?.contactSupport || 'Contact Support'}
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Content Area ─────────────────────────────────────────────── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-32">

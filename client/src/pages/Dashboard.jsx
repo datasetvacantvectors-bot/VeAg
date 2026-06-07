@@ -17,6 +17,7 @@ const Dashboard = () => {
   const t = translations[language];
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showSupportPopup, setShowSupportPopup] = useState(false);
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
@@ -268,8 +269,29 @@ const Dashboard = () => {
           <div className="flex justify-between items-center gap-4">
             {/* Logo and Title */}
             <div className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-full bg-white/20 border-2 border-white backdrop-blur-md flex items-center justify-center overflow-hidden">
-                <img src={veagLogo} alt="VeAg Logo" className="w-10 h-10 object-contain rounded-full" />
+              <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-md flex items-center justify-center">
+                {!logoLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <div className="relative w-6 h-6">
+                      <motion.div
+                        className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                      <motion.div
+                        className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                        animate={{ rotate: -360 }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      />
+                    </div>
+                  </div>
+                )}
+                <img 
+                  src={veagLogo} 
+                  alt="VeAg Logo" 
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  onLoad={() => setLogoLoaded(true)}
+                />
               </div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">VeAg</h1>
             </div>
@@ -339,28 +361,39 @@ const Dashboard = () => {
               </motion.button>
 
               {/* User Profile */}
-              {currentUser?.photoURL && !imageError ? (
-                <div className="relative w-10 h-10">
-                  {!imageLoaded && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 rounded-full border border-white/30">
-                      <div className="w-5 h-5 border-2 border-transparent border-t-white rounded-full animate-spin"></div>
-                    </div>
-                  )}
-                  <img
-                    src={currentUser.photoURL}
-                    alt="Profile"
-                    crossOrigin="anonymous"
-                    referrerPolicy="no-referrer"
-                    className={`w-10 h-10 rounded-full border-2 border-white/50 object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    onLoad={() => setImageLoaded(true)}
-                    onError={() => setImageError(true)}
-                  />
-                </div>
-              ) : (
-                <div className="w-10 h-10 rounded-full border-2 border-white/50 bg-white/20 flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">{currentUser?.name?.charAt(0).toUpperCase()}</span>
-                </div>
-              )}
+              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+                {currentUser?.photoURL && !imageError ? (
+                  <>
+                    {!imageLoaded && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                        <div className="relative w-5 h-5">
+                          <motion.div
+                            className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          />
+                          <motion.div
+                            className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                            animate={{ rotate: -360 }}
+                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    <img 
+                      src={currentUser.photoURL} 
+                      alt={currentUser.name}
+                      crossOrigin="anonymous"
+                      referrerPolicy="no-referrer"
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                      onLoad={() => setImageLoaded(true)}
+                      onError={() => setImageError(true)}
+                    />
+                  </>
+                ) : (
+                  <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
+                )}
+              </div>
 
               {/* User Name - Hidden on small screens */}
               <span className="text-white font-medium hidden sm:inline">{currentUser?.name}</span>

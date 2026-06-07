@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { ArrowLeft, HelpCircle } from 'lucide-react';
+import { ArrowLeft, HelpCircle, RefreshCw, ChevronLeft, ChevronRight, Copy } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../utils/translations';
@@ -18,13 +18,19 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [nameHistory, setNameHistory] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [profileImageLoaded, setProfileImageLoaded] = useState(false);
   const [profileImageError, setProfileImageError] = useState(false);
+  const [navImageLoaded, setNavImageLoaded] = useState(false);
+  const [navImageError, setNavImageError] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
   const [showSupport, setShowSupport] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
-    fetchNameHistory();
+    fetchNameHistory(currentPage);
     // Simulate page load
     setTimeout(() => setPageLoading(false), 800);
   }, []);
@@ -32,17 +38,43 @@ const EditProfile = () => {
   useEffect(() => {
     setProfileImageLoaded(false);
     setProfileImageError(false);
+    setNavImageLoaded(false);
+    setNavImageError(false);
   }, [currentUser?.photoURL]);
 
-  const fetchNameHistory = async () => {
+  const fetchNameHistory = async (page = 1) => {
+    setHistoryLoading(true);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/users/${currentUser.userId}/name-history`
+        `${import.meta.env.VITE_API_URL}/api/users/${currentUser.userId}/name-history?page=${page}&limit=5`
       );
-      setNameHistory(response.data.history);
+      setNameHistory(response.data.history || []);
+      setCurrentPage(response.data.currentPage || page);
+      setTotalPages(response.data.totalPages || 0);
     } catch (error) {
       // console.error('Error fetching name history:', error);
+    } finally {
+      setHistoryLoading(false);
     }
+  };
+
+  const goToPage = (p) => {
+    if (p < 1 || p > totalPages) return;
+    fetchNameHistory(p);
+  };
+
+  const getPageNumbers = (maxVisible = 5) => {
+    const pages = [];
+    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let end = start + maxVisible - 1;
+
+    if (end > totalPages) {
+      end = totalPages;
+      start = Math.max(1, end - maxVisible + 1);
+    }
+
+    for (let i = start; i <= end; i++) pages.push(i);
+    return pages;
   };
 
   const handleUpdateName = async (e) => {
@@ -76,7 +108,7 @@ const EditProfile = () => {
       setIsEditing(false);
       
       // Refresh name history
-      fetchNameHistory();
+      fetchNameHistory(1);
     } catch (error) {
       // console.error('Error updating name:', error);
       setMessage('Failed to update name. Please try again.');
@@ -161,9 +193,32 @@ const EditProfile = () => {
             >
               <ArrowLeft className="w-6 h-6 text-white" />
             </button>
-            <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl border-2 border-white flex items-center justify-center overflow-hidden">
-              <img src={veagLogo} alt="VeAg" className="w-10 h-10 rounded-full" />
+            
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {!logoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="relative w-6 h-6">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
+              <img 
+                src={veagLogo} 
+                alt="VeAg Logo" 
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLogoLoaded(true)}
+              />
             </div>
+
             <span className="text-2xl font-bold text-white">VeAg</span>
           </div>
 
@@ -174,14 +229,38 @@ const EditProfile = () => {
             >
               <HelpCircle className="w-6 h-6 text-white" />
             </button>
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
-              <img 
-                src={currentUser?.photoURL} 
-                alt={currentUser?.name}
-                crossOrigin="anonymous"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-              />
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {currentUser?.photoURL && !navImageError ? (
+                <>
+                  {!navImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="relative w-5 h-5">
+                        <motion.div
+                          className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div
+                          className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                          animate={{ rotate: -360 }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <img 
+                    src={currentUser.photoURL} 
+                    alt={currentUser.name}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setNavImageLoaded(true)}
+                    onError={() => setNavImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
+              )}
             </div>
           </div>
         </div>
@@ -325,44 +404,166 @@ const EditProfile = () => {
             
             <div>
               <label className="block text-sm font-medium text-white mb-2">{t.editProfile.userId}</label>
-              <input 
-                type="text" 
-                value={currentUser?.userId || ''} 
-                readOnly
-                className="w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white/70"
-              />
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input 
+                  type="text" 
+                  value={currentUser?.userId || ''} 
+                  readOnly
+                  className="flex-1 min-w-0 w-full px-4 py-2 bg-white/10 border border-white/30 rounded-lg text-white/70"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(currentUser?.userId || '');
+                    setMessage(t.editProfile.copied || 'User ID copied to clipboard!');
+                    setTimeout(() => setMessage(''), 3000);
+                  }}
+                  className="px-4 py-2 bg-white/20 text-white font-semibold rounded-lg hover:bg-white/30 transition-all duration-300 border border-white/30 backdrop-blur-xl flex items-center justify-center gap-2"
+                  title={t.editProfile.copyUserId || "Copy User ID"}
+                >
+                  <Copy className="w-5 h-5" />
+                  <span className="sm:hidden">{t.editProfile.copyUserId || "Copy User ID"}</span>
+                </button>
+              </div>
             </div>
             
-            {nameHistory.length > 0 && (
-              <div className="mt-8">
-                <h3 className="text-xl font-semibold text-white mb-4">{t.editProfile.nameHistory}</h3>
-                <div className="space-y-3">
-                  {nameHistory.map((history, index) => (
-                    <div key={index} className="p-4 bg-white/10 backdrop-blur-xl rounded-lg border border-white/30">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <p className="text-sm text-white/90">
-                            <span className="font-medium">{t.editProfile.from}:</span> {history.oldName}
-                          </p>
-                          <p className="text-sm text-white/90">
-                            <span className="font-medium">{t.editProfile.to}:</span> {history.newName}
+            <div className="mt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+                <h3 className="text-xl font-semibold text-white">{t.editProfile.nameHistory || 'Name History'}</h3>
+                <button
+                  onClick={() => fetchNameHistory(currentPage)}
+                  disabled={historyLoading}
+                  className="px-4 py-2 flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors border border-white/20 disabled:opacity-50 w-full sm:w-auto"
+                  title={t.editProfile.refresh || "Refresh"}
+                >
+                  <RefreshCw className={`w-4 h-4 text-white ${historyLoading ? 'animate-spin' : ''}`} />
+                  <span className="text-white text-sm font-medium">{t.editProfile.refresh || 'Refresh'}</span>
+                </button>
+              </div>
+
+              {historyLoading ? (
+                <div className="flex justify-center py-8">
+                  <div className="relative w-12 h-12">
+                    <motion.div
+                      className="absolute inset-0 border-4 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-1 border-4 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-2 border-4 border-transparent border-t-green-600 rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              ) : nameHistory.length > 0 ? (
+                <>
+                  <div className="space-y-3">
+                    {nameHistory.map((history, index) => (
+                      <div key={index} className="p-4 bg-white/10 backdrop-blur-xl rounded-lg border border-white/30">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <p className="text-sm text-white/90">
+                              <span className="font-medium">{t.editProfile.from || 'From'}:</span> {history.oldName}
+                            </p>
+                            <p className="text-sm text-white/90">
+                              <span className="font-medium">{t.editProfile.to || 'To'}:</span> {history.newName}
+                            </p>
+                          </div>
+                          <p className="text-xs text-white/70">
+                            {new Date(history.changedAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
                           </p>
                         </div>
-                        <p className="text-xs text-white/70">
-                          {new Date(history.changedAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </p>
                       </div>
+                    ))}
+                  </div>
+
+                  {/* Pagination Controls */}
+                  {totalPages > 1 && (
+                    <div className="mt-6 flex justify-center items-center gap-2">
+                      <button
+                        onClick={() => goToPage(1)}
+                        disabled={currentPage === 1}
+                        className={`p-2 rounded-lg transition-colors border ${
+                          currentPage === 1
+                            ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
+                            : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
+                        }`}
+                        title="First page"
+                      >
+                        <span className="font-bold text-xs">{'<<'}</span>
+                      </button>
+                      <button
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`p-2 rounded-lg transition-colors border ${
+                          currentPage === 1
+                            ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
+                            : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
+                        }`}
+                        title="Previous page"
+                      >
+                        <ChevronLeft className="w-4 h-4" />
+                      </button>
+
+                      {getPageNumbers(5).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => goToPage(page)}
+                          className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors border ${
+                            page === currentPage
+                              ? 'bg-white text-orange-600 border-white'
+                              : 'bg-white/10 text-white border-white/30 hover:bg-white/20'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+
+                      <button
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`p-2 rounded-lg transition-colors border ${
+                          currentPage === totalPages
+                            ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
+                            : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
+                        }`}
+                        title="Next page"
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => goToPage(totalPages)}
+                        disabled={currentPage === totalPages}
+                        className={`p-2 rounded-lg transition-colors border ${
+                          currentPage === totalPages
+                            ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed'
+                            : 'bg-white/10 border-white/30 text-white hover:bg-white/20'
+                        }`}
+                        title="Last page"
+                      >
+                        <span className="font-bold text-xs">{'>>'}</span>
+                      </button>
                     </div>
-                  ))}
+                  )}
+                </>
+              ) : (
+                <div className="p-6 bg-white/5 backdrop-blur-xl rounded-lg border border-white/20 text-center">
+                  <p className="text-white/70">{t.editProfile.noNameHistory || 'No name history found.'}</p>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

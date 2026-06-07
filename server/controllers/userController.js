@@ -219,16 +219,28 @@ export const updateUserProfile = async (req, res) => {
 export const getNameHistory = async (req, res) => {
   try {
     const { userId } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
 
     // Authorization check
     if (req.user.userId !== userId) {
       return res.status(403).json({ message: 'Forbidden. You can only view your own name history.' });
     }
     
-    const history = await NameHistory.find({ userId }).sort({ changedAt: -1 });
+    const totalItems = await NameHistory.countDocuments({ userId });
+    const totalPages = Math.ceil(totalItems / limit);
+
+    const history = await NameHistory.find({ userId })
+      .sort({ changedAt: -1 })
+      .skip(skip)
+      .limit(limit);
     
     res.status(200).json({
-      history
+      history,
+      currentPage: page,
+      totalPages,
+      totalItems
     });
 
   } catch (error) {

@@ -275,7 +275,11 @@ export const translations = {
       retry: "Try Again",
       noCasesMessage: "You haven't registered any cases yet. Start by registering your first case!",
       viewDetails: "View Details",
-      summary: "Summary"
+      summary: "Summary",
+      page: "Page",
+      of: "of",
+      refresh: "Refresh",
+      refreshing: "Refreshing..."
     },
     
     // Case Detail
@@ -400,7 +404,10 @@ export const translations = {
       from: "From",
       to: "To",
       noChanges: "No changes made",
-      nameTooShort: "Name must be at least 2 characters"
+      nameTooShort: "Name must be at least 2 characters",
+      refresh: "Refresh",
+      copy: "Copy",
+      copied: "Copied!"
     },
     
     // Manage Subscription
@@ -475,7 +482,9 @@ export const translations = {
       errorVerifyPayment: "Unable to verify payment. Please contact support.",
       errorStartPayment: "Unable to start payment process. Please try again.",
       errorCheckConnection: "Check your internet connection and try again.",
-      infoCancelledPayment: "You have cancelled the payment process."
+      infoCancelledPayment: "You have cancelled the payment process.",
+      page: "Page",
+      of: "of"
     },
     
     // Not Found
@@ -790,7 +799,11 @@ export const translations = {
       retry: "पुनः प्रयास करें",
       noCasesMessage: "आपने अभी तक कोई केस पंजीकृत नहीं किया है। अपना पहला केस पंजीकृत करके शुरू करें!",
       viewDetails: "विवरण देखें",
-      summary: "सारांश"
+      summary: "सारांश",
+      page: "पृष्ठ",
+      of: "में से",
+      refresh: "रिफ्रेश करें",
+      refreshing: "रिफ्रेश हो रहा है..."
     },
     
     // Case Detail
@@ -915,7 +928,10 @@ export const translations = {
       from: "से",
       to: "तक",
       noChanges: "कोई परिवर्तन नहीं किया गया",
-      nameTooShort: "नाम कम से कम 2 वर्णों का होना चाहिए"
+      nameTooShort: "नाम कम से कम 2 वर्णों का होना चाहिए",
+      refresh: "रिफ्रेश करें",
+      copy: "कॉपी",
+      copied: "कॉपी हो गया!"
     },
     
     // Manage Subscription
@@ -990,7 +1006,9 @@ export const translations = {
       errorVerifyPayment: "भुगतान सत्यापित नहीं कर सके। कृपया सहायता से संपर्क करें।",
       errorStartPayment: "भुगतान प्रक्रिया शुरू नहीं कर सके। कृपया पुनः प्रयास करें।",
       errorCheckConnection: "अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।",
-      infoCancelledPayment: "आपने भुगतान प्रक्रिया रद्द कर दी है।"
+      infoCancelledPayment: "आपने भुगतान प्रक्रिया रद्द कर दी है।",
+      page: "पृष्ठ",
+      of: "में से"
     },
     
     // Not Found
@@ -1297,8 +1315,12 @@ export const translations = {
       daysRemaining: "দিন অবশিষ্ট",
       retry: "আবার চেষ্টা করুন",
       noCasesMessage: "আপনি এখনও কোন কেস নিবন্ধন করেননি। আপনার প্রথম কেস নিবন্ধন করে শুরু করুন!",
-      viewDetails: "বিস্তারিত দেখুন",
-      summary: "সারাংশ"
+      viewDetails: "বিবরণ দেখুন",
+      summary: "সারাংশ",
+      page: "পৃষ্ঠা",
+      of: "এর",
+      refresh: "রিফ্রেশ করুন",
+      refreshing: "রিফ্রেশ হচ্ছে..."
     },
 
     // Report Download
@@ -1429,7 +1451,10 @@ export const translations = {
       from: "থেকে",
       to: "থেকে",
       noChanges: "কোন পরিবর্তন করা হয়নি",
-      nameTooShort: "নাম কমপক্ষে ২টি অক্ষরের হতে হবে"
+      nameTooShort: "নাম কমপক্ষে ২টি অক্ষরের হতে হবে",
+      refresh: "রিফ্রেশ করুন",
+      copy: "কপি",
+      copied: "কপি হয়েছে!"
     },
     
     // Manage Subscription
@@ -1504,7 +1529,9 @@ export const translations = {
       errorVerifyPayment: "পেমেন্ট যাচাই করতে অক্ষম। অনুগ্রহ করে সাপোর্টের সাথে যোগাযোগ করুন।",
       errorStartPayment: "পেমেন্ট প্রক্রিয়া শুরু করতে অক্ষম। অনুগ্রহ করে আবার চেষ্টা করুন।",
       errorCheckConnection: "আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
-      infoCancelledPayment: "আপনি পেমেন্ট প্রক্রিয়া বাতিল করেছেন।"
+      infoCancelledPayment: "আপনি পেমেন্ট প্রক্রিয়া বাতিল করেছেন।",
+      page: "পৃষ্ঠা",
+      of: "এর"
     },
     
     // Not Found

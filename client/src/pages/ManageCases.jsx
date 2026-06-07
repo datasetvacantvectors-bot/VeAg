@@ -4,12 +4,42 @@ import { useAuth } from '../contexts/AuthContext';
 import withSubscription from '../components/withSubscription';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, HelpCircle, FileText, Loader, Search } from 'lucide-react';
+import { ArrowLeft, HelpCircle, FileText, Loader, Search, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../utils/translations';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+
+const CaseCardImage = ({ src, alt }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  return (
+    <>
+      {!isLoaded && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
+          <div className="relative w-8 h-8">
+            <motion.div
+              className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute inset-1 border-2 border-transparent border-t-green-400 rounded-full"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={() => setIsLoaded(true)}
+      />
+    </>
+  );
+};
 
 const ManageCases = ({ daysRemaining }) => {
   const navigate = useNavigate();
@@ -23,36 +53,52 @@ const ManageCases = ({ daysRemaining }) => {
   const [pageLoading, setPageLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOrder, setSortOrder] = useState('latest');
+  const [navImageLoaded, setNavImageLoaded] = useState(false);
+  const [navImageError, setNavImageError] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const casesPerPage = 6;
 
   useEffect(() => {
     const timer = setTimeout(() => setPageLoading(false), 800);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const fetchCases = async () => {
-      if (!currentUser?.userId) {
-        // console.log('No currentUser.userId available yet');
-        setLoading(false);
-        return;
-      }
+  const fetchCases = async (showRefreshLoader = false) => {
+    if (!currentUser?.userId) {
+      // console.log('No currentUser.userId available yet');
+      setLoading(false);
+      return;
+    }
 
-      try {
-        // console.log('Fetching cases for user:', currentUser.userId);
+    try {
+      // console.log('Fetching cases for user:', currentUser.userId);
+      if (showRefreshLoader) {
+        setIsRefreshing(true);
+      } else {
         setLoading(true);
-        const response = await axios.get(`${API_BASE_URL}/cases/user/${currentUser.userId}`);
-        // console.log('Cases response:', response.data);
-        setCases(response.data.cases || []);
-        setError(null);
-      } catch (err) {
-        // console.error('Error fetching cases:', err);
-        setError(err.response?.data?.error || 'Failed to load cases. Please try again.');
-      } finally {
+      }
+      const response = await axios.get(`${API_BASE_URL}/cases/user/${currentUser.userId}`);
+      // console.log('Cases response:', response.data);
+      setCases(response.data.cases || []);
+      setError(null);
+    } catch (err) {
+      // console.error('Error fetching cases:', err);
+      setError(err.response?.data?.error || 'Failed to load cases. Please try again.');
+    } finally {
+      if (showRefreshLoader) {
+        setIsRefreshing(false);
+      } else {
         setLoading(false);
       }
-    };
+    }
+  };
 
-    fetchCases();
+  useEffect(() => {
+    fetchCases(false);
   }, [currentUser]);
 
   const formatDate = (dateString) => {
@@ -95,6 +141,16 @@ const ManageCases = ({ daysRemaining }) => {
         ? new Date(b.createdAt) - new Date(a.createdAt)
         : new Date(a.createdAt) - new Date(b.createdAt)
     );
+
+  // Reset pagination when filter or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, sortOrder]);
+
+  const indexOfLastCase = currentPage * casesPerPage;
+  const indexOfFirstCase = indexOfLastCase - casesPerPage;
+  const currentCases = filteredCases.slice(indexOfFirstCase, indexOfLastCase);
+  const totalPages = Math.ceil(filteredCases.length / casesPerPage);
 
   if (pageLoading) {
     return (
@@ -146,38 +202,83 @@ const ManageCases = ({ daysRemaining }) => {
       />
 
       {/* Header */}
-      <header className="sticky top-0 bg-black/30 backdrop-blur-2xl border-b border-white/20 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <ArrowLeft className="w-6 h-6 text-white" />
-              </button>
-              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl border-2 border-white flex items-center justify-center overflow-hidden">
-                <img src={veagLogo} alt="VeAg" className="w-10 h-10 rounded-full" />
-              </div>
-              <span className="text-2xl font-bold text-white">VeAg</span>
+      <header className="relative z-20 bg-black/30 backdrop-blur-2xl border-b border-white/20">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-6 h-6 text-white" />
+            </button>
+            
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {!logoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="relative w-6 h-6">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
+              <img 
+                src={veagLogo} 
+                alt="VeAg Logo" 
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLogoLoaded(true)}
+              />
             </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setShowSupport(!showSupport)}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <HelpCircle className="w-6 h-6 text-white" />
-              </button>
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
-                <img 
-                  src={currentUser?.photoURL} 
-                  alt={currentUser?.name}
-                  crossOrigin="anonymous"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <span className="text-2xl font-bold text-white">VeAg</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSupport(!showSupport)}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <HelpCircle className="w-6 h-6 text-white" />
+            </button>
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {currentUser?.photoURL && !navImageError ? (
+                <>
+                  {!navImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="relative w-5 h-5">
+                        <motion.div
+                          className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div
+                          className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                          animate={{ rotate: -360 }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <img 
+                    src={currentUser.photoURL} 
+                    alt={currentUser.name}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setNavImageLoaded(true)}
+                    onError={() => setNavImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase() || 'U'}</span>
+              )}
             </div>
           </div>
         </div>
@@ -219,12 +320,26 @@ const ManageCases = ({ daysRemaining }) => {
             <h2 className="text-3xl font-bold text-white mb-2">{t.manageCases.title}</h2>
             <p className="text-white/70">{t.manageCases.subtitle}</p>
           </div>
-          <button
-            onClick={() => navigate('/register-case')}
-            className="px-6 py-2 bg-green-600/80 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors border border-green-400/50 backdrop-blur-xl"
-          >
-            {t.manageCases.newCase}
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <button
+              onClick={() => fetchCases(true)}
+              disabled={isRefreshing}
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors backdrop-blur-xl w-full sm:w-auto ${
+                isRefreshing
+                  ? 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
+                  : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+              }`}
+            >
+              <RefreshCw className={`h-5 w-5 ${isRefreshing ? 'animate-spin' : ''}`} />
+              {isRefreshing ? t.manageCases.refreshing : t.manageCases.refresh}
+            </button>
+            <button
+              onClick={() => navigate('/register-case')}
+              className="px-6 py-2 bg-green-600/80 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors border border-green-400/50 backdrop-blur-xl w-full sm:w-auto text-center"
+            >
+              {t.manageCases.newCase}
+            </button>
+          </div>
         </div>
 
         {/* Search & Sort Bar */}
@@ -276,7 +391,7 @@ const ManageCases = ({ daysRemaining }) => {
         )}
 
         {/* Loading State */}
-        {loading && (
+        {(loading || isRefreshing) && (
           <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl p-12 text-center shadow-2xl">
             <div className="flex flex-col items-center gap-4">
               <div className="relative w-16 h-16">
@@ -302,7 +417,7 @@ const ManageCases = ({ daysRemaining }) => {
         )}
 
         {/* Error State */}
-        {error && !loading && (
+        {error && !loading && !isRefreshing && (
           <div className="bg-black/30 backdrop-blur-2xl border border-red-400/50 rounded-2xl p-12 text-center shadow-2xl">
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-red-600/20 border-2 border-red-400/50 flex items-center justify-center backdrop-blur-xl">
@@ -322,7 +437,7 @@ const ManageCases = ({ daysRemaining }) => {
         )}
 
         {/* Empty State */}
-        {!loading && !error && cases.length === 0 && (
+        {!loading && !isRefreshing && !error && cases.length === 0 && (
           <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl p-12 text-center shadow-2xl">
             <div className="flex flex-col items-center gap-4">
               <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center backdrop-blur-xl">
@@ -341,7 +456,7 @@ const ManageCases = ({ daysRemaining }) => {
         )}
 
         {/* No Results State */}
-        {!loading && !error && cases.length > 0 && filteredCases.length === 0 && (
+        {!loading && !isRefreshing && !error && cases.length > 0 && filteredCases.length === 0 && (
           <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl p-12 text-center shadow-2xl mb-6">
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center backdrop-blur-xl">
@@ -353,7 +468,7 @@ const ManageCases = ({ daysRemaining }) => {
         )}
 
         {/* Cases Grid */}
-        {!loading && !error && filteredCases.length > 0 && (
+        {!loading && !isRefreshing && !error && filteredCases.length > 0 && (
           <>
             {/* Cases Summary */}
               <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl p-6 shadow-2xl mb-8">
@@ -384,7 +499,7 @@ const ManageCases = ({ daysRemaining }) => {
                 </div>
               </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {filteredCases.map((caseItem) => (
+              {currentCases.map((caseItem) => (
                 <motion.div
                   key={caseItem._id}
                   whileHover={{ scale: 1.02 }}
@@ -394,11 +509,7 @@ const ManageCases = ({ daysRemaining }) => {
                   {/* Case Image */}
                   <div className="relative h-48 bg-black/20 overflow-hidden">
                     {caseItem.images && caseItem.images.length > 0 ? (
-                      <img
-                        src={caseItem.images[0].url}
-                        alt={`${caseItem.cropName} case`}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                      />
+                      <CaseCardImage src={caseItem.images[0].url} alt={`${caseItem.cropName} case`} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-white/10">
                         <FileText className="w-16 h-16 text-white/50" />
@@ -452,8 +563,37 @@ const ManageCases = ({ daysRemaining }) => {
                 </motion.div>
               ))}
             </div>
-
             
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mb-8">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                    currentPage === 1 
+                      ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                      : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  }`}
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <span className="text-white/80 text-sm font-medium px-4">
+                  {t.manageCases.page} {currentPage} {t.manageCases.of} {totalPages}
+                </span>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                    currentPage === totalPages 
+                      ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                      : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                  }`}
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>

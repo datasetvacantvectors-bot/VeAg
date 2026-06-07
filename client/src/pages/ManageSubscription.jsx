@@ -5,7 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../utils/translations';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { ArrowLeft, HelpCircle, CreditCard, Calendar, History, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowLeft, HelpCircle, CreditCard, Calendar, History, CheckCircle, XCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
@@ -29,10 +29,19 @@ function ManageSubscription() {
   const [transactions, setTransactions] = useState([]);
   const [subscriptionHistory, setSubscriptionHistory] = useState([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+  const [loadingSubStatus, setLoadingSubStatus] = useState(true);
+  const [loadingPlanHistory, setLoadingPlanHistory] = useState(true);
+  
+  // Pagination State
+  const [transactionPage, setTransactionPage] = useState(1);
+  const [historyPage, setHistoryPage] = useState(1);
   
   // UI State
   const [showSupport, setShowSupport] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const [navImageLoaded, setNavImageLoaded] = useState(false);
+  const [navImageError, setNavImageError] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
   
   // Payment notification state
   const [paymentNotification, setPaymentNotification] = useState({
@@ -86,6 +95,8 @@ function ManageSubscription() {
       setDaysRemaining(response.data.subscription?.daysRemaining || 0);
     } catch (error) {
       // console.error('Error fetching active subscription:', error);
+    } finally {
+      setLoadingSubStatus(false);
     }
   };
 
@@ -106,6 +117,8 @@ function ManageSubscription() {
       setSubscriptionHistory(response.data.subscriptions);
     } catch (error) {
       // console.error('Error fetching subscription history:', error);
+    } finally {
+      setLoadingPlanHistory(false);
     }
   };
 
@@ -178,6 +191,7 @@ function ManageSubscription() {
                 orderId: response.razorpay_order_id
               }
             });
+            fetchTransactionHistory();
           } finally {
             setIsProcessing(false);
           }
@@ -197,6 +211,7 @@ function ManageSubscription() {
                 razorpay_order_id: orderId,
                 error: { description: 'Payment cancelled by user' }
               });
+              fetchTransactionHistory();
             } catch (err) {
               // console.error('Error logging cancellation:', err);
             }
@@ -255,6 +270,20 @@ function ManageSubscription() {
         return 'bg-white/10 text-white/70 border-white/30';
     }
   };
+
+  // Transaction Pagination
+  const transactionsPerPage = 5;
+  const indexOfLastTransaction = transactionPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const currentTransactions = transactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
+  const totalTransactionPages = Math.ceil(transactions.length / transactionsPerPage);
+
+  // Plan History Pagination
+  const planHistoryPerPage = 10;
+  const indexOfLastPlan = historyPage * planHistoryPerPage;
+  const indexOfFirstPlan = indexOfLastPlan - planHistoryPerPage;
+  const currentPlanHistory = subscriptionHistory.slice(indexOfFirstPlan, indexOfLastPlan);
+  const totalPlanPages = Math.ceil(subscriptionHistory.length / planHistoryPerPage);
 
   if (pageLoading) {
     return (
@@ -317,7 +346,7 @@ function ManageSubscription() {
       />
 
       {/* Header */}
-      <header className="relative z-10 bg-black/30 backdrop-blur-2xl border-b border-white/20">
+      <header className="relative z-20 bg-black/30 backdrop-blur-2xl border-b border-white/20">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
@@ -326,9 +355,32 @@ function ManageSubscription() {
             >
               <ArrowLeft className="w-6 h-6 text-white" />
             </button>
-            <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl border-2 border-white flex items-center justify-center overflow-hidden">
-              <img src={veagLogo} alt="VeAg" className="w-10 h-10 rounded-full" />
+            
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {!logoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="relative w-6 h-6">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
+              <img 
+                src={veagLogo} 
+                alt="VeAg Logo" 
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLogoLoaded(true)}
+              />
             </div>
+
             <span className="text-2xl font-bold text-white">VeAg</span>
           </div>
 
@@ -339,14 +391,38 @@ function ManageSubscription() {
             >
               <HelpCircle className="w-6 h-6 text-white" />
             </button>
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
-              <img 
-                src={currentUser?.photoURL} 
-                alt={currentUser?.name}
-                crossOrigin="anonymous"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-              />
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {currentUser?.photoURL && !navImageError ? (
+                <>
+                  {!navImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="relative w-5 h-5">
+                        <motion.div
+                          className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div
+                          className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                          animate={{ rotate: -360 }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <img 
+                    src={currentUser.photoURL} 
+                    alt={currentUser.name}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setNavImageLoaded(true)}
+                    onError={() => setNavImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase() || 'U'}</span>
+              )}
             </div>
           </div>
         </div>
@@ -542,11 +618,48 @@ function ManageSubscription() {
 
         {/* Active Subscription Status */}
         <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6 mb-8">
-          <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-            <CreditCard className="w-6 h-6" />
-            {t.manageSubscription.currentSubscriptionStatus}
-          </h2>
-          {hasActivePlan && daysRemaining > 0 ? (
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <CreditCard className="w-6 h-6" />
+              {t.manageSubscription.currentSubscriptionStatus}
+            </h2>
+            <button
+              onClick={() => {
+                setLoadingSubStatus(true);
+                fetchActiveSubscription();
+              }}
+              disabled={loadingSubStatus}
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors backdrop-blur-xl w-full md:w-auto ${
+                loadingSubStatus
+                  ? 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
+                  : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+              }`}
+            >
+              <motion.div
+                animate={loadingSubStatus ? { rotate: 360 } : {}}
+                transition={loadingSubStatus ? { duration: 1, repeat: Infinity, ease: "linear" } : {}}
+              >
+                <RefreshCw className="h-5 w-5" />
+              </motion.div>
+              {loadingSubStatus ? t.manageSubscription.refreshing || 'Refreshing...' : t.manageSubscription.refresh || 'Refresh'}
+            </button>
+          </div>
+          {loadingSubStatus ? (
+             <div className="text-center py-8">
+               <div className="relative w-16 h-16 mx-auto">
+                 <motion.div
+                   className="absolute inset-0 border-4 border-transparent border-t-white rounded-full"
+                   animate={{ rotate: 360 }}
+                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                 />
+                 <motion.div
+                   className="absolute inset-2 border-4 border-transparent border-t-green-400 rounded-full"
+                   animate={{ rotate: -360 }}
+                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                 />
+               </div>
+             </div>
+          ) : hasActivePlan && daysRemaining > 0 ? (
             <div className="bg-white/10 backdrop-blur-xl rounded-lg p-6 border border-white/30">
               <div className="flex items-center justify-between mb-4">
                 <div>
@@ -636,7 +749,7 @@ function ManageSubscription() {
 
         {/* Transaction History */}
         <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
               <History className="w-6 h-6" />
               {t.manageSubscription.transactionHistory}
@@ -647,7 +760,7 @@ function ManageSubscription() {
                 fetchTransactionHistory();
               }}
               disabled={loadingHistory}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors backdrop-blur-xl ${
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors backdrop-blur-xl w-full md:w-auto ${
                 loadingHistory
                   ? 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
                   : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
@@ -657,7 +770,7 @@ function ManageSubscription() {
                 animate={loadingHistory ? { rotate: 360 } : {}}
                 transition={loadingHistory ? { duration: 1, repeat: Infinity, ease: "linear" } : {}}
               >
-                <History className="h-5 w-5" />
+                <RefreshCw className="h-5 w-5" />
               </motion.div>
               {loadingHistory ? t.manageSubscription.refreshing : t.manageSubscription.refresh}
             </button>
@@ -691,7 +804,7 @@ function ManageSubscription() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/10">
-                  {transactions.map((transaction) => (
+                  {currentTransactions.map((transaction) => (
                     <tr key={transaction._id} className="hover:bg-white/5">
                       <td className="px-4 py-3 text-sm text-white/90">{formatDate(transaction.createdAt)}</td>
                       <td className="px-4 py-3 font-mono text-xs text-white/70">{transaction.orderId}</td>
@@ -709,6 +822,35 @@ function ManageSubscription() {
                   ))}
                 </tbody>
               </table>
+              {totalTransactionPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-6">
+                  <button
+                    onClick={() => setTransactionPage(p => Math.max(1, p - 1))}
+                    disabled={transactionPage === 1}
+                    className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                      transactionPage === 1 
+                        ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                        : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <span className="text-white/80 text-sm font-medium px-4">
+                    {t.manageSubscription.page} {transactionPage} {t.manageSubscription.of} {totalTransactionPages}
+                  </span>
+                  <button
+                    onClick={() => setTransactionPage(p => Math.min(totalTransactionPages, p + 1))}
+                    disabled={transactionPage === totalTransactionPages}
+                    className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                      transactionPage === totalTransactionPages 
+                        ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                        : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-8 text-white/70">
@@ -719,14 +861,54 @@ function ManageSubscription() {
 
         {/* Plan History Timeline */}
         <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6">
-          <h2 className="text-2xl font-bold text-white mb-4">{t.manageSubscription.planHistory}</h2>
-          {subscriptionHistory.length > 0 ? (
+          <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+            <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+              <History className="w-6 h-6" />
+              {t.manageSubscription.planHistory}
+            </h2>
+            <button
+              onClick={() => {
+                setLoadingPlanHistory(true);
+                fetchSubscriptionHistory();
+              }}
+              disabled={loadingPlanHistory}
+              className={`flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-semibold transition-colors backdrop-blur-xl w-full md:w-auto ${
+                loadingPlanHistory
+                  ? 'bg-white/10 text-white/50 cursor-not-allowed border border-white/20'
+                  : 'bg-white/20 text-white hover:bg-white/30 border border-white/40'
+              }`}
+            >
+              <motion.div
+                animate={loadingPlanHistory ? { rotate: 360 } : {}}
+                transition={loadingPlanHistory ? { duration: 1, repeat: Infinity, ease: "linear" } : {}}
+              >
+                <RefreshCw className="h-5 w-5" />
+              </motion.div>
+              {loadingPlanHistory ? t.manageSubscription.refreshing || 'Refreshing...' : t.manageSubscription.refresh || 'Refresh'}
+            </button>
+          </div>
+          {loadingPlanHistory ? (
+             <div className="text-center py-8">
+               <div className="relative w-16 h-16 mx-auto">
+                 <motion.div
+                   className="absolute inset-0 border-4 border-transparent border-t-white rounded-full"
+                   animate={{ rotate: 360 }}
+                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                 />
+                 <motion.div
+                   className="absolute inset-2 border-4 border-transparent border-t-green-400 rounded-full"
+                   animate={{ rotate: -360 }}
+                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                 />
+               </div>
+             </div>
+          ) : subscriptionHistory.length > 0 ? (
             <div className="relative">
               {/* Timeline line */}
               <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-green-400"></div>
               
               <div className="space-y-6">
-                {subscriptionHistory.map((sub, index) => (
+                {currentPlanHistory.map((sub, index) => (
                   <div key={sub._id} className="relative pl-16">
                     {/* Timeline dot */}
                     <div className={`absolute left-4 w-5 h-5 rounded-full border-4 ${
@@ -794,6 +976,35 @@ function ManageSubscription() {
                   </div>
                 ))}
               </div>
+              {totalPlanPages > 1 && (
+                <div className="flex justify-center items-center gap-2 mt-8">
+                  <button
+                    onClick={() => setHistoryPage(p => Math.max(1, p - 1))}
+                    disabled={historyPage === 1}
+                    className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                      historyPage === 1 
+                        ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                        : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                  <span className="text-white/80 text-sm font-medium px-4">
+                    {t.manageSubscription.page} {historyPage} {t.manageSubscription.of} {totalPlanPages}
+                  </span>
+                  <button
+                    onClick={() => setHistoryPage(p => Math.min(totalPlanPages, p + 1))}
+                    disabled={historyPage === totalPlanPages}
+                    className={`p-2 rounded-lg border backdrop-blur-xl transition-colors ${
+                      historyPage === totalPlanPages 
+                        ? 'bg-white/5 border-white/10 text-white/30 cursor-not-allowed' 
+                        : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
+                    }`}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-12">

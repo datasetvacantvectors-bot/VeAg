@@ -30,6 +30,9 @@ const CaseDetail = ({ daysRemaining }) => {
   const [showSupport, setShowSupport] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
   const [showAskVeAg, setShowAskVeAg] = useState(false);
+  const [navImageLoaded, setNavImageLoaded] = useState(false);
+  const [navImageError, setNavImageError] = useState(false);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   // Treatment system state
   const [treatmentData, setTreatmentData] = useState({
@@ -857,38 +860,83 @@ const CaseDetail = ({ daysRemaining }) => {
       />
 
       {/* Header */}
-      <header className="sticky top-0 bg-black/30 backdrop-blur-2xl border-b border-white/20 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => navigate('/manage-cases')}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <ArrowLeft className="w-6 h-6 text-white" />
-              </button>
-              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-xl border-2 border-white flex items-center justify-center overflow-hidden">
-                <img src={veagLogo} alt="VeAg" className="w-10 h-10 rounded-full" />
-              </div>
-              <span className="text-2xl font-bold text-white">VeAg</span>
+      <header className="relative z-20 bg-black/30 backdrop-blur-2xl border-b border-white/20">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate('/manage-cases')}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <ArrowLeft className="w-6 h-6 text-white" />
+            </button>
+            
+            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {!logoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="relative w-6 h-6">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
+              <img 
+                src={veagLogo} 
+                alt="VeAg Logo" 
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setLogoLoaded(true)}
+              />
             </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setShowSupport(!showSupport)}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <HelpCircle className="w-6 h-6 text-white" />
-              </button>
-              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white">
-                <img 
-                  src={currentUser?.photoURL} 
-                  alt={currentUser?.name}
-                  crossOrigin="anonymous"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <span className="text-2xl font-bold text-white">VeAg</span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSupport(!showSupport)}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <HelpCircle className="w-6 h-6 text-white" />
+            </button>
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {currentUser?.photoURL && !navImageError ? (
+                <>
+                  {!navImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="relative w-5 h-5">
+                        <motion.div
+                          className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        />
+                        <motion.div
+                          className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                          animate={{ rotate: -360 }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <img 
+                    src={currentUser.photoURL} 
+                    alt={currentUser.name}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    onLoad={() => setNavImageLoaded(true)}
+                    onError={() => setNavImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase() || 'U'}</span>
+              )}
             </div>
           </div>
         </div>
