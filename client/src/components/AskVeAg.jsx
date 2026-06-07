@@ -589,11 +589,18 @@ const AskVeAg = ({ isOpen, onClose, caseId, userId, diseaseName, t }) => {
               {/* Initial Loading */}
               {initialLoading && (
                 <div className="flex items-center justify-center py-8">
-                  <motion.div
-                    className="w-8 h-8 border-3 border-transparent border-t-green-400 rounded-full"
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                  />
+                  <div className="relative w-8 h-8">
+                    <motion.div
+                      className="absolute inset-0 border-2 border-transparent border-t-white/50 rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-1 border-2 border-transparent border-t-green-400 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
                 </div>
               )}
 

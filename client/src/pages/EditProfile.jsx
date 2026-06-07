@@ -437,7 +437,11 @@ const EditProfile = () => {
                   title={t.editProfile.refresh || "Refresh"}
                 >
                   <RefreshCw className={`w-4 h-4 text-white ${historyLoading ? 'animate-spin' : ''}`} />
-                  <span className="text-white text-sm font-medium">{t.editProfile.refresh || 'Refresh'}</span>
+                  <span className="text-white text-sm font-medium">
+                    {historyLoading 
+                      ? t.editProfile.refreshing || 'Refreshing...' 
+                      : t.editProfile.refresh || 'Refresh'}
+                  </span>
                 </button>
               </div>
 

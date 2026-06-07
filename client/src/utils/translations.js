@@ -49,7 +49,7 @@ export const translations = {
         },
         step4: {
           title: "Get Results",
-          description: "Receive detailed diagnosis and treatment recommendations (coming soon)"
+          description: "Receive detailed diagnosis and treatment recommendations"
         }
       },
       faq: {
@@ -321,6 +321,7 @@ export const translations = {
       actions: "Actions",
       viewAllCases: "View All Cases",
       refresh: "Refresh",
+      refreshing: "Refreshing...",
       plan: "Plan",
       daysLeft: "days left",
       aiAnalyzing: "AI model is analyzing your images...",
@@ -406,6 +407,7 @@ export const translations = {
       noChanges: "No changes made",
       nameTooShort: "Name must be at least 2 characters",
       refresh: "Refresh",
+      refreshing: "Refreshing...",
       copy: "Copy",
       copied: "Copied!"
     },
@@ -573,7 +575,7 @@ export const translations = {
         },
         step4: {
           title: "परिणाम प्राप्त करें",
-          description: "विस्तृत निदान और उपचार सिफारिशें प्राप्त करें (जल्द आ रहा है)"
+          description: "विस्तृत निदान और उपचार सिफारिशें प्राप्त करें"
         }
       },
       faq: {
@@ -845,6 +847,7 @@ export const translations = {
       actions: "क्रियाएं",
       viewAllCases: "सभी केस देखें",
       refresh: "रिफ्रेश करें",
+      refreshing: "रिफ्रेश हो रहा है...",
       plan: "योजना",
       daysLeft: "दिन बचे",
       aiAnalyzing: "AI मॉडल आपके चित्रों का विश्लेषण कर रहा है...",
@@ -930,6 +933,7 @@ export const translations = {
       noChanges: "कोई परिवर्तन नहीं किया गया",
       nameTooShort: "नाम कम से कम 2 वर्णों का होना चाहिए",
       refresh: "रिफ्रेश करें",
+      refreshing: "रिफ्रेश हो रहा है...",
       copy: "कॉपी",
       copied: "कॉपी हो गया!"
     },
@@ -1097,7 +1101,7 @@ export const translations = {
         },
         step4: {
           title: "ফলাফল পান",
-          description: "বিস্তারিত রোগ নির্ণয় এবং চিকিৎসা সুপারিশ পান (শীঘ্রই আসছে)"
+          description: "বিস্তারিত রোগ নির্ণয় এবং চিকিৎসা সুপারিশ পান"
         }
       },
       faq: {
@@ -1171,6 +1175,7 @@ export const translations = {
       noProductsFound: "কোনো পণ্য পাওয়া যায়নি",
       tryDifferentTerm: "অন্য একটি শব্দ দিয়ে চেষ্টা করুন।",
       refresh: "রিফ্রেশ করুন",
+      refreshing: "রিফ্রেশ হচ্ছে...",
       noResults: "কোন ফলাফল নেই",
       searchForProducts: "পণ্য খুঁজুন",
       enterSearchTerm: "পণ্য খুঁজতে উপরে একটি শব্দ লিখুন।",
@@ -1369,7 +1374,8 @@ export const translations = {
       actions: "ক্রিয়া",
       viewAllCases: "সব কেস দেখুন",
       refresh: "রিফ্রেশ করুন",
-      plan: "পরিকল্পনা",
+      refreshing: "রিফ্রেশ হচ্ছে...",
+      plan: "প্ল্যান",
       daysLeft: "দিন বাকি",
       aiAnalyzing: "AI মডেল আপনার ছবি বিশ্লেষণ করছে...",
       runningAI: "AI বিশ্লেষণ চলছে",
@@ -1453,6 +1459,7 @@ export const translations = {
       noChanges: "কোন পরিবর্তন করা হয়নি",
       nameTooShort: "নাম কমপক্ষে ২টি অক্ষরের হতে হবে",
       refresh: "রিফ্রেশ করুন",
+      refreshing: "রিফ্রেশ হচ্ছে...",
       copy: "কপি",
       copied: "কপি হয়েছে!"
     },

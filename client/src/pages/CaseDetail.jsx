@@ -13,6 +13,51 @@ import AskVeAg from '../components/AskVeAg';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
+const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refreshKey = 0 }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  
+  useEffect(() => {
+    setIsLoaded(false);
+    setHasError(false);
+  }, [src, refreshKey]);
+
+  return (
+    <div className={`relative ${containerClassName}`}>
+      {!isLoaded && !hasError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
+          <div className="relative w-8 h-8">
+            <motion.div
+              className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute inset-1 border-2 border-transparent border-t-green-400 rounded-full"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
+          </div>
+        </div>
+      )}
+      {hasError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-10 p-2 text-center border border-red-500/30 rounded-lg">
+          <AlertTriangle className="w-6 h-6 text-red-400 mb-1" />
+          <span className="text-white/80 text-xs">Failed to load image</span>
+        </div>
+      )}
+      <img
+        key={`${src}-${refreshKey}`}
+        src={hasError ? '' : src}
+        alt={alt}
+        className={`absolute inset-0 w-full h-full ${imgClassName} transition-opacity duration-300 ${isLoaded && !hasError ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={() => { setIsLoaded(true); setHasError(false); }}
+        onError={() => { setHasError(true); setIsLoaded(true); }}
+      />
+    </div>
+  );
+};
+
 const CaseDetail = ({ daysRemaining }) => {
   const navigate = useNavigate();
   const { caseId } = useParams();
@@ -33,6 +78,8 @@ const CaseDetail = ({ daysRemaining }) => {
   const [navImageLoaded, setNavImageLoaded] = useState(false);
   const [navImageError, setNavImageError] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshCount, setRefreshCount] = useState(0);
 
   // Treatment system state
   const [treatmentData, setTreatmentData] = useState({
@@ -60,14 +107,18 @@ const CaseDetail = ({ daysRemaining }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const fetchCaseDetail = async () => {
+  const fetchCaseDetail = async (silent = false, isRefreshBtn = false) => {
     if (!currentUser?.userId) {
-      setLoading(false);
+      if (!silent && !isRefreshBtn) setLoading(false);
       return;
     }
 
     try {
-      setLoading(true);
+      if (isRefreshBtn) {
+        setIsRefreshing(true);
+        setRefreshCount(c => c + 1);
+      }
+      else if (!silent) setLoading(true);
       const response = await axios.get(`${API_BASE_URL}/cases/${caseId}`);
       
       // Security check: Verify case belongs to current user
@@ -76,7 +127,7 @@ const CaseDetail = ({ daysRemaining }) => {
         setUnauthorized(true);
       } else {
         setCaseData(response.data.case);
-        setSelectedImage(response.data.case.images[0]?.url || null);
+        setSelectedImage(prev => prev || response.data.case.images[0]?.url || null);
 
         // If completed, fetch result
         if (response.data.case.status === 'completed') {
@@ -101,7 +152,8 @@ const CaseDetail = ({ daysRemaining }) => {
         setUnauthorized(true);
       }
     } finally {
-      setLoading(false);
+      if (isRefreshBtn) setIsRefreshing(false);
+      else if (!silent) setLoading(false);
     }
   };
 
@@ -657,16 +709,18 @@ const CaseDetail = ({ daysRemaining }) => {
 
   // Auto-refresh when processing
   useEffect(() => {
+    let interval;
     if (autoRefresh) {
-      const interval = setInterval(() => {
-        fetchCaseDetail();
+      interval = setInterval(() => {
+        fetchCaseDetail(true, false);
       }, 10000); // Refresh every 10 seconds
-
-      return () => clearInterval(interval);
     }
+    return () => clearInterval(interval);
   }, [autoRefresh]);
 
   const handleProcessCase = async () => {
+    if (!currentUser?.userId || !caseData) return;
+
     try {
       setProcessing(true);
       setProcessingError(null);
@@ -676,8 +730,8 @@ const CaseDetail = ({ daysRemaining }) => {
       if (response.data.success) {
         // Start auto-refresh
         setAutoRefresh(true);
-        // Refresh immediately
-        fetchCaseDetail();
+        // Refresh immediately (silent)
+        fetchCaseDetail(true, false);
       }
     } catch (err) {
       // console.error('Error processing case:', err);
@@ -688,7 +742,7 @@ const CaseDetail = ({ daysRemaining }) => {
   };
 
   const handleRefresh = () => {
-    fetchCaseDetail();
+    fetchCaseDetail(false, true);
   };
 
   const formatDate = (dateString) => {
@@ -818,7 +872,7 @@ const CaseDetail = ({ daysRemaining }) => {
             <div>
               <h2 className="text-3xl font-bold text-white mb-2">{t.caseDetail.unauthorizedTitle}</h2>
               <p className="text-white/80 text-lg mb-6">
-                {t.caseDetail.unauthorizedMessage}
+                {t.caseDetail.unauthorizedText || "You don't have permission to view this case."}
               </p>
             </div>
             <button
@@ -960,7 +1014,7 @@ const CaseDetail = ({ daysRemaining }) => {
             </button>
           </div>
           <p className="text-white/90 mb-4">
-            {t.caseDetail.supportText}
+            {t.caseDetail.helpText || "Have questions or need assistance? We're here to help!"}
           </p>
           <a
             href="mailto:sarthak@vacantvectors.com"
@@ -986,11 +1040,14 @@ const CaseDetail = ({ daysRemaining }) => {
               {getStatusBadge(caseData.status)}
               <button
                 onClick={handleRefresh}
-                className="px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition-colors flex items-center gap-2 border border-white/40 backdrop-blur-xl"
+                disabled={isRefreshing}
+                className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-white/40 backdrop-blur-xl ${
+                  isRefreshing ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-white/20 text-white hover:bg-white/30'
+                }`}
                 title="Refresh case status"
               >
-                <RefreshCw className="w-4 h-4" />
-                {t.caseDetail.refresh}
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+                {isRefreshing ? t.caseDetail.refreshing || 'Refreshing...' : t.caseDetail.refresh}
               </button>
               <div className="bg-green-600/80 border border-green-400/50 backdrop-blur-xl px-4 py-2 rounded-lg">
                 <span className="text-sm text-white font-semibold">
@@ -1009,13 +1066,13 @@ const CaseDetail = ({ daysRemaining }) => {
               
               {/* Main Image Display */}
               {selectedImage && (
-                <div className="mb-6 bg-black/20 backdrop-blur-xl rounded-lg overflow-hidden border border-white/30">
-                  <img
-                    src={selectedImage}
-                    alt="Selected case image"
-                    className="w-full h-96 object-contain"
-                  />
-                </div>
+                <DetailImageLoader
+                  src={selectedImage}
+                  alt="Selected case image"
+                  containerClassName="mb-6 bg-black/20 backdrop-blur-xl rounded-lg overflow-hidden border border-white/30 h-96 w-full"
+                  imgClassName="object-contain"
+                  refreshKey={refreshCount}
+                />
               )}
 
               {/* Thumbnail Gallery */}
@@ -1030,12 +1087,14 @@ const CaseDetail = ({ daysRemaining }) => {
                         : 'border-white/40 hover:border-green-400'
                     }`}
                   >
-                    <img
+                    <DetailImageLoader
                       src={image.url}
                       alt={`Case image ${index + 1}`}
-                      className="w-full h-20 object-cover"
+                      containerClassName="w-full h-20"
+                      imgClassName="object-cover"
+                      refreshKey={refreshCount}
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm text-white text-xs text-center py-1">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/70 backdrop-blur-sm text-white text-xs text-center py-1 z-20">
                       {index + 1}
                     </div>
                   </div>

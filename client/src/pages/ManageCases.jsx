@@ -4,18 +4,25 @@ import { useAuth } from '../contexts/AuthContext';
 import withSubscription from '../components/withSubscription';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, HelpCircle, FileText, Loader, Search, ChevronLeft, ChevronRight, RefreshCw } from 'lucide-react';
+import { ArrowLeft, HelpCircle, FileText, Loader, Search, ChevronLeft, ChevronRight, RefreshCw, AlertTriangle } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../utils/translations';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
-const CaseCardImage = ({ src, alt }) => {
+const CaseCardImage = ({ src, alt, refreshKey = 0 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setHasError(false);
+  }, [src, refreshKey]);
+
   return (
     <>
-      {!isLoaded && (
+      {!isLoaded && !hasError && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/40 z-10">
           <div className="relative w-8 h-8">
             <motion.div
@@ -31,11 +38,18 @@ const CaseCardImage = ({ src, alt }) => {
           </div>
         </div>
       )}
+      {hasError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 z-10">
+          <AlertTriangle className="w-6 h-6 text-red-400 mb-1" />
+        </div>
+      )}
       <img
-        src={src}
+        key={`${src}-${refreshKey}`}
+        src={hasError ? '' : src}
         alt={alt}
-        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-        onLoad={() => setIsLoaded(true)}
+        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-all duration-300 ${isLoaded && !hasError ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={() => { setIsLoaded(true); setHasError(false); }}
+        onError={() => { setHasError(true); setIsLoaded(true); }}
       />
     </>
   );
@@ -57,6 +71,7 @@ const ManageCases = ({ daysRemaining }) => {
   const [navImageError, setNavImageError] = useState(false);
   const [logoLoaded, setLogoLoaded] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshCount, setRefreshCount] = useState(0);
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,6 +93,7 @@ const ManageCases = ({ daysRemaining }) => {
       // console.log('Fetching cases for user:', currentUser.userId);
       if (showRefreshLoader) {
         setIsRefreshing(true);
+        setRefreshCount(c => c + 1);
       } else {
         setLoading(true);
       }
@@ -509,7 +525,9 @@ const ManageCases = ({ daysRemaining }) => {
                   {/* Case Image */}
                   <div className="relative h-48 bg-black/20 overflow-hidden">
                     {caseItem.images && caseItem.images.length > 0 ? (
-                      <CaseCardImage src={caseItem.images[0].url} alt={`${caseItem.cropName} case`} />
+                      <div className="absolute inset-0 z-0">
+                        <CaseCardImage src={caseItem.images[0]?.url} alt={`Case ${caseItem.caseId}`} refreshKey={refreshCount} />
+                      </div>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-white/10">
                         <FileText className="w-16 h-16 text-white/50" />
