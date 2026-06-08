@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import withSubscription from '../components/withSubscription';
@@ -14,8 +14,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000
 const CaseCardImage = ({ src, alt, refreshKey = 0 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-
   const [internalRetry, setInternalRetry] = useState(0);
+  const imgRef = useRef(null);
 
   useEffect(() => {
     setIsLoaded(false);
@@ -31,6 +31,13 @@ const CaseCardImage = ({ src, alt, refreshKey = 0 }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setIsLoaded(true);
+      setHasError(false);
+    }
+  }, [src, internalRetry]);
 
   return (
     <>
@@ -56,6 +63,7 @@ const CaseCardImage = ({ src, alt, refreshKey = 0 }) => {
         </div>
       )}
       <img
+        ref={imgRef}
         key={`${src}-${internalRetry}`}
         src={hasError ? '' : src}
         alt={alt}
@@ -88,6 +96,20 @@ const ManageCases = ({ daysRemaining }) => {
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const casesPerPage = 6;
+  const casesListRef = useRef(null);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (casesListRef.current) {
+      const yOffset = -100;
+      const y = casesListRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     const timer = setTimeout(() => setPageLoading(false), 800);
@@ -526,7 +548,7 @@ const ManageCases = ({ daysRemaining }) => {
                   </div>
                 </div>
               </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div ref={casesListRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {currentCases.map((caseItem) => (
                 <motion.div
                   key={caseItem._id}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import withSubscription from '../components/withSubscription';
@@ -17,6 +17,7 @@ const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refresh
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [internalRetry, setInternalRetry] = useState(0);
+  const imgRef = useRef(null);
   
   useEffect(() => {
     setIsLoaded(false);
@@ -32,6 +33,13 @@ const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refresh
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshKey]);
+
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete && imgRef.current.naturalWidth > 0) {
+      setIsLoaded(true);
+      setHasError(false);
+    }
+  }, [src, internalRetry]);
 
   return (
     <div className={`relative ${containerClassName}`}>
@@ -58,6 +66,7 @@ const DetailImageLoader = ({ src, alt, containerClassName, imgClassName, refresh
         </div>
       )}
       <img
+        ref={imgRef}
         key={`${src}-${internalRetry}`}
         src={hasError ? '' : src}
         alt={alt}

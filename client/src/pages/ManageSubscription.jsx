@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -35,6 +35,38 @@ function ManageSubscription() {
   // Pagination State
   const [transactionPage, setTransactionPage] = useState(1);
   const [historyPage, setHistoryPage] = useState(1);
+  const [totalTransactions, setTotalTransactions] = useState(0);
+  const [totalHistory, setTotalHistory] = useState(0);
+  const itemsPerPage = 5;
+
+  const transactionRef = useRef(null);
+  const historyRef = useRef(null);
+  const isInitialMountTransaction = useRef(true);
+  const isInitialMountHistory = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMountTransaction.current) {
+      isInitialMountTransaction.current = false;
+      return;
+    }
+    if (transactionRef.current) {
+      const yOffset = -100;
+      const y = transactionRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [transactionPage]);
+
+  useEffect(() => {
+    if (isInitialMountHistory.current) {
+      isInitialMountHistory.current = false;
+      return;
+    }
+    if (historyRef.current) {
+      const yOffset = -100;
+      const y = historyRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [historyPage]);
   
   // UI State
   const [showSupport, setShowSupport] = useState(false);
@@ -748,7 +780,7 @@ function ManageSubscription() {
         </div>
 
         {/* Transaction History */}
-        <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6 mb-8">
+        <div ref={transactionRef} className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6 mb-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
               <History className="w-6 h-6" />
@@ -860,7 +892,7 @@ function ManageSubscription() {
         </div>
 
         {/* Plan History Timeline */}
-        <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6">
+        <div ref={historyRef} className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
             <h2 className="text-2xl font-bold text-white flex items-center gap-2">
               <History className="w-6 h-6" />

@@ -21,6 +21,21 @@ const EditProfile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [historyLoading, setHistoryLoading] = useState(false);
+  
+  const historyRef = useRef(null);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (historyRef.current) {
+      const yOffset = -100;
+      const y = historyRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [currentPage]);
   const [profileImageLoaded, setProfileImageLoaded] = useState(false);
   const [profileImageError, setProfileImageError] = useState(false);
   const [navImageLoaded, setNavImageLoaded] = useState(false);
@@ -427,7 +442,7 @@ const EditProfile = () => {
               </div>
             </div>
             
-            <div className="mt-8">
+            <div className="mt-8" ref={historyRef}>
               <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
                 <h3 className="text-xl font-semibold text-white">{t.editProfile.nameHistory || 'Name History'}</h3>
                 <button

@@ -216,6 +216,21 @@ const ProductSearch = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  
+  const productsListRef = useRef(null);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (productsListRef.current) {
+      const yOffset = -100;
+      const y = productsListRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, [currentPage]);
 
   // Sort
   const [sort, setSort] = useState('relevance');
@@ -861,6 +876,7 @@ const ProductSearch = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
             className="relative"
+            ref={productsListRef}
           >
             {/* Loading overlay for sorting/pagination */}
             {isSearching && (
