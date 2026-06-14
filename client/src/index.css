@@ -35,3 +35,169 @@ code {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.35);
 }
+
+/* ═══════════════════════════════════════════════════
+   Bottom Navbar — Liquid Glass Floating Bar
+   Only visible on mobile (≤768px)
+   ═══════════════════════════════════════════════════ */
+
+.bottom-navbar-container {
+  display: none;
+}
+
+.bottom-navbar-spacer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .bottom-navbar-spacer {
+    display: block;
+    height: 84px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .bottom-navbar-container {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    padding: 0 12px 10px 12px;
+    pointer-events: none;
+  }
+
+  .bottom-navbar-glass {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 6px 4px 8px 4px;
+    border-radius: 28px;
+    pointer-events: auto;
+
+    /* Liquid glass effect */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(24px) saturate(1.8);
+    -webkit-backdrop-filter: blur(24px) saturate(1.8);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* ── Regular Nav Item ── */
+  .bottom-navbar-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+    padding: 6px 0 2px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
+  }
+
+  .bottom-navbar-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 32px;
+    border-radius: 16px;
+  }
+
+  .bottom-navbar-icon {
+    position: relative;
+    z-index: 2;
+    color: #6b7280;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .bottom-navbar-item.active .bottom-navbar-icon {
+    color: #065f46;
+  }
+
+  /* Active pill behind icon */
+  .bottom-navbar-active-pill {
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(6, 95, 70, 0.12));
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+    z-index: 1;
+  }
+
+  .bottom-navbar-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: #9ca3af;
+    transition: color 0.25s ease, font-weight 0.25s ease;
+    line-height: 1.2;
+  }
+
+  .bottom-navbar-item.active .bottom-navbar-label {
+    color: #065f46;
+    font-weight: 600;
+  }
+
+  /* ── Center "New Case" Button ── */
+  .bottom-navbar-center-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    padding: 0 0 2px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    top: -14px;
+  }
+
+  .bottom-navbar-center-orb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981 0%, #065f46 100%);
+    color: white;
+    box-shadow:
+      0 4px 18px rgba(16, 185, 129, 0.35),
+      0 2px 6px rgba(6, 95, 70, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    border: 2.5px solid rgba(255, 255, 255, 0.7);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .bottom-navbar-center-btn:active .bottom-navbar-center-orb {
+    box-shadow:
+      0 2px 10px rgba(16, 185, 129, 0.25),
+      0 1px 3px rgba(6, 95, 70, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  }
+
+  .bottom-navbar-center-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #065f46;
+    line-height: 1.2;
+  }
+}

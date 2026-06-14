@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import CookieConsent from './components/CookieConsent';
+import BottomNavbar from './components/BottomNavbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
@@ -195,6 +196,7 @@ function App() {
         <AuthProvider>
           <CookieConsent />
           <AppContent />
+          <BottomNavbar />
         </AuthProvider>
       </LanguageProvider>
     </Router>

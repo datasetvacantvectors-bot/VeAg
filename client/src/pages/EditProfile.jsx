@@ -3,14 +3,14 @@ import { useAuth } from '../contexts/AuthContext';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import { ArrowLeft, HelpCircle, RefreshCw, ChevronLeft, ChevronRight, Copy } from 'lucide-react';
+import { ArrowLeft, HelpCircle, RefreshCw, ChevronLeft, ChevronRight, Copy, LogOut } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../utils/translations';
 
 const EditProfile = () => {
   const navigate = useNavigate();
-  const { currentUser, updateUserName } = useAuth();
+  const { currentUser, updateUserName, signOut } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
   const [name, setName] = useState(currentUser?.name || '');
@@ -136,6 +136,15 @@ const EditProfile = () => {
     setName(currentUser?.name || '');
     setIsEditing(false);
     setMessage('');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      // silent
+    }
   };
 
   if (pageLoading) {
@@ -582,6 +591,18 @@ const EditProfile = () => {
                   <p className="text-white/70">{t.editProfile.noNameHistory || 'No name history found.'}</p>
                 </div>
               )}
+            </div>
+
+            {/* Logout Button */}
+            <div className="mt-8 pt-6 border-t border-white/20">
+              <button
+                id="profile-logout-btn"
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center gap-3 px-6 py-3.5 bg-red-500/15 hover:bg-red-500/25 active:bg-red-500/35 text-red-200 font-semibold rounded-xl transition-all duration-300 border border-red-400/30 hover:border-red-400/50 backdrop-blur-xl group"
+              >
+                <LogOut className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform duration-200" />
+                <span>{t.editProfile.logout || 'Log Out'}</span>
+              </button>
             </div>
           </div>
         </div>
