@@ -409,7 +409,10 @@ export const translations = {
       refresh: "Refresh",
       refreshing: "Refreshing...",
       copy: "Copy",
-      copied: "Copied!"
+      copied: "Copied!",
+      logout: "Log Out",
+      copyUserId: "Copy User ID",
+      noNameHistory: "No name history found."
     },
     
     // Manage Subscription
@@ -935,7 +938,10 @@ export const translations = {
       refresh: "रिफ्रेश करें",
       refreshing: "रिफ्रेश हो रहा है...",
       copy: "कॉपी",
-      copied: "कॉपी हो गया!"
+      copied: "कॉपी हो गया!",
+      logout: "लॉग आउट",
+      copyUserId: "उपयोगकर्ता आईडी कॉपी करें",
+      noNameHistory: "कोई नाम इतिहास नहीं मिला।"
     },
     
     // Manage Subscription
@@ -1461,7 +1467,10 @@ export const translations = {
       refresh: "রিফ্রেশ করুন",
       refreshing: "রিফ্রেশ হচ্ছে...",
       copy: "কপি",
-      copied: "কপি হয়েছে!"
+      copied: "কপি হয়েছে!",
+      logout: "লগ আউট",
+      copyUserId: "ইউজার আইডি কপি করুন",
+      noNameHistory: "কোন নামের ইতিহাস পাওয়া যায়নি।"
     },
     
     // Manage Subscription

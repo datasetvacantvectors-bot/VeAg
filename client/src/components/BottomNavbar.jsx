@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, FolderOpen, Plus, ShoppingBag, User } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Routes where bottom navbar should be visible
 const NAVBAR_ROUTES = [
@@ -33,6 +33,29 @@ const BottomNavbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const visible = isNavbarVisible(location.pathname);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+
+  // Detect virtual keyboard opening to hide navbar
+  useEffect(() => {
+    const handleFocusIn = (e) => {
+      const tagName = e.target.tagName?.toLowerCase();
+      if (tagName === 'input' || tagName === 'textarea' || tagName === 'select') {
+        setIsKeyboardOpen(true);
+      }
+    };
+
+    const handleFocusOut = () => {
+      setIsKeyboardOpen(false);
+    };
+
+    window.addEventListener('focusin', handleFocusIn);
+    window.addEventListener('focusout', handleFocusOut);
+
+    return () => {
+      window.removeEventListener('focusin', handleFocusIn);
+      window.removeEventListener('focusout', handleFocusOut);
+    };
+  }, []);
 
   // Scroll to top on every route change
   useEffect(() => {
@@ -40,6 +63,7 @@ const BottomNavbar = () => {
   }, [location.pathname]);
 
   if (!visible) return null;
+  if (isKeyboardOpen) return <div className="bottom-navbar-spacer" />;
 
   const isActive = (path) => {
     if (path === '/dashboard') {
