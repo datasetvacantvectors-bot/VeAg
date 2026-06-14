@@ -88,7 +88,7 @@ const BottomNavbar = () => {
                 <button
                   key={item.path}
                   id="bottom-nav-new-case"
-                  className="bottom-navbar-center-btn"
+                  className={`bottom-navbar-center-btn ${active ? 'active' : ''}`}
                   onClick={() => navigate(item.path)}
                   aria-label={item.label}
                 >
