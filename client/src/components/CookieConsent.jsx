@@ -38,7 +38,7 @@ const CookieConsent = () => {
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <span className="text-2xl select-none shrink-0">🍪</span>
                 <p className="text-sm leading-relaxed">
-                  <span className="font-semibold">VeAg uses cookies</span> to enhance your app and browsing experience, remember your preferences, ensure proper functionality of all features, and keep you securely signed in. By continuing to use this site, you agree to our use of cookies.
+                  <span className="font-semibold">VeAg uses cookies</span> to enhance your app & browsing experience, remember your preferences, ensure proper functionality of all features, and keep you securely signed in. By continuing to use this site, you agree to our use of cookies.
                 </p>
               </div>
 
