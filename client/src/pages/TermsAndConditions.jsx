@@ -4,7 +4,7 @@ import { ArrowLeft, Shield } from 'lucide-react';
 import veagLogo from '../assets/veag_logo.svg';
 import { useState, useEffect } from 'react';
 
-const TermsAndConditions = () => {
+const TermsAndConditions = ({ isModal = false }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -16,6 +16,17 @@ const TermsAndConditions = () => {
   }, []);
 
   if (loading) {
+    if (isModal) {
+      return (
+        <div className="flex flex-col items-center justify-center min-h-[50vh] bg-transparent">
+          <div className="relative w-16 h-16 mb-4">
+            <motion.div className="absolute inset-0 rounded-full border-4 border-transparent border-t-orange-500 border-r-orange-500" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
+            <motion.div className="absolute inset-2 rounded-full border-4 border-transparent border-b-green-500 border-l-green-500" animate={{ rotate: -360 }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }} />
+          </div>
+          <p className="text-gray-600 font-semibold animate-pulse">Loading...</p>
+        </div>
+      );
+    }
     return (
       <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden relative flex items-center justify-center">
         {/* Sky background with clouds */}
@@ -96,6 +107,108 @@ const TermsAndConditions = () => {
     );
   }
 
+  if (isModal) {
+    return (
+      <div className="bg-transparent">
+        <div className="max-w-4xl mx-auto px-2 py-4">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-xl flex items-center justify-center shrink-0">
+              <Shield className="w-6 h-6 text-white" />
+            </div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Terms and Conditions</h1>
+          </div>
+
+
+          <div className="prose prose-lg max-w-none text-gray-700">
+            <p className="text-sm text-gray-500 mb-6">Last Updated: December 12, 2025</p>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">1. Acceptance of Terms</h2>
+              <p className="mb-4">
+                By accessing and using VeAg's agricultural disease detection service, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">2. Use License</h2>
+              <p className="mb-4">
+                Permission is granted to temporarily use VeAg services for personal, non-commercial purposes. This is the grant of a license, not a transfer of title, and under this license you may not:
+              </p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Modify or copy the materials</li>
+                <li>Use the materials for any commercial purpose or public display</li>
+                <li>Attempt to decompile or reverse engineer any software contained in VeAg</li>
+                <li>Remove any copyright or proprietary notations from the materials</li>
+                <li>Transfer the materials to another person or "mirror" the materials on any other server</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">3. Service Description</h2>
+              <p className="mb-4">
+                VeAg provides AI-powered crop disease detection services. While we strive for accuracy, we do not guarantee that our diagnoses are 100% accurate. Users should consult with agricultural experts for critical decisions.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">4. User Responsibilities</h2>
+              <p className="mb-4">Users are responsible for:</p>
+              <ul className="list-disc pl-6 mb-4 space-y-2">
+                <li>Providing accurate information and clear images</li>
+                <li>Maintaining the confidentiality of their account</li>
+                <li>All activities that occur under their account</li>
+                <li>Complying with all applicable laws and regulations</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">5. Subscription and Payments</h2>
+              <p className="mb-4">
+                All features of VeAg require a paid subscription. By subscribing, you agree to pay all fees and charges according to the pricing and payment terms in effect at the time the fee or charge becomes payable.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">6. Disclaimer</h2>
+              <p className="mb-4">
+                The materials on VeAg's service are provided on an 'as is' basis. VeAg makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">7. Limitations</h2>
+              <p className="mb-4">
+                In no event shall VeAg or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use VeAg's services.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">8. Modifications</h2>
+              <p className="mb-4">
+                VeAg may revise these terms of service at any time without notice. By using this service you are agreeing to be bound by the then current version of these terms of service.
+              </p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">9. Contact Information</h2>
+              <p className="mb-4">
+                If you have any questions about these Terms and Conditions, please contact us at:
+                <br />
+                <a href="tel:+917501493146" className="text-orange-600 hover:text-orange-700">
+                  +91 7501493146
+                </a>
+                <br />
+                <a href="mailto:sarthak@vacantvectors.com" className="text-orange-600 hover:text-orange-700">
+                  sarthak@vacantvectors.com
+                </a>
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden">
       {/* Header */}
@@ -128,7 +241,7 @@ const TermsAndConditions = () => {
           className="bg-white/90 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl"
         >
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center shrink-0">
               <Shield className="w-8 h-8 text-white" />
             </div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800">Terms and Conditions</h1>

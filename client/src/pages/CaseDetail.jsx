@@ -909,8 +909,9 @@ const CaseDetail = ({ daysRemaining }) => {
 
   // Case Detail View
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 relative overflow-hidden">
-      {/* Background Mountains */}
+    <>
+      <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 relative overflow-hidden">
+        {/* Background Mountains */}
       <div className="fixed bottom-0 left-0 right-0 pointer-events-none">
         <svg className="w-full h-64" viewBox="0 0 1200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M0 250 L300 100 L500 180 L700 80 L900 140 L1200 60 L1200 300 L0 300 Z" fill="#a0522d" opacity="0.3"/>
@@ -1015,35 +1016,6 @@ const CaseDetail = ({ daysRemaining }) => {
           </div>
         </div>
       </header>
-
-      {/* Support Popup */}
-      {showSupport && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          className="fixed top-20 right-6 z-50 bg-black/40 backdrop-blur-2xl border border-white/40 rounded-2xl p-6 shadow-2xl w-80"
-        >
-          <div className="flex justify-between items-start mb-4">
-            <h3 className="text-xl font-bold text-white">{t.caseDetail.needHelp}</h3>
-            <button
-              onClick={() => setShowSupport(false)}
-              className="text-white/70 hover:text-white transition-colors"
-            >
-              ×
-            </button>
-          </div>
-          <p className="text-white/90 mb-4">
-            {t.caseDetail.helpText || "Have questions or need assistance? We're here to help!"}
-          </p>
-          <a
-            href="mailto:sarthak@vacantvectors.com"
-            className="block w-full bg-white/20 hover:bg-white/30 text-white text-center py-3 rounded-xl transition-colors border border-white/30"
-          >
-            {t.caseDetail.contactSupport}
-          </a>
-        </motion.div>
-      )}
 
       <div className="container mx-auto px-4 py-8 relative z-10">
 
@@ -1794,6 +1766,36 @@ const CaseDetail = ({ daysRemaining }) => {
           </div>
         </div>
       </div>
+      </div>
+
+      {/* Support Popup */}
+      {showSupport && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="fixed top-20 right-6 z-[10000] bg-black/40 backdrop-blur-2xl border border-white/40 rounded-2xl p-6 shadow-2xl w-80"
+        >
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xl font-bold text-white">{t.caseDetail.needHelp}</h3>
+            <button
+              onClick={() => setShowSupport(false)}
+              className="text-white/70 hover:text-white transition-colors"
+            >
+              ×
+            </button>
+          </div>
+          <p className="text-white/90 mb-4">
+            {t.caseDetail.helpText || "Have questions or need assistance? We're here to help!"}
+          </p>
+          <a
+            href="mailto:sarthak@vacantvectors.com"
+            className="block w-full bg-white/20 hover:bg-white/30 text-white text-center py-3 rounded-xl transition-colors border border-white/30"
+          >
+            {t.caseDetail.contactSupport}
+          </a>
+        </motion.div>
+      )}
 
       {/* Ask VeAg Chat Window */}
       <AskVeAg
@@ -1804,7 +1806,7 @@ const CaseDetail = ({ daysRemaining }) => {
         diseaseName={caseResult?.diseaseStatus || ''}
         t={t}
       />
-    </div>
+    </>
   );
 };
 

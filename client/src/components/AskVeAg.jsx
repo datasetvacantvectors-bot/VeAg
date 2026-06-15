@@ -498,7 +498,7 @@ const AskVeAg = ({ isOpen, onClose, caseId, userId, diseaseName, t }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[10000] flex items-center justify-center p-4"
           onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
         >
           {/* Backdrop */}
