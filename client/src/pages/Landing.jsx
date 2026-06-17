@@ -67,8 +67,8 @@ const Landing = () => {
     },
   };
 
-  // Show loading screen while checking authentication
-  if (loading) {
+  // Show loading screen while checking authentication or redirecting
+  if (loading || currentUser) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden relative flex items-center justify-center no-blur-theme">
         {/* Sky background with clouds */}

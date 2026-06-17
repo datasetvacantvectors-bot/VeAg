@@ -209,9 +209,7 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(cached); // optimistic UI
       verifyServerToken(cached); // Wait for server to verify token
     }
-    // Do not eagerly set loading to false here if there is no cache.
-    // Wait for the initial Firebase onAuthStateChanged callback to determine 
-    // the true authentication state to avoid a flash of unauthenticated UI.
+
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
