@@ -443,9 +443,16 @@ const Dashboard = () => {
               key={index}
               onClick={() => navigate(button.path)}
               className={`relative aspect-square overflow-hidden p-3 sm:p-6 lg:p-8 bg-gradient-to-br ${button.color} backdrop-blur-md border border-white/40 hover:border-white/60 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group`}
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 120 }}
+              initial={{ opacity: 0, scale: 0.8, y: 50, rotate: -3 }}
+              animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.12, 
+                type: "spring", 
+                stiffness: 100,
+                damping: 15,
+                mass: 1.2
+              }}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
             >
