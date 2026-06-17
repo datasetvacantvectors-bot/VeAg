@@ -216,3 +216,26 @@ code {
     font-weight: 600;
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   Mobile Global Background Theme (Blur Effect)
+   ═══════════════════════════════════════════════════ */
+@media (max-width: 639px) {
+  /* Lower the grass z-index so it sits behind the blur overlay */
+  .min-h-screen:not(.no-blur-theme) > .from-green-600.to-green-700 {
+    z-index: 1 !important;
+  }
+
+  /* Add the blur overlay behind the content (z-index 5) but above the background (z-index 0-1) */
+  .min-h-screen.bg-gradient-to-b:not(.no-blur-theme)::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 5;
+    pointer-events: none;
+  }
+}
+

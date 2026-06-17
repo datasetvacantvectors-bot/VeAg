@@ -416,29 +416,37 @@ const Dashboard = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Welcome Section */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8 sm:mb-12"
+          transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+          className="mb-10 sm:mb-14 text-center relative"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-white drop-shadow-lg text-center">
-            {t.dashboard.welcome}, {currentUser?.name?.split(' ')[0]}!
+          {/* Subtle glow behind the text to make it pop against the background */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-md h-24 bg-white/40 blur-3xl rounded-full pointer-events-none" />
+          
+          <h2 className="relative z-10 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 tracking-tight mb-3 drop-shadow-sm">
+            {t.dashboard.welcome},{" "}
+            <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+              {currentUser?.name?.split(' ')[0]}
+            </span>!
           </h2>
-          <p className="text-white/80 text-center mt-2 drop-shadow-md">{t.dashboard.title}</p>
+          <p className="relative z-10 text-lg sm:text-xl text-gray-700/90 font-medium max-w-2xl mx-auto drop-shadow-sm">
+            {t.dashboard.title}
+          </p>
         </motion.div>
 
 
          {/* Navigation Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {navigationButtons.map((button, index) => (
             <motion.button
               key={index}
               onClick={() => navigate(button.path)}
-              className={`relative h-full overflow-hidden p-6 sm:p-8 bg-gradient-to-br ${button.color} backdrop-blur-md border border-white/40 hover:border-white/60 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.08, y: -8 }}
+              className={`relative aspect-square overflow-hidden p-3 sm:p-6 lg:p-8 bg-gradient-to-br ${button.color} backdrop-blur-md border border-white/40 hover:border-white/60 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group`}
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 120 }}
+              whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
             >
               {/* Animated background gradient overlay */}
@@ -447,19 +455,19 @@ const Dashboard = () => {
               {/* Subtle glow effect on hover */}
               <div className="absolute -inset-1 bg-gradient-to-br from-white/0 via-white/10 to-white/0 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-all duration-300" />
 
-              <div className="relative z-10 flex flex-col h-full justify-start">
+              <div className="relative z-10 flex flex-col h-full w-full items-center justify-center text-center">
                 {/* Icon */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/15 border border-white/30 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-white/25 transition-all duration-300">
-                  <button.icon className="w-8 h-8 sm:w-10 sm:h-10 text-white drop-shadow-md" strokeWidth={1.5} />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/15 border border-white/30 rounded-2xl flex items-center justify-center mb-2 sm:mb-4 lg:mb-6 group-hover:bg-white/25 transition-all duration-300 group-hover:scale-110 shadow-inner group-hover:shadow-lg">
+                  <button.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white drop-shadow-md" strokeWidth={1.5} />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg sm:text-xl font-bold text-white drop-shadow-md group-hover:text-white transition-all duration-300">
+                <h3 className="text-sm sm:text-lg lg:text-xl font-bold text-white drop-shadow-md group-hover:text-white transition-all duration-300">
                   {button.title}
                 </h3>
 
                 {/* Subtle bottom border animation */}
-                <div className="mt-auto h-1 bg-gradient-to-r from-white/0 via-white/30 to-white/0 rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                <div className="absolute bottom-2 sm:bottom-0 h-1 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
               </div>
             </motion.button>
           ))}
@@ -631,7 +639,7 @@ const Dashboard = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-center text-stone-700 text-[11px] mt-3 tracking-wide font-medium"
+            className="text-center text-stone-700 text-[10px] sm:text-[11px] md:text-xs mt-3 tracking-wide font-medium px-4 sm:px-0 leading-relaxed"
           >
             {t.productSearch.helperText}
           </motion.p>

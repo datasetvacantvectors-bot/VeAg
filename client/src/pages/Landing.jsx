@@ -15,6 +15,7 @@ const Landing = () => {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
   const [showFloatingNav, setShowFloatingNav] = useState(false);
+  const [isLogoLoaded, setIsLogoLoaded] = useState(false);
   
   const heroRef = useRef(null);
   const featuresRef = useRef(null);
@@ -69,7 +70,7 @@ const Landing = () => {
   // Show loading screen while checking authentication
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden relative flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden relative flex items-center justify-center no-blur-theme">
         {/* Sky background with clouds */}
         <motion.div
           className="absolute top-12 left-12 w-32 h-16 bg-white rounded-full opacity-70 blur-xl"
@@ -149,7 +150,7 @@ const Landing = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden no-blur-theme">
       {/* Hero Section with Original Theme */}
       <section ref={heroRef} className="min-h-screen relative flex items-center justify-center">
         {/* Language Selector - Top Right with Liquid Glass Design */}
@@ -317,11 +318,28 @@ const Landing = () => {
           >
             <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 blur-2xl opacity-60 animate-pulse" style={{ width: '160px', height: '160px', marginLeft: 'auto', marginRight: 'auto', left: '50%', transform: 'translateX(-50%)' }} />
             
-            <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-orange-300 via-orange-200 to-yellow-200 flex items-center justify-center shadow-2xl border-8 border-orange-400/50">
+            <div className="relative w-40 h-40 rounded-full bg-gradient-to-br from-orange-300 via-orange-200 to-yellow-200 flex items-center justify-center shadow-2xl border-8 border-orange-400/50 overflow-hidden">
+              {!isLogoLoaded && (
+                <div className="absolute inset-0 flex items-center justify-center bg-orange-100/50 z-10">
+                  <div className="relative w-12 h-12">
+                    <motion.div
+                      className="absolute inset-0 border-4 border-transparent border-t-orange-500 rounded-full"
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    />
+                    <motion.div
+                      className="absolute inset-1 border-4 border-transparent border-b-green-500 rounded-full"
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                    />
+                  </div>
+                </div>
+              )}
               <img
                 src={veagLogo}
                 alt="VeAg Logo"
-                className="w-32 h-32 object-contain rounded-full"
+                onLoad={() => setIsLogoLoaded(true)}
+                className={`w-32 h-32 object-contain rounded-full relative z-20 transition-opacity duration-500 ${isLogoLoaded ? 'opacity-100' : 'opacity-0'}`}
               />
             </div>
 
