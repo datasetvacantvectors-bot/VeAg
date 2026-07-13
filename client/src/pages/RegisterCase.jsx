@@ -675,6 +675,13 @@ const RegisterCase = ({ daysRemaining }) => {
                   {t.registerCase.viewAllCases}
                 </button>
               </div>
+
+              <button
+                onClick={() => navigate(`/case/${createdCase.caseId}`, { replace: true })}
+                className="mt-4 w-full px-6 py-3 bg-gradient-to-r from-amber-300/90 via-yellow-400/90 to-amber-500/90 text-black font-semibold rounded-xl hover:from-amber-200 hover:via-yellow-300 hover:to-amber-400 transition-all duration-300 border border-yellow-100/60 backdrop-blur-xl shadow-[0_12px_30px_rgba(245,158,11,0.28)]"
+              >
+                {t.registerCase.viewThisCase}
+              </button>
             </motion.div>
           </motion.div>
         )}

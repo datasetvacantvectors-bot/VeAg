@@ -112,25 +112,37 @@ const Dashboard = () => {
       title: t.dashboard.registerCase,
       path: '/register-case',
       icon: FileText,
-      color: 'from-emerald-500/30 to-green-500/30'
+      color: 'from-emerald-500/30 to-green-500/30',
+      radius: '30px',
+      tilt: '-0.5deg',
+      accent: 'rgba(167, 243, 208, 0.24)'
     },
     {
       title: t.dashboard.manageCases,
       path: '/manage-cases',
       icon: FolderOpen,
-      color: 'from-blue-500/30 to-cyan-500/30'
+      color: 'from-blue-500/30 to-cyan-500/30',
+      radius: '30px',
+      tilt: '0.5deg',
+      accent: 'rgba(147, 197, 253, 0.24)'
     },
     {
       title: t.dashboard.editProfile,
       path: '/edit-profile',
       icon: User,
-      color: 'from-purple-500/30 to-pink-500/30'
+      color: 'from-purple-500/30 to-pink-500/30',
+      radius: '30px',
+      tilt: '-0.4deg',
+      accent: 'rgba(244, 171, 252, 0.24)'
     },
     {
       title: t.dashboard.manageSubscription,
       path: '/manage-subscription',
       icon: CreditCard,
-      color: 'from-orange-500/30 to-red-500/30'
+      color: 'from-orange-500/30 to-red-500/30',
+      radius: '30px',
+      tilt: '0.4deg',
+      accent: 'rgba(253, 186, 116, 0.24)'
     }
     // {
     //   title: 'Search Products',
@@ -442,7 +454,12 @@ const Dashboard = () => {
             <motion.button
               key={index}
               onClick={() => navigate(button.path)}
-              className={`relative aspect-square overflow-hidden p-3 sm:p-6 lg:p-8 bg-gradient-to-br ${button.color} backdrop-blur-md border border-white/40 hover:border-white/60 text-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 group`}
+              className={`relative aspect-square overflow-hidden p-3 sm:p-6 lg:p-8 bg-white/10 bg-gradient-to-br ${button.color} backdrop-blur-3xl border border-white/25 hover:border-white/60 text-white shadow-[0_18px_54px_rgba(0,0,0,0.14)] hover:shadow-[0_26px_72px_rgba(0,0,0,0.2)] transition-all duration-500 group will-change-transform`}
+              style={{
+                transform: `rotate(${button.tilt})`,
+                borderRadius: button.radius,
+                boxShadow: `0 18px 50px ${button.accent}, inset 0 1px 0 rgba(255,255,255,0.26)`
+              }}
               initial={{ opacity: 0, scale: 0.8, y: 50, rotate: -3 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
               transition={{ 
@@ -453,28 +470,29 @@ const Dashboard = () => {
                 damping: 15,
                 mass: 1.2
               }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.06, y: -6 }}
+              whileTap={{ scale: 0.97 }}
             >
-              {/* Animated background gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Subtle glow effect on hover */}
-              <div className="absolute -inset-1 bg-gradient-to-br from-white/0 via-white/10 to-white/0 rounded-2xl opacity-0 group-hover:opacity-100 blur transition-all duration-300" />
+              {/* Smooth glass highlights */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/18 via-white/5 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.34),transparent_28%),radial-gradient(circle_at_85%_86%,rgba(255,255,255,0.10),transparent_30%)] opacity-85 mix-blend-screen" />
+              <div className="absolute inset-[1px] rounded-[inherit] border border-white/12 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute -inset-2 rounded-[inherit] bg-gradient-to-br from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 blur-2xl transition-all duration-500" />
 
               <div className="relative z-10 flex flex-col h-full w-full items-center justify-center text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/15 border border-white/30 rounded-2xl flex items-center justify-center mb-2 sm:mb-4 lg:mb-6 group-hover:bg-white/25 transition-all duration-300 group-hover:scale-110 shadow-inner group-hover:shadow-lg">
+                <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/14 border border-white/24 rounded-full flex items-center justify-center mb-2 sm:mb-4 lg:mb-6 group-hover:bg-white/24 transition-all duration-500 group-hover:scale-105 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]">
+                  <div className="absolute inset-[18%] rounded-full bg-white/18 blur-md opacity-90" />
                   <button.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white drop-shadow-md" strokeWidth={1.5} />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-sm sm:text-lg lg:text-xl font-bold text-white drop-shadow-md group-hover:text-white transition-all duration-300">
+                <h3 className="text-sm sm:text-lg lg:text-xl font-semibold text-white drop-shadow-md group-hover:text-white transition-all duration-300 tracking-[0.02em]">
                   {button.title}
                 </h3>
 
                 {/* Subtle bottom border animation */}
-                <div className="absolute bottom-2 sm:bottom-0 h-1 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                <div className="absolute bottom-2 sm:bottom-0 h-1 w-2/3 bg-gradient-to-r from-transparent via-white/55 to-transparent rounded-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
               </div>
             </motion.button>
           ))}

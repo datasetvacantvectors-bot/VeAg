@@ -1020,20 +1020,20 @@ const CaseDetail = ({ daysRemaining }) => {
       <div className="container mx-auto px-4 py-8 relative z-10">
 
         {/* Case Header */}
-        <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-6 mb-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+        <div className="bg-black/30 backdrop-blur-2xl border border-white/40 rounded-2xl shadow-2xl p-4 sm:p-6 mb-6">
+          <div className="flex flex-col lg:flex-row justify-between items-center lg:items-center gap-4 lg:gap-6 text-center lg:text-left">
+            <div className="min-w-0 w-full lg:max-w-[60%]">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight break-words">
                 {t.caseDetail.caseNumber} #{caseData.caseId}
               </h1>
-              <p className="text-white/70">{formatDate(caseData.createdAt)}</p>
+              <p className="text-sm sm:text-base text-white/70 break-words">{formatDate(caseData.createdAt)}</p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <div className="flex w-full lg:w-auto flex-col sm:flex-row gap-3 items-stretch sm:items-center lg:justify-end">
               {getStatusBadge(caseData.status)}
               <button
                 onClick={handleRefresh}
                 disabled={isRefreshing}
-                className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 border border-white/40 backdrop-blur-xl ${
+                className={`w-full sm:w-auto px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 border border-white/40 backdrop-blur-xl ${
                   isRefreshing ? 'bg-white/10 text-white/50 cursor-not-allowed' : 'bg-white/20 text-white hover:bg-white/30'
                 }`}
                 title="Refresh case status"
@@ -1041,8 +1041,8 @@ const CaseDetail = ({ daysRemaining }) => {
                 <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
                 {isRefreshing ? t.caseDetail.refreshing || 'Refreshing...' : t.caseDetail.refresh}
               </button>
-              <div className="bg-green-600/80 border border-green-400/50 backdrop-blur-xl px-4 py-2 rounded-lg">
-                <span className="text-sm text-white font-semibold">
+              <div className="w-full sm:w-auto bg-green-600/80 border border-green-400/50 backdrop-blur-xl px-4 py-2 rounded-lg whitespace-nowrap flex justify-center">
+                <span className="text-sm text-white font-semibold text-center">
                   {t.caseDetail.plan}: {daysRemaining} {t.caseDetail.daysLeft}
                 </span>
               </div>

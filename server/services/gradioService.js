@@ -5,8 +5,6 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const GRADIO_SPACE_URL = process.env.GRADIO_SPACE_URL || "sharkthak/VeAg";
 const TEMP_DIR = path.join(__dirname, '../temp');
 
 // Ensure temp directory exists
@@ -19,10 +17,29 @@ class GradioService {
     this.client = null;
   }
 
+  getSpaceUrl() {
+    return process.env.GRADIO_SPACE_URL || "sharkthak/VeAg-Rice";
+  }
+
+  getHfToken() {
+    return process.env.HF_TOKEN || process.env.HUGGING_FACE_HUB_TOKEN || '';
+  }
+
+  getConnectOptions() {
+    const hfToken = this.getHfToken();
+
+    if (!hfToken) {
+      return {};
+    }
+
+    return { token: hfToken };
+  }
+
   async connect() {
     if (!this.client) {
-      // console.log('Connecting to Gradio space:', GRADIO_SPACE_URL);
-      this.client = await Client.connect(GRADIO_SPACE_URL);
+      const spaceUrl = this.getSpaceUrl();
+      // console.log('Connecting to Gradio space:', spaceUrl);
+      this.client = await Client.connect(spaceUrl, this.getConnectOptions());
       // console.log('Successfully connected to Gradio space');
     }
     return this.client;
