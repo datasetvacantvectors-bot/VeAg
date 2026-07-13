@@ -1,6 +1,6 @@
-import express from 'express';
-import * as subscriptionController from '../controllers/subscriptionController.js';
-import authMiddleware from '../config/authMiddleware.js';
+import express from "express";
+import * as subscriptionController from "../controllers/subscriptionController.js";
+import authMiddleware from "../config/authMiddleware.js";
 
 const router = express.Router();
 
@@ -8,21 +8,24 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // Get active subscription
-router.get('/:userId/active', subscriptionController.getActiveSubscription);
+router.get("/:userId/active", subscriptionController.getActiveSubscription);
 
 // Get subscription history
-router.get('/:userId/history', subscriptionController.getSubscriptionHistory);
+router.get("/:userId/history", subscriptionController.getSubscriptionHistory);
 
 // Get transaction history
-router.get('/:userId/transactions', subscriptionController.getTransactionHistory);
+router.get(
+  "/:userId/transactions",
+  subscriptionController.getTransactionHistory,
+);
 
 // Create order
-router.post('/create-order', subscriptionController.createOrder);
+router.post("/create-order", subscriptionController.createOrder);
 
 // Verify payment
-router.post('/verify-payment', subscriptionController.verifyPayment);
+router.post("/verify-payment", subscriptionController.verifyPayment);
 
 // Handle payment failure
-router.post('/payment-failure', subscriptionController.handlePaymentFailure);
+router.post("/payment-failure", subscriptionController.handlePaymentFailure);
 
 export default router;

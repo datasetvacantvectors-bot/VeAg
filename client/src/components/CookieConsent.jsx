@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const COOKIE_KEY = 'veag_cookies_accepted';
+const COOKIE_KEY = "veag_cookies_accepted";
 
 const CookieConsent = () => {
   const [visible, setVisible] = useState(false);
@@ -14,7 +14,7 @@ const CookieConsent = () => {
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem(COOKIE_KEY, 'true');
+    localStorage.setItem(COOKIE_KEY, "true");
     setVisible(false);
   };
 
@@ -27,7 +27,7 @@ const CookieConsent = () => {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <div className="w-full max-w-6xl mx-auto rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl shadow-2xl overflow-hidden">
             {/* Top accent line */}
@@ -38,7 +38,11 @@ const CookieConsent = () => {
               <div className="flex items-center gap-3 flex-1 min-w-0">
                 <span className="text-2xl select-none shrink-0">🍪</span>
                 <p className="text-sm leading-relaxed">
-                  <span className="font-semibold">VeAg uses cookies</span> to enhance your app & browsing experience, remember your preferences, ensure proper functionality of all features, and keep you securely signed in. By continuing to use this site, you agree to our use of cookies.
+                  <span className="font-semibold">VeAg uses cookies</span> to
+                  enhance your app & browsing experience, remember your
+                  preferences, ensure proper functionality of all features, and
+                  keep you securely signed in. By continuing to use this site,
+                  you agree to our use of cookies.
                 </p>
               </div>
 

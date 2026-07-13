@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { translations } from '../utils/translations';
-import { motion, AnimatePresence } from 'framer-motion';
-import axios from 'axios';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContext";
+import { translations } from "../utils/translations";
+import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
 import {
   ArrowLeft,
   HelpCircle,
@@ -30,19 +30,23 @@ import {
   CalendarPlus,
   CalendarMinus,
   Loader2,
-} from 'lucide-react';
-import veagLogo from '../assets/veag_logo.svg';
+} from "lucide-react";
+import veagLogo from "../assets/veag_logo.svg";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
-const RECENT_SEARCHES_KEY = 'veag_recent_searches';
+const RECENT_SEARCHES_KEY = "veag_recent_searches";
 const MAX_RECENT = 5;
 const PRODUCTS_PER_PAGE = 12;
 
 /* ──────────────────────── Shimmer keyframes (injected once) ──────────────── */
-const shimmerStyleId = 'veag-shimmer-style';
-if (typeof document !== 'undefined' && !document.getElementById(shimmerStyleId)) {
-  const style = document.createElement('style');
+const shimmerStyleId = "veag-shimmer-style";
+if (
+  typeof document !== "undefined" &&
+  !document.getElementById(shimmerStyleId)
+) {
+  const style = document.createElement("style");
   style.id = shimmerStyleId;
   style.textContent = `
     @keyframes veagShimmer {
@@ -106,11 +110,15 @@ const clearRecentSearches = () => {
 
 /* ──────────────────────── Sort options config ────────────────────────────── */
 const SORT_OPTIONS = [
-  { value: 'relevance', label: 'Relevance', icon: ArrowUpDown },
-  { value: 'price_asc', label: 'Price: Low → High', icon: ArrowUpNarrowWide },
-  { value: 'price_desc', label: 'Price: High → Low', icon: ArrowDownNarrowWide },
-  { value: 'newest', label: 'Newest First', icon: CalendarPlus },
-  { value: 'oldest', label: 'Oldest First', icon: CalendarMinus },
+  { value: "relevance", label: "Relevance", icon: ArrowUpDown },
+  { value: "price_asc", label: "Price: Low → High", icon: ArrowUpNarrowWide },
+  {
+    value: "price_desc",
+    label: "Price: High → Low",
+    icon: ArrowDownNarrowWide,
+  },
+  { value: "newest", label: "Newest First", icon: CalendarPlus },
+  { value: "oldest", label: "Oldest First", icon: CalendarMinus },
 ];
 
 /* ──────────────────────── Skeleton Card ──────────────────────────────────── */
@@ -157,7 +165,7 @@ const ProductCard = ({ product, index, onProductClick }) => {
               src={product.imageUrl || product.image}
               alt={product.title}
               className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 ${
-                imgLoaded ? 'opacity-100' : 'opacity-0'
+                imgLoaded ? "opacity-100" : "opacity-0"
               }`}
               onLoad={() => setImgLoaded(true)}
               onError={() => setImgError(true)}
@@ -177,10 +185,14 @@ const ProductCard = ({ product, index, onProductClick }) => {
           {product.title}
         </h3>
         {product.description && (
-          <p className="text-white/60 text-xs line-clamp-2 mt-1.5 leading-relaxed">{product.description}</p>
+          <p className="text-white/60 text-xs line-clamp-2 mt-1.5 leading-relaxed">
+            {product.description}
+          </p>
         )}
         <div className="mt-3 inline-block bg-gradient-to-r from-amber-500/20 to-orange-500/15 border border-amber-400/20 rounded-lg px-3 py-1">
-          <span className="text-amber-200 font-bold text-sm">₹{product.price != null ? Number(product.price).toFixed(2) : '0.00'}</span>
+          <span className="text-amber-200 font-bold text-sm">
+            ₹{product.price != null ? Number(product.price).toFixed(2) : "0.00"}
+          </span>
         </div>
       </div>
     </motion.div>
@@ -205,8 +217,8 @@ const ProductSearch = () => {
   const [error, setError] = useState(null);
 
   // Search
-  const [inputValue, setInputValue] = useState(searchParams.get('q') || '');
-  const [query, setQuery] = useState(searchParams.get('q') || '');
+  const [inputValue, setInputValue] = useState(searchParams.get("q") || "");
+  const [query, setQuery] = useState(searchParams.get("q") || "");
   const [showRecent, setShowRecent] = useState(false);
   const [recentSearches, setRecentSearches] = useState(getRecentSearches());
   const inputRef = useRef(null);
@@ -216,7 +228,7 @@ const ProductSearch = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const productsListRef = useRef(null);
   const isInitialMount = useRef(true);
 
@@ -227,13 +239,16 @@ const ProductSearch = () => {
     }
     if (productsListRef.current) {
       const yOffset = -100;
-      const y = productsListRef.current.getBoundingClientRect().top + window.scrollY + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      const y =
+        productsListRef.current.getBoundingClientRect().top +
+        window.scrollY +
+        yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     }
   }, [currentPage]);
 
   // Sort
-  const [sort, setSort] = useState('relevance');
+  const [sort, setSort] = useState("relevance");
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const sortDropdownRef = useRef(null);
 
@@ -291,8 +306,11 @@ const ProductSearch = () => {
           })
           .catch(() => {});
       } catch (err) {
-        if (axios.isCancel(err) || err.name === 'CanceledError') return;
-        setError(err.response?.data?.message || 'Failed to search products. Please try again.');
+        if (axios.isCancel(err) || err.name === "CanceledError") return;
+        setError(
+          err.response?.data?.message ||
+            "Failed to search products. Please try again.",
+        );
         setProducts([]);
         setTotalProducts(0);
         setTotalPages(0);
@@ -340,19 +358,16 @@ const ProductSearch = () => {
   }, [query, currentPage, sort, searchProducts]);
 
   /* ── Product click ─────────────────────────────────────────────────── */
-  const handleProductClick = useCallback(
-    (product) => {
-      setModalImgLoaded(false);
-      setSelectedProduct(product);
-    },
-    [],
-  );
+  const handleProductClick = useCallback((product) => {
+    setModalImgLoaded(false);
+    setSelectedProduct(product);
+  }, []);
 
   /* ── Page change ───────────────────────────────────────────────────── */
   const goToPage = (p) => {
     if (p < 1 || p > totalPages) return;
     setCurrentPage(p);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   /* ── Generate visible page numbers (responsive) ────────────────────── */
@@ -375,14 +390,17 @@ const ProductSearch = () => {
   /* ── Close sort dropdown on outside click ──────────────────────────── */
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (sortDropdownRef.current && !sortDropdownRef.current.contains(e.target)) {
+      if (
+        sortDropdownRef.current &&
+        !sortDropdownRef.current.contains(e.target)
+      ) {
         setShowSortDropdown(false);
       }
     };
     if (showSortDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showSortDropdown]);
 
   /* ── Close recent on outside click ─────────────────────────────────── */
@@ -392,8 +410,8 @@ const ProductSearch = () => {
         setShowRecent(false);
       }
     };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   /* ── Initial load timer (match Dashboard) ──────────────────────────── */
@@ -417,11 +435,25 @@ const ProductSearch = () => {
           transition={{ duration: 10, repeat: Infinity }}
         />
 
-        <svg className="absolute bottom-0 left-0 w-full h-80 opacity-50" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="#a0522d" d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z" />
+        <svg
+          className="absolute bottom-0 left-0 w-full h-80 opacity-50"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#a0522d"
+            d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z"
+          />
         </svg>
-        <svg className="absolute bottom-0 left-0 w-full h-64 opacity-70" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="#d97706" d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z" />
+        <svg
+          className="absolute bottom-0 left-0 w-full h-64 opacity-70"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#d97706"
+            d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z"
+          />
         </svg>
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-green-600 to-green-700 z-10" />
 
@@ -435,17 +467,17 @@ const ProductSearch = () => {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
           <motion.p
@@ -481,11 +513,25 @@ const ProductSearch = () => {
       />
 
       {/* ── Mountains ────────────────────────────────────────────────── */}
-      <svg className="fixed bottom-0 left-0 w-full h-80 opacity-50 pointer-events-none" viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#a0522d" d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z" />
+      <svg
+        className="fixed bottom-0 left-0 w-full h-80 opacity-50 pointer-events-none"
+        viewBox="0 0 1440 320"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#a0522d"
+          d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z"
+        />
       </svg>
-      <svg className="fixed bottom-0 left-0 w-full h-64 opacity-70 pointer-events-none" viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#d97706" d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z" />
+      <svg
+        className="fixed bottom-0 left-0 w-full h-64 opacity-70 pointer-events-none"
+        viewBox="0 0 1440 320"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#d97706"
+          d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z"
+        />
       </svg>
       <div className="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-b from-green-600 to-green-700 z-10 pointer-events-none" />
 
@@ -494,12 +540,12 @@ const ProductSearch = () => {
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate("/dashboard")}
               className="p-2 hover:bg-white/10 rounded-full transition-colors"
             >
               <ArrowLeft className="w-6 h-6 text-white" />
             </button>
-            
+
             <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
               {!logoLoaded && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/40">
@@ -507,20 +553,28 @@ const ProductSearch = () => {
                     <motion.div
                       className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                     />
                     <motion.div
                       className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
                       animate={{ rotate: -360 }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
                     />
                   </div>
                 </div>
               )}
-              <img 
-                src={veagLogo} 
-                alt="VeAg Logo" 
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+              <img
+                src={veagLogo}
+                alt="VeAg Logo"
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? "opacity-100" : "opacity-0"}`}
                 onLoad={() => setLogoLoaded(true)}
               />
             </div>
@@ -528,48 +582,58 @@ const ProductSearch = () => {
             <span className="text-2xl font-bold text-white">VeAg</span>
           </div>
 
-            {/* Right */}
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => setShowSupport(!showSupport)}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <HelpCircle className="w-6 h-6 text-white" />
-              </button>
-              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
-                {currentUser?.photoURL && !navImageError ? (
-                  <>
-                    {!navImageLoaded && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                        <div className="relative w-5 h-5">
-                          <motion.div
-                            className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
-                            animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                          />
-                          <motion.div
-                            className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
-                            animate={{ rotate: -360 }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                          />
-                        </div>
+          {/* Right */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setShowSupport(!showSupport)}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            >
+              <HelpCircle className="w-6 h-6 text-white" />
+            </button>
+            <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white bg-white/20 backdrop-blur-xl flex items-center justify-center">
+              {currentUser?.photoURL && !navImageError ? (
+                <>
+                  {!navImageLoaded && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <div className="relative w-5 h-5">
+                        <motion.div
+                          className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                        />
+                        <motion.div
+                          className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
+                          animate={{ rotate: -360 }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                        />
                       </div>
-                    )}
-                    <img 
-                      src={currentUser.photoURL} 
-                      alt={currentUser.name}
-                      crossOrigin="anonymous"
-                      referrerPolicy="no-referrer"
-                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                      onLoad={() => setNavImageLoaded(true)}
-                      onError={() => setNavImageError(true)}
-                    />
-                  </>
-                ) : (
-                  <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
-                )}
-              </div>
+                    </div>
+                  )}
+                  <img
+                    src={currentUser.photoURL}
+                    alt={currentUser.name}
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${navImageLoaded ? "opacity-100" : "opacity-0"}`}
+                    onLoad={() => setNavImageLoaded(true)}
+                    onError={() => setNavImageError(true)}
+                  />
+                </>
+              ) : (
+                <span className="text-white font-bold text-lg">
+                  {currentUser?.name?.charAt(0).toUpperCase()}
+                </span>
+              )}
             </div>
+          </div>
         </div>
       </header>
 
@@ -583,7 +647,9 @@ const ProductSearch = () => {
             className="fixed top-20 right-6 z-[10000] bg-black/40 backdrop-blur-2xl border border-white/40 rounded-2xl p-6 shadow-2xl w-80"
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-white">{t.editProfile?.needHelp || 'Need Help?'}</h3>
+              <h3 className="text-xl font-bold text-white">
+                {t.editProfile?.needHelp || "Need Help?"}
+              </h3>
               <button
                 onClick={() => setShowSupport(false)}
                 className="text-white/70 hover:text-white transition-colors"
@@ -592,13 +658,14 @@ const ProductSearch = () => {
               </button>
             </div>
             <p className="text-white/90 mb-4">
-              {t.editProfile?.supportText || "Have questions or need assistance? We're here to help!"}
+              {t.editProfile?.supportText ||
+                "Have questions or need assistance? We're here to help!"}
             </p>
             <a
               href="mailto:sarthak@vacantvectors.com"
               className="block w-full bg-white/20 hover:bg-white/30 text-white text-center py-3 rounded-xl transition-colors border border-white/30"
             >
-              {t.editProfile?.contactSupport || 'Contact Support'}
+              {t.editProfile?.contactSupport || "Contact Support"}
             </a>
           </motion.div>
         )}
@@ -639,7 +706,7 @@ const ProductSearch = () => {
                   initial={{ opacity: 0, scale: 0.7 }}
                   animate={{ opacity: 1, scale: 1 }}
                   onClick={() => {
-                    setInputValue('');
+                    setInputValue("");
                     setShowRecent(true);
                   }}
                   className="p-1 hover:bg-white/10 rounded-full transition-colors"
@@ -659,42 +726,46 @@ const ProductSearch = () => {
 
             {/* Recent searches dropdown */}
             <AnimatePresence>
-              {showRecent && !inputValue.trim() && recentSearches.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="mt-3 pt-3 border-t border-white/15 overflow-hidden"
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-white/60 text-xs font-medium flex items-center gap-1.5">
-                      <Clock className="w-3 h-3" /> {t.productSearch.recentSearches}
-                    </span>
-                    <button
-                      onClick={() => {
-                        clearRecentSearches();
-                        setRecentSearches([]);
-                      }}
-                      className="text-white/50 hover:text-white/80 text-xs flex items-center gap-1 transition-colors"
-                    >
-                      <Trash2 className="w-3 h-3" /> {t.productSearch.clearAll}
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {recentSearches.map((term) => (
-                      <motion.button
-                        key={term}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleSearch(term)}
-                        className="px-3 py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 rounded-full text-white/80 text-xs transition-all duration-200"
+              {showRecent &&
+                !inputValue.trim() &&
+                recentSearches.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mt-3 pt-3 border-t border-white/15 overflow-hidden"
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-white/60 text-xs font-medium flex items-center gap-1.5">
+                        <Clock className="w-3 h-3" />{" "}
+                        {t.productSearch.recentSearches}
+                      </span>
+                      <button
+                        onClick={() => {
+                          clearRecentSearches();
+                          setRecentSearches([]);
+                        }}
+                        className="text-white/50 hover:text-white/80 text-xs flex items-center gap-1 transition-colors"
                       >
-                        {term}
-                      </motion.button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
+                        <Trash2 className="w-3 h-3" />{" "}
+                        {t.productSearch.clearAll}
+                      </button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {recentSearches.map((term) => (
+                        <motion.button
+                          key={term}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleSearch(term)}
+                          className="px-3 py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 hover:border-white/40 rounded-full text-white/80 text-xs transition-all duration-200"
+                        >
+                          {term}
+                        </motion.button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
             </AnimatePresence>
           </div>
         </motion.div>
@@ -717,10 +788,17 @@ const ProductSearch = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     className="text-white/70 text-sm font-medium whitespace-nowrap"
                   >
-                    <span className="text-white font-bold">{totalProducts}</span> {t.productSearch.resultsFound}
+                    <span className="text-white font-bold">
+                      {totalProducts}
+                    </span>{" "}
+                    {t.productSearch.resultsFound}
                   </motion.span>
-                ) : !isSearching && (
-                  <span className="text-white/50 text-sm">{t.productSearch.noResults}</span>
+                ) : (
+                  !isSearching && (
+                    <span className="text-white/50 text-sm">
+                      {t.productSearch.noResults}
+                    </span>
+                  )
                 )}
               </div>
 
@@ -736,7 +814,9 @@ const ProductSearch = () => {
                   title={t.productSearch.refresh}
                 >
                   <span className="flex items-center gap-2 whitespace-nowrap">
-                    <RotateCcw className={`w-4 h-4 ${isSearching ? 'veag-spin' : ''}`} />
+                    <RotateCcw
+                      className={`w-4 h-4 ${isSearching ? "veag-spin" : ""}`}
+                    />
                     <span>{t.productSearch.refresh}</span>
                   </span>
                 </motion.button>
@@ -753,12 +833,16 @@ const ProductSearch = () => {
                       return <Icon className="w-4 h-4 text-white/60" />;
                     })()}
                     <span className="font-medium hidden sm:inline">
-                      {t.productSearch.sort[sort.replace('_asc', 'Asc').replace('_desc', 'Desc')] || SORT_OPTIONS.find((o) => o.value === sort)?.label}
+                      {t.productSearch.sort[
+                        sort.replace("_asc", "Asc").replace("_desc", "Desc")
+                      ] || SORT_OPTIONS.find((o) => o.value === sort)?.label}
                     </span>
-                    <span className="font-medium sm:hidden text-xs">{t.productSearch.sort.label}</span>
+                    <span className="font-medium sm:hidden text-xs">
+                      {t.productSearch.sort.label}
+                    </span>
                     <ChevronDown
                       className={`w-3.5 h-3.5 text-white/50 transition-transform duration-200 ${
-                        showSortDropdown ? 'rotate-180' : ''
+                        showSortDropdown ? "rotate-180" : ""
                       }`}
                     />
                   </button>
@@ -771,29 +855,37 @@ const ProductSearch = () => {
                         exit={{ opacity: 0, y: -8, scale: 0.95 }}
                         className="absolute right-0 top-full mt-2 w-56 bg-black/50 backdrop-blur-2xl border border-white/20 rounded-xl shadow-2xl overflow-hidden z-40"
                       >
-                          {SORT_OPTIONS.map((opt) => {
-                            const Icon = opt.icon;
-                            return (
-                              <button
-                                key={opt.value}
-                                onClick={() => {
-                                  setSort(opt.value);
-                                  setCurrentPage(1);
-                                  setShowSortDropdown(false);
-                                }}
-                                className={`w-full px-4 py-3 text-left text-sm text-white hover:bg-white/10 transition-colors flex items-center gap-3 ${
-                                  sort === opt.value ? 'bg-white/15 font-semibold' : ''
-                                }`}
-                              >
-                                <Icon className={`w-4 h-4 ${sort === opt.value ? 'text-amber-400' : 'text-white/50'}`} />
-                                {t.productSearch.sort[opt.value.replace("_asc", "Asc").replace("_desc", "Desc")] || opt.label}
-                                {sort === opt.value && (
-                                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400" />
-                                )}
-                              </button>
-                            );
-                          })}
-                        </motion.div>
+                        {SORT_OPTIONS.map((opt) => {
+                          const Icon = opt.icon;
+                          return (
+                            <button
+                              key={opt.value}
+                              onClick={() => {
+                                setSort(opt.value);
+                                setCurrentPage(1);
+                                setShowSortDropdown(false);
+                              }}
+                              className={`w-full px-4 py-3 text-left text-sm text-white hover:bg-white/10 transition-colors flex items-center gap-3 ${
+                                sort === opt.value
+                                  ? "bg-white/15 font-semibold"
+                                  : ""
+                              }`}
+                            >
+                              <Icon
+                                className={`w-4 h-4 ${sort === opt.value ? "text-amber-400" : "text-white/50"}`}
+                              />
+                              {t.productSearch.sort[
+                                opt.value
+                                  .replace("_asc", "Asc")
+                                  .replace("_desc", "Desc")
+                              ] || opt.label}
+                              {sort === opt.value && (
+                                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-amber-400" />
+                              )}
+                            </button>
+                          );
+                        })}
+                      </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -820,7 +912,9 @@ const ProductSearch = () => {
           >
             <div className="bg-black/30 backdrop-blur-xl border border-white/30 rounded-3xl p-10 text-center max-w-md w-full">
               <AlertCircle className="w-16 h-16 text-red-400/80 mx-auto mb-4" />
-              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">{t.productSearch.somethingWentWrong}</h3>
+              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">
+                {t.productSearch.somethingWentWrong}
+              </h3>
               <p className="text-white/70 text-sm mb-6">{error}</p>
               <motion.button
                 onClick={() => searchProducts(query, currentPage, sort)}
@@ -844,7 +938,9 @@ const ProductSearch = () => {
           >
             <div className="bg-black/30 backdrop-blur-xl border border-white/30 rounded-3xl p-10 text-center max-w-md w-full">
               <SearchX className="w-16 h-16 text-white/40 mx-auto mb-4" />
-              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">{t.productSearch.noProductsFound}</h3>
+              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">
+                {t.productSearch.noProductsFound}
+              </h3>
               <p className="text-white/70 text-sm">
                 {t.productSearch.tryDifferentTerm}
               </p>
@@ -861,7 +957,9 @@ const ProductSearch = () => {
           >
             <div className="bg-black/30 backdrop-blur-xl border border-white/30 rounded-3xl p-10 text-center max-w-md w-full">
               <Search className="w-16 h-16 text-white/40 mx-auto mb-4" />
-              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">{t.productSearch.searchForProducts}</h3>
+              <h3 className="text-white text-xl font-bold mb-2 drop-shadow-lg">
+                {t.productSearch.searchForProducts}
+              </h3>
               <p className="text-white/70 text-sm">
                 {t.productSearch.enterSearchTerm}
               </p>
@@ -906,8 +1004,15 @@ const ProductSearch = () => {
               >
                 {/* Showing text */}
                 <p className="text-white/50 text-xs sm:text-sm">
-                  {t.productSearch.showing} <span className="text-white/80 font-medium">{showingStart}–{showingEnd}</span> {t.productSearch.of}{' '}
-                  <span className="text-white/80 font-medium">{totalProducts}</span> {t.productSearch.products}
+                  {t.productSearch.showing}{" "}
+                  <span className="text-white/80 font-medium">
+                    {showingStart}–{showingEnd}
+                  </span>{" "}
+                  {t.productSearch.of}{" "}
+                  <span className="text-white/80 font-medium">
+                    {totalProducts}
+                  </span>{" "}
+                  {t.productSearch.products}
                 </p>
 
                 {/* Pill pagination container */}
@@ -918,8 +1023,8 @@ const ProductSearch = () => {
                     disabled={currentPage === 1}
                     className={`p-2 rounded-full transition-all duration-200 hidden sm:flex items-center justify-center ${
                       currentPage === 1
-                        ? 'opacity-30 cursor-not-allowed text-white/40'
-                        : 'hover:bg-white/15 text-white/70 hover:text-white'
+                        ? "opacity-30 cursor-not-allowed text-white/40"
+                        : "hover:bg-white/15 text-white/70 hover:text-white"
                     }`}
                     title={t.productSearch.firstPage}
                   >
@@ -932,8 +1037,8 @@ const ProductSearch = () => {
                     disabled={currentPage === 1}
                     className={`p-2 rounded-full transition-all duration-200 ${
                       currentPage === 1
-                        ? 'opacity-30 cursor-not-allowed text-white/40'
-                        : 'hover:bg-white/15 text-white/70 hover:text-white'
+                        ? "opacity-30 cursor-not-allowed text-white/40"
+                        : "hover:bg-white/15 text-white/70 hover:text-white"
                     }`}
                     title={t.productSearch.previousPage}
                   >
@@ -948,8 +1053,8 @@ const ProductSearch = () => {
                         onClick={() => goToPage(page)}
                         className={`w-9 h-9 rounded-full text-sm font-medium transition-all duration-200 ${
                           page === currentPage
-                            ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25'
-                            : 'hover:bg-white/15 text-white/60 hover:text-white'
+                            ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25"
+                            : "hover:bg-white/15 text-white/60 hover:text-white"
                         }`}
                       >
                         {page}
@@ -965,8 +1070,8 @@ const ProductSearch = () => {
                         onClick={() => goToPage(page)}
                         className={`w-8 h-8 rounded-full text-xs font-medium transition-all duration-200 ${
                           page === currentPage
-                            ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25'
-                            : 'hover:bg-white/15 text-white/60 hover:text-white'
+                            ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/25"
+                            : "hover:bg-white/15 text-white/60 hover:text-white"
                         }`}
                       >
                         {page}
@@ -980,8 +1085,8 @@ const ProductSearch = () => {
                     disabled={currentPage === totalPages}
                     className={`p-2 rounded-full transition-all duration-200 ${
                       currentPage === totalPages
-                        ? 'opacity-30 cursor-not-allowed text-white/40'
-                        : 'hover:bg-white/15 text-white/70 hover:text-white'
+                        ? "opacity-30 cursor-not-allowed text-white/40"
+                        : "hover:bg-white/15 text-white/70 hover:text-white"
                     }`}
                     title={t.productSearch.nextPage}
                   >
@@ -994,8 +1099,8 @@ const ProductSearch = () => {
                     disabled={currentPage === totalPages}
                     className={`p-2 rounded-full transition-all duration-200 hidden sm:flex items-center justify-center ${
                       currentPage === totalPages
-                        ? 'opacity-30 cursor-not-allowed text-white/40'
-                        : 'hover:bg-white/15 text-white/70 hover:text-white'
+                        ? "opacity-30 cursor-not-allowed text-white/40"
+                        : "hover:bg-white/15 text-white/70 hover:text-white"
                     }`}
                     title={t.productSearch.lastPage}
                   >
@@ -1033,7 +1138,7 @@ const ProductSearch = () => {
               initial={{ scale: 0.92, y: 30, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
               exit={{ scale: 0.92, y: 30, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+              transition={{ type: "spring", stiffness: 350, damping: 30 }}
             >
               {/* ── Close button (floating) ── */}
               <motion.button
@@ -1047,7 +1152,7 @@ const ProductSearch = () => {
 
               {/* ── Image Section ── */}
               <div className="relative w-full aspect-video bg-gradient-to-br from-white/5 to-white/[0.02] overflow-hidden flex-shrink-0 flex items-center justify-center">
-                {(selectedProduct.imageUrl || selectedProduct.image) ? (
+                {selectedProduct.imageUrl || selectedProduct.image ? (
                   <>
                     {!modalImgLoaded && (
                       <div className="absolute inset-0 veag-shimmer flex items-center justify-center">
@@ -1058,7 +1163,7 @@ const ProductSearch = () => {
                       src={selectedProduct.imageUrl || selectedProduct.image}
                       alt={selectedProduct.title}
                       className={`w-full h-full object-cover transition-opacity duration-500 ${
-                        modalImgLoaded ? 'opacity-100' : 'opacity-0'
+                        modalImgLoaded ? "opacity-100" : "opacity-0"
                       }`}
                       onLoad={() => setModalImgLoaded(true)}
                       onError={() => setModalImgLoaded(true)}
@@ -1144,7 +1249,8 @@ const ProductSearch = () => {
                       })
                       .catch(() => {});
 
-                    if (selectedProduct.link) window.open(selectedProduct.link, '_blank');
+                    if (selectedProduct.link)
+                      window.open(selectedProduct.link, "_blank");
                   }}
                   className="w-full flex items-center justify-center gap-2.5 py-3 bg-gradient-to-r from-amber-500/70 to-orange-500/60 hover:from-amber-500/90 hover:to-orange-500/80 border border-amber-400/30 hover:border-amber-300/50 rounded-xl text-white font-semibold text-sm shadow-lg shadow-amber-900/15 transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
@@ -1169,9 +1275,11 @@ const ProductSearch = () => {
                     <Info className="w-3 h-3 text-amber-300/40 flex-shrink-0 mt-0.5" />
                     <div className="space-y-1">
                       <p className="text-white/35 text-[10px] leading-relaxed">
-                        {t.productSearch.modal.disclaimer1Part1}{selectedProduct.updatedAt || selectedProduct.createdAt
-                          ? ` ${language === 'en' ? 'as of' : (language === 'hi' ? 'दिनांक' : 'তারিখে')} ${new Date(selectedProduct.updatedAt || selectedProduct.createdAt).toLocaleDateString(language === 'hi' ? 'hi-IN' : (language === 'bn' ? 'bn-IN' : 'en-IN'), { day: 'numeric', month: 'short', year: 'numeric' })}`
-                          : ''}{t.productSearch.modal.disclaimer1Part2}
+                        {t.productSearch.modal.disclaimer1Part1}
+                        {selectedProduct.updatedAt || selectedProduct.createdAt
+                          ? ` ${language === "en" ? "as of" : language === "hi" ? "दिनांक" : "তারিখে"} ${new Date(selectedProduct.updatedAt || selectedProduct.createdAt).toLocaleDateString(language === "hi" ? "hi-IN" : language === "bn" ? "bn-IN" : "en-IN", { day: "numeric", month: "short", year: "numeric" })}`
+                          : ""}
+                        {t.productSearch.modal.disclaimer1Part2}
                       </p>
                       <p className="text-white/25 text-[9px] leading-relaxed">
                         {t.productSearch.modal.disclaimer2}

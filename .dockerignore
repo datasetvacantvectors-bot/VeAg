@@ -1,7 +1,13 @@
 node_modules
+**/node_modules
+dist
+**/dist
 .env
+**/.env
 .env.local
+**/.env.local
 .env.*.local
+**/.env.*.local
 *.log
 npm-debug.log*
 .DS_Store
@@ -9,3 +15,5 @@ npm-debug.log*
 .gitignore
 README.md
 temp/*
+.firebase
+**/.firebase

@@ -1,13 +1,25 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { useLanguage } from '../contexts/LanguageContext';
-import { translations } from '../utils/translations';
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HelpCircle, X, FileText, FolderOpen, User, CreditCard, Globe, Search, Clock, Trash2, ShoppingBag } from 'lucide-react';
-import veagLogo from '../assets/veag_logo.svg';
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { useLanguage } from "../contexts/LanguageContext";
+import { translations } from "../utils/translations";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  HelpCircle,
+  X,
+  FileText,
+  FolderOpen,
+  User,
+  CreditCard,
+  Globe,
+  Search,
+  Clock,
+  Trash2,
+  ShoppingBag,
+} from "lucide-react";
+import veagLogo from "../assets/veag_logo.svg";
 
-const RECENT_SEARCHES_KEY = 'veag_recent_searches';
+const RECENT_SEARCHES_KEY = "veag_recent_searches";
 const MAX_RECENT = 5;
 
 const Dashboard = () => {
@@ -23,7 +35,7 @@ const Dashboard = () => {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
 
   // Search bar state
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -31,17 +43,17 @@ const Dashboard = () => {
   const inputRef = useRef(null);
 
   const placeholders = [
-    'Search for agricultural products...',
-    'Find seeds, fertilizers, tools...',
-    'Explore crop protection solutions...',
-    'Discover farming equipment...',
-    'Search organic products...'
+    "Search for agricultural products...",
+    "Find seeds, fertilizers, tools...",
+    "Explore crop protection solutions...",
+    "Discover farming equipment...",
+    "Search organic products...",
   ];
 
   const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'hi', name: 'हिंदी', flag: '🇮🇳' },
-    { code: 'bn', name: 'বাংলা', flag: '🇧🇩' }
+    { code: "en", name: "English", flag: "🇬🇧" },
+    { code: "hi", name: "हिंदी", flag: "🇮🇳" },
+    { code: "bn", name: "বাংলা", flag: "🇧🇩" },
   ];
 
   useEffect(() => {
@@ -58,13 +70,15 @@ const Dashboard = () => {
     try {
       const stored = localStorage.getItem(RECENT_SEARCHES_KEY);
       if (stored) setRecentSearches(JSON.parse(stored));
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }, []);
 
   // Rotate placeholder text
   useEffect(() => {
     const interval = setInterval(() => {
-      setPlaceholderIndex(i => (i + 1) % placeholders.length);
+      setPlaceholderIndex((i) => (i + 1) % placeholders.length);
     }, 3000);
     return () => clearInterval(interval);
   }, []);
@@ -76,15 +90,18 @@ const Dashboard = () => {
         setSearchFocused(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSearch = (query) => {
     const q = (query || searchQuery).trim();
     if (!q) return;
     // Save to recent searches
-    const updated = [q, ...recentSearches.filter(s => s !== q)].slice(0, MAX_RECENT);
+    const updated = [q, ...recentSearches.filter((s) => s !== q)].slice(
+      0,
+      MAX_RECENT,
+    );
     setRecentSearches(updated);
     localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(updated));
     setSearchFocused(false);
@@ -101,7 +118,7 @@ const Dashboard = () => {
   const handleLogout = async () => {
     try {
       await signOut();
-      navigate('/');
+      navigate("/");
     } catch (error) {
       // console.error('Failed to logout:', error);
     }
@@ -110,40 +127,40 @@ const Dashboard = () => {
   const navigationButtons = [
     {
       title: t.dashboard.registerCase,
-      path: '/register-case',
+      path: "/register-case",
       icon: FileText,
-      color: 'from-emerald-500/30 to-green-500/30',
-      radius: '30px',
-      tilt: '-0.5deg',
-      accent: 'rgba(167, 243, 208, 0.24)'
+      color: "from-emerald-500/30 to-green-500/30",
+      radius: "30px",
+      tilt: "-0.5deg",
+      accent: "rgba(167, 243, 208, 0.24)",
     },
     {
       title: t.dashboard.manageCases,
-      path: '/manage-cases',
+      path: "/manage-cases",
       icon: FolderOpen,
-      color: 'from-blue-500/30 to-cyan-500/30',
-      radius: '30px',
-      tilt: '0.5deg',
-      accent: 'rgba(147, 197, 253, 0.24)'
+      color: "from-blue-500/30 to-cyan-500/30",
+      radius: "30px",
+      tilt: "0.5deg",
+      accent: "rgba(147, 197, 253, 0.24)",
     },
     {
       title: t.dashboard.editProfile,
-      path: '/edit-profile',
+      path: "/edit-profile",
       icon: User,
-      color: 'from-purple-500/30 to-pink-500/30',
-      radius: '30px',
-      tilt: '-0.4deg',
-      accent: 'rgba(244, 171, 252, 0.24)'
+      color: "from-purple-500/30 to-pink-500/30",
+      radius: "30px",
+      tilt: "-0.4deg",
+      accent: "rgba(244, 171, 252, 0.24)",
     },
     {
       title: t.dashboard.manageSubscription,
-      path: '/manage-subscription',
+      path: "/manage-subscription",
       icon: CreditCard,
-      color: 'from-orange-500/30 to-red-500/30',
-      radius: '30px',
-      tilt: '0.4deg',
-      accent: 'rgba(253, 186, 116, 0.24)'
-    }
+      color: "from-orange-500/30 to-red-500/30",
+      radius: "30px",
+      tilt: "0.4deg",
+      accent: "rgba(253, 186, 116, 0.24)",
+    },
     // {
     //   title: 'Search Products',
     //   path: '/dashboard/products',
@@ -207,17 +224,17 @@ const Dashboard = () => {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
 
@@ -288,24 +305,34 @@ const Dashboard = () => {
                       <motion.div
                         className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
                         animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                       />
                       <motion.div
                         className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
                         animate={{ rotate: -360 }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
                       />
                     </div>
                   </div>
                 )}
-                <img 
-                  src={veagLogo} 
-                  alt="VeAg Logo" 
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? 'opacity-100' : 'opacity-0'}`}
+                <img
+                  src={veagLogo}
+                  alt="VeAg Logo"
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${logoLoaded ? "opacity-100" : "opacity-0"}`}
                   onLoad={() => setLogoLoaded(true)}
                 />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">VeAg</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white drop-shadow-lg">
+                VeAg
+              </h1>
             </div>
 
             {/* User Info and Actions */}
@@ -331,7 +358,7 @@ const Dashboard = () => {
                         className="fixed inset-0 z-40"
                         onClick={() => setShowLanguageDropdown(false)}
                       />
-                      
+
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -346,10 +373,12 @@ const Dashboard = () => {
                               setShowLanguageDropdown(false);
                             }}
                             className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-white/10 transition-colors ${
-                              language === lang.code ? 'bg-white/20' : ''
+                              language === lang.code ? "bg-white/20" : ""
                             }`}
                           >
-                            <span className="text-white font-medium">{lang.name}</span>
+                            <span className="text-white font-medium">
+                              {lang.name}
+                            </span>
                             {language === lang.code && (
                               <span className="ml-auto text-green-400">✓</span>
                             )}
@@ -382,33 +411,45 @@ const Dashboard = () => {
                           <motion.div
                             className="absolute inset-0 border-2 border-transparent border-t-white rounded-full"
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
                           />
                           <motion.div
                             className="absolute inset-0.5 border-2 border-transparent border-t-orange-400 rounded-full"
                             animate={{ rotate: -360 }}
-                            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                            transition={{
+                              duration: 1.5,
+                              repeat: Infinity,
+                              ease: "linear",
+                            }}
                           />
                         </div>
                       </div>
                     )}
-                    <img 
-                      src={currentUser.photoURL} 
+                    <img
+                      src={currentUser.photoURL}
                       alt={currentUser.name}
                       crossOrigin="anonymous"
                       referrerPolicy="no-referrer"
-                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
                       onLoad={() => setImageLoaded(true)}
                       onError={() => setImageError(true)}
                     />
                   </>
                 ) : (
-                  <span className="text-white font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
+                  <span className="text-white font-bold text-lg">
+                    {currentUser?.name?.charAt(0).toUpperCase()}
+                  </span>
                 )}
               </div>
 
               {/* User Name - Hidden on small screens */}
-              <span className="text-white font-medium hidden sm:inline">{currentUser?.name}</span>
+              <span className="text-white font-medium hidden sm:inline">
+                {currentUser?.name}
+              </span>
 
               {/* Logout Button */}
               <motion.button
@@ -435,20 +476,20 @@ const Dashboard = () => {
         >
           {/* Subtle glow behind the text to make it pop against the background */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 max-w-md h-24 bg-white/40 blur-3xl rounded-full pointer-events-none" />
-          
+
           <h2 className="relative z-10 text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-800 tracking-tight mb-3 drop-shadow-sm">
             {t.dashboard.welcome},{" "}
             <span className="bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
-              {currentUser?.name?.split(' ')[0]}
-            </span>!
+              {currentUser?.name?.split(" ")[0]}
+            </span>
+            !
           </h2>
           <p className="relative z-10 text-lg sm:text-xl text-gray-700/90 font-medium max-w-2xl mx-auto drop-shadow-sm">
             {t.dashboard.title}
           </p>
         </motion.div>
 
-
-         {/* Navigation Grid */}
+        {/* Navigation Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {navigationButtons.map((button, index) => (
             <motion.button
@@ -458,17 +499,17 @@ const Dashboard = () => {
               style={{
                 transform: `rotate(${button.tilt})`,
                 borderRadius: button.radius,
-                boxShadow: `0 18px 50px ${button.accent}, inset 0 1px 0 rgba(255,255,255,0.26)`
+                boxShadow: `0 18px 50px ${button.accent}, inset 0 1px 0 rgba(255,255,255,0.26)`,
               }}
               initial={{ opacity: 0, scale: 0.8, y: 50, rotate: -3 }}
               animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-              transition={{ 
-                duration: 0.8, 
-                delay: index * 0.12, 
-                type: "spring", 
+              transition={{
+                duration: 0.8,
+                delay: index * 0.12,
+                type: "spring",
                 stiffness: 100,
                 damping: 15,
-                mass: 1.2
+                mass: 1.2,
               }}
               whileHover={{ scale: 1.06, y: -6 }}
               whileTap={{ scale: 0.97 }}
@@ -483,7 +524,10 @@ const Dashboard = () => {
                 {/* Icon */}
                 <div className="relative w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/14 border border-white/24 rounded-full flex items-center justify-center mb-2 sm:mb-4 lg:mb-6 group-hover:bg-white/24 transition-all duration-500 group-hover:scale-105 shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]">
                   <div className="absolute inset-[18%] rounded-full bg-white/18 blur-md opacity-90" />
-                  <button.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white drop-shadow-md" strokeWidth={1.5} />
+                  <button.icon
+                    className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white drop-shadow-md"
+                    strokeWidth={1.5}
+                  />
                 </div>
 
                 {/* Title */}
@@ -512,13 +556,13 @@ const Dashboard = () => {
             animate={{
               opacity: searchFocused ? [0.4, 0.6, 0.4] : [0.15, 0.25, 0.15],
             }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             style={{
               background: searchFocused
-                ? 'radial-gradient(ellipse at center, rgba(120,80,30,0.5) 0%, rgba(80,50,20,0.25) 50%, transparent 80%)'
-                : 'radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 70%)',
-              filter: 'blur(20px)',
-              transition: 'background 0.6s ease',
+                ? "radial-gradient(ellipse at center, rgba(120,80,30,0.5) 0%, rgba(80,50,20,0.25) 50%, transparent 80%)"
+                : "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 70%)",
+              filter: "blur(20px)",
+              transition: "background 0.6s ease",
             }}
           />
 
@@ -527,39 +571,49 @@ const Dashboard = () => {
             className="absolute -inset-[1px] rounded-[1.75rem] pointer-events-none"
             style={{
               background: searchFocused
-                ? 'linear-gradient(135deg, rgba(180,130,50,0.8) 0%, rgba(140,90,30,0.4) 40%, rgba(255,255,255,0.2) 60%, rgba(180,130,50,0.7) 100%)'
-                : 'linear-gradient(135deg, rgba(60,40,20,0.5) 0%, rgba(40,30,15,0.3) 50%, rgba(60,40,20,0.5) 100%)',
-              transition: 'background 0.5s ease',
+                ? "linear-gradient(135deg, rgba(180,130,50,0.8) 0%, rgba(140,90,30,0.4) 40%, rgba(255,255,255,0.2) 60%, rgba(180,130,50,0.7) 100%)"
+                : "linear-gradient(135deg, rgba(60,40,20,0.5) 0%, rgba(40,30,15,0.3) 50%, rgba(60,40,20,0.5) 100%)",
+              transition: "background 0.5s ease",
             }}
           />
 
           {/* Main glass body */}
-          <div className={`relative rounded-[1.7rem] overflow-hidden transition-all duration-500 ${
-            searchFocused
-              ? 'bg-black/60 backdrop-blur-3xl shadow-[0_8px_40px_rgba(0,0,0,0.25)]'
-              : 'bg-black/50 backdrop-blur-2xl shadow-xl'
-          }`}>
+          <div
+            className={`relative rounded-[1.7rem] overflow-hidden transition-all duration-500 ${
+              searchFocused
+                ? "bg-black/60 backdrop-blur-3xl shadow-[0_8px_40px_rgba(0,0,0,0.25)]"
+                : "bg-black/50 backdrop-blur-2xl shadow-xl"
+            }`}
+          >
             {/* Inner top highlight */}
             <div
               className="absolute top-0 left-0 right-0 h-[1px] pointer-events-none"
               style={{
-                background: 'linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.3) 50%, transparent 90%)',
+                background:
+                  "linear-gradient(90deg, transparent 10%, rgba(255,255,255,0.3) 50%, transparent 90%)",
               }}
             />
 
             <form
-              onSubmit={(e) => { e.preventDefault(); handleSearch(); }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
               className="flex items-center gap-3 px-5 sm:px-7 py-4 sm:py-[1.15rem]"
             >
               {/* Search icon */}
-              <Search className={`w-5 h-5 sm:w-[22px] sm:h-[22px] flex-shrink-0 transition-colors duration-400 ${
-                searchFocused ? 'text-amber-300' : 'text-white/60'
-              }`} />
+              <Search
+                className={`w-5 h-5 sm:w-[22px] sm:h-[22px] flex-shrink-0 transition-colors duration-400 ${
+                  searchFocused ? "text-amber-300" : "text-white/60"
+                }`}
+              />
 
               {/* Divider */}
-              <div className={`w-[1px] h-5 flex-shrink-0 transition-colors duration-400 ${
-                searchFocused ? 'bg-white/30' : 'bg-white/20'
-              }`} />
+              <div
+                className={`w-[1px] h-5 flex-shrink-0 transition-colors duration-400 ${
+                  searchFocused ? "bg-white/30" : "bg-white/20"
+                }`}
+              />
 
               {/* Input */}
               <input
@@ -568,7 +622,11 @@ const Dashboard = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setSearchFocused(true)}
-                placeholder={(t.productSearch?.placeholders || placeholders)[placeholderIndex]}
+                placeholder={
+                  (t.productSearch?.placeholders || placeholders)[
+                    placeholderIndex
+                  ]
+                }
                 className="flex-1 min-w-0 w-full bg-transparent text-white text-[15px] sm:text-base font-medium tracking-wide placeholder-white/50 outline-none caret-amber-300"
                 autoComplete="off"
                 spellCheck="false"
@@ -583,7 +641,10 @@ const Dashboard = () => {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.5 }}
                     transition={{ duration: 0.15 }}
-                    onClick={() => { setSearchQuery(''); inputRef.current?.focus(); }}
+                    onClick={() => {
+                      setSearchQuery("");
+                      inputRef.current?.focus();
+                    }}
                     className="flex-shrink-0 p-1.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors duration-200"
                   >
                     <X className="w-3.5 h-3.5 text-white/70" />
@@ -596,25 +657,27 @@ const Dashboard = () => {
                 type="submit"
                 className={`flex-shrink-0 whitespace-nowrap px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold text-sm tracking-wide transition-all duration-300 ${
                   searchQuery.trim()
-                    ? 'bg-gradient-to-r from-amber-500/80 to-orange-500/70 text-white border border-amber-400/40 hover:border-amber-300/60 shadow-lg shadow-amber-900/20'
-                    : 'bg-white/15 text-white/70 border border-white/20 hover:bg-white/25 hover:text-white'
+                    ? "bg-gradient-to-r from-amber-500/80 to-orange-500/70 text-white border border-amber-400/40 hover:border-amber-300/60 shadow-lg shadow-amber-900/20"
+                    : "bg-white/15 text-white/70 border border-white/20 hover:bg-white/25 hover:text-white"
                 }`}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.95 }}
-              >{t.productSearch.searchButton}</motion.button>
+              >
+                {t.productSearch.searchButton}
+              </motion.button>
             </form>
 
             {/* Scanning light — professional subtle sweep */}
             <motion.div
               className="absolute bottom-0 left-0 h-[1px] pointer-events-none"
               style={{
-                width: '40%',
+                width: "40%",
                 background: searchFocused
-                  ? 'linear-gradient(90deg, transparent, rgba(217,160,80,0.5), rgba(255,255,255,0.2), transparent)'
-                  : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
+                  ? "linear-gradient(90deg, transparent, rgba(217,160,80,0.5), rgba(255,255,255,0.2), transparent)"
+                  : "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)",
               }}
-              animate={{ left: ['-40%', '100%'] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
+              animate={{ left: ["-40%", "100%"] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
             />
 
             {/* Recent searches dropdown */}
@@ -622,15 +685,16 @@ const Dashboard = () => {
               {searchFocused && !searchQuery && recentSearches.length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
+                  animate={{ opacity: 1, height: "auto" }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                   className="overflow-hidden"
                 >
                   <div className="border-t border-white/15 mx-5 sm:mx-7" />
                   <div className="px-5 sm:px-7 pt-3 pb-2 flex items-center justify-between">
                     <span className="text-white/70 text-[11px] font-semibold uppercase tracking-[0.12em] flex items-center gap-1.5">
-                      <Clock className="w-3 h-3" /> {t.productSearch.recentSearches}
+                      <Clock className="w-3 h-3" />{" "}
+                      {t.productSearch.recentSearches}
                     </span>
                     <button
                       onClick={clearRecentSearches}
@@ -646,7 +710,10 @@ const Dashboard = () => {
                         initial={{ opacity: 0, y: 4 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.03 }}
-                        onClick={() => { setSearchQuery(term); handleSearch(term); }}
+                        onClick={() => {
+                          setSearchQuery(term);
+                          handleSearch(term);
+                        }}
                         className="px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 border border-white/15 hover:border-white/30 text-white/85 hover:text-white text-xs font-medium transition-all duration-200 flex items-center gap-1.5"
                       >
                         <Clock className="w-2.5 h-2.5 text-white/50" />
@@ -711,7 +778,9 @@ const Dashboard = () => {
               {/* Content */}
               <div className="text-center">
                 <HelpCircle className="w-12 h-12 text-white mx-auto mb-4 drop-shadow-lg" />
-                <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">{t.dashboard.needHelp}</h3>
+                <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                  {t.dashboard.needHelp}
+                </h3>
                 <p className="text-white/80 mb-8 drop-shadow-md">
                   {t.dashboard.helpDesc}
                 </p>
@@ -723,7 +792,9 @@ const Dashboard = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <span className="drop-shadow-md">{t.dashboard.contactSupport}</span>
+                  <span className="drop-shadow-md">
+                    {t.dashboard.contactSupport}
+                  </span>
                 </motion.a>
               </div>
             </motion.div>

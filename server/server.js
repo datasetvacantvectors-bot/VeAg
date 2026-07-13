@@ -1,15 +1,15 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import connectDB from './config/db.js';
-import userRoutes from './routes/userRoutes.js';
-import subscriptionRoutes from './routes/subscriptionRoutes.js';
-import cropRoutes from './routes/cropRoutes.js';
-import caseRoutes from './routes/caseRoutes.js';
-import askRoutes from './routes/askRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
-import { appCheckVerification } from './config/appCheckMiddleware.js';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./config/db.js";
+import userRoutes from "./routes/userRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
+import cropRoutes from "./routes/cropRoutes.js";
+import caseRoutes from "./routes/caseRoutes.js";
+import askRoutes from "./routes/askRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
+import { appCheckVerification } from "./config/appCheckMiddleware.js";
 
 // Load environment variables
 dotenv.config();
@@ -21,43 +21,40 @@ connectDB();
 const app = express();
 
 // Health check route (Placed before CORS and App Check so it's globally accessible)
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
-    message: 'VeAg Server is running',
-    timestamp: new Date().toISOString()
+app.get("/api/health", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "VeAg Server is running",
+    timestamp: new Date().toISOString(),
   });
 });
 
 // Middleware
 
 // Strict Allowed Origins
-const allowedOrigins = [
-  'https://veag.tech',
-  'https://www.veag.tech'
-];
+const allowedOrigins = ["https://veag.tech", "https://www.veag.tech"];
 
 // Allow localhost and tools like Postman only in development
-if (process.env.NODE_ENV === 'development') {
-  allowedOrigins.push('http://localhost:5173');
-  allowedOrigins.push('http://localhost:3000');
+if (process.env.NODE_ENV === "development") {
+  allowedOrigins.push("http://localhost:5173");
+  allowedOrigins.push("http://localhost:3000");
 }
 
 // 1. Strict CORS Configuration
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like Postman) ONLY in development
-    if (!origin && process.env.NODE_ENV === 'development') {
+    if (!origin && process.env.NODE_ENV === "development") {
       return callback(null, true);
     }
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       return callback(null, true);
     }
-    
-    return callback(new Error('Blocked by CORS Policy'), false);
+
+    return callback(new Error("Blocked by CORS Policy"), false);
   },
-  credentials: true
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -65,33 +62,35 @@ app.use(cors(corsOptions));
 // 2. Strict Origin Checker Middleware (Blocks non-browser tools in production)
 app.use((req, res, next) => {
   // Skip this strict check in development so Postman/Thunderclient works
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === "development") {
     return next();
   }
 
   // Health check should be globally accessible for uptime monitoring services
-  if (req.path === '/api/health') {
+  if (req.path === "/api/health") {
     return next();
   }
 
   const origin = req.headers.origin || req.headers.referer;
 
   if (!origin) {
-    return res.status(403).json({ 
-      error: 'Forbidden. Direct API access is not allowed. Requests must originate from veag.tech.' 
+    return res.status(403).json({
+      error:
+        "Forbidden. Direct API access is not allowed. Requests must originate from veag.tech.",
     });
   }
 
   try {
     const originUrl = new URL(origin);
     if (!allowedOrigins.includes(originUrl.origin)) {
-      return res.status(403).json({ 
-        error: 'Forbidden. Invalid origin. Requests must originate from veag.tech.' 
+      return res.status(403).json({
+        error:
+          "Forbidden. Invalid origin. Requests must originate from veag.tech.",
       });
     }
   } catch (error) {
-    return res.status(403).json({ 
-      error: 'Forbidden. Malformed origin header.' 
+    return res.status(403).json({
+      error: "Forbidden. Malformed origin header.",
     });
   }
 
@@ -101,33 +100,35 @@ app.use((req, res, next) => {
 // 3. Firebase App Check Middleware
 app.use(appCheckVerification);
 
-app.use(express.json({ limit: '50mb' })); // Increase limit for base64 images
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: "50mb" })); // Increase limit for base64 images
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // Routes
-app.use('/api/users', userRoutes);
-app.use('/api/subscriptions', subscriptionRoutes);
-app.use('/api/crops', cropRoutes);
-app.use('/api/cases', caseRoutes);
-app.use('/api/ask', askRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/admin', adminRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
+app.use("/api/crops", cropRoutes);
+app.use("/api/cases", caseRoutes);
+app.use("/api/ask", askRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+app.use("*", (req, res) => {
+  res.status(404).json({ message: "Route not found" });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  if (err.message === 'Blocked by CORS Policy') {
-    return res.status(403).json({ error: 'CORS policy violation. Origin not allowed.' });
+  if (err.message === "Blocked by CORS Policy") {
+    return res
+      .status(403)
+      .json({ error: "CORS policy violation. Origin not allowed." });
   }
 
-  console.error(err.stack);
-  res.status(500).json({ 
-    message: 'Something went wrong!',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  // console.error(err.stack);
+  res.status(500).json({
+    message: "Something went wrong!",
+    error: process.env.NODE_ENV === "development" ? err.message : undefined,
   });
 });
 

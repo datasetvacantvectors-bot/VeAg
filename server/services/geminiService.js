@@ -1,7 +1,9 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const DEFAULT_PROMPTS = {
-  treatment: process.env.GEMINI_TREATMENT_PROMPT || `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", provide a comprehensive and practical treatment guide.
+  treatment:
+    process.env.GEMINI_TREATMENT_PROMPT ||
+    `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", provide a comprehensive and practical treatment guide.
 
 Structure your response EXACTLY in this format:
 
@@ -30,7 +32,9 @@ Structure your response EXACTLY in this format:
 
 Keep responses concise, practical, and actionable for farmers. Use simple language.`,
 
-  causes: process.env.GEMINI_CAUSES_PROMPT || `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", explain the causes comprehensively.
+  causes:
+    process.env.GEMINI_CAUSES_PROMPT ||
+    `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", explain the causes comprehensively.
 
 Structure your response EXACTLY in this format:
 
@@ -60,7 +64,9 @@ Structure your response EXACTLY in this format:
 
 Keep responses scientifically accurate yet easy to understand for farmers.`,
 
-  prevention: process.env.GEMINI_PREVENTION_PROMPT || `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", provide comprehensive prevention strategies.
+  prevention:
+    process.env.GEMINI_PREVENTION_PROMPT ||
+    `You are an expert agricultural scientist and plant pathologist. For the crop disease "{disease}", provide comprehensive prevention strategies.
 
 Structure your response EXACTLY in this format:
 
@@ -90,7 +96,7 @@ Structure your response EXACTLY in this format:
 - During growing season
 - Post-harvest measures
 
-Keep responses practical and actionable for farmers. Use simple language.`
+Keep responses practical and actionable for farmers. Use simple language.`,
 };
 
 class GeminiService {
@@ -205,12 +211,18 @@ Now answer the following question about {disease}:
   initialize() {
     // Read at call time so dotenv has already loaded the env file
     const apiKey = process.env.GEMINI_API_KEY;
-    const modelName = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
+    const modelName = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
     if (!apiKey) {
-      throw new Error('GEMINI_API_KEY is not configured. Please set it in your .env file.');
+      throw new Error(
+        "GEMINI_API_KEY is not configured. Please set it in your .env file.",
+      );
     }
     // Re-initialize if the key or model changed (e.g. env reload)
-    if (!this.genAI || this.lastApiKey !== apiKey || this.lastModel !== modelName) {
+    if (
+      !this.genAI ||
+      this.lastApiKey !== apiKey ||
+      this.lastModel !== modelName
+    ) {
       this.genAI = new GoogleGenerativeAI(apiKey);
       this.model = this.genAI.getGenerativeModel({ model: modelName });
       this.lastApiKey = apiKey;
@@ -222,35 +234,37 @@ Now answer the following question about {disease}:
   async generateContent(diseaseName, type) {
     try {
       const model = this.initialize();
-      
+
       const promptTemplate = DEFAULT_PROMPTS[type];
       if (!promptTemplate) {
-        throw new Error(`Invalid content type: ${type}. Must be one of: treatment, causes, prevention`);
+        throw new Error(
+          `Invalid content type: ${type}. Must be one of: treatment, causes, prevention`,
+        );
       }
 
       const prompt = promptTemplate.replace(/\{disease\}/g, diseaseName);
-      
+
       // console.log(`Generating ${type} content for disease: ${diseaseName}`);
-      
+
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
 
       if (!text || text.trim().length === 0) {
-        throw new Error('Gemini returned an empty response');
+        throw new Error("Gemini returned an empty response");
       }
 
       // console.log(`Successfully generated ${type} content for: ${diseaseName}`);
 
       return {
         success: true,
-        content: text.trim()
+        content: text.trim(),
       };
     } catch (error) {
       // console.error(`Gemini API error (${type} for ${diseaseName}):`, error);
       return {
         success: false,
-        error: error.message || 'Failed to generate content from Gemini AI'
+        error: error.message || "Failed to generate content from Gemini AI",
       };
     }
   }
@@ -270,25 +284,26 @@ Now answer the following question about {disease}:
       const text = response.text();
 
       if (!text || text.trim().length === 0) {
-        throw new Error('Gemini returned an empty response');
+        throw new Error("Gemini returned an empty response");
       }
 
       // console.log(`Ask VeAg: Successfully generated response for "${diseaseName}"`);
 
       return {
         success: true,
-        content: text.trim()
+        content: text.trim(),
       };
     } catch (error) {
       // console.error(`Ask VeAg error (${diseaseName}):`, error);
-      const isQuota = error.status === 429 ||
-        (error.message && error.message.includes('429'));
+      const isQuota =
+        error.status === 429 ||
+        (error.message && error.message.includes("429"));
       return {
         success: false,
         content: isQuota
-          ? 'Sorry, the AI service Ask VeAg is currently experiencing high demand. Please try again in a few minutes.'
-          : 'Sorry, I could not process your question right now. Please try again later.',
-        error: error.message
+          ? "Sorry, the AI service Ask VeAg is currently experiencing high demand. Please try again in a few minutes."
+          : "Sorry, I could not process your question right now. Please try again later.",
+        error: error.message,
       };
     }
   }

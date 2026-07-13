@@ -1,27 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
-import { LanguageProvider } from './contexts/LanguageContext';
-import CookieConsent from './components/CookieConsent';
-import BottomNavbar from './components/BottomNavbar';
-import ProtectedRoute from './components/ProtectedRoute';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import RegisterCase from './pages/RegisterCase';
-import ManageCases from './pages/ManageCases';
-import CaseDetail from './pages/CaseDetail';
-import EditProfile from './pages/EditProfile';
-import ManageSubscription from './pages/ManageSubscription';
-import ProductSearch from './pages/ProductSearch';
-import AdminLogin from './pages/AdminLogin';
-import AdminPanel from './pages/AdminPanel';
-import NotFound from './pages/NotFound';
-import TermsAndConditions from './pages/TermsAndConditions';
-import PrivacyPolicy from './pages/PrivacyPolicy';
-import ReturnRefundCancellation from './pages/ReturnRefundCancellation';
-import ShippingAndDelivery from './pages/ShippingAndDelivery';
-import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
+import CookieConsent from "./components/CookieConsent";
+import BottomNavbar from "./components/BottomNavbar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import RegisterCase from "./pages/RegisterCase";
+import ManageCases from "./pages/ManageCases";
+import CaseDetail from "./pages/CaseDetail";
+import EditProfile from "./pages/EditProfile";
+import ManageSubscription from "./pages/ManageSubscription";
+import ProductSearch from "./pages/ProductSearch";
+import AdminLogin from "./pages/AdminLogin";
+import AdminPanel from "./pages/AdminPanel";
+import NotFound from "./pages/NotFound";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ReturnRefundCancellation from "./pages/ReturnRefundCancellation";
+import ShippingAndDelivery from "./pages/ShippingAndDelivery";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 function AppContent() {
   return (
@@ -90,7 +90,10 @@ function AppContent() {
       {/* Policy Pages - Outside Protected Route */}
       <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-      <Route path="/return-refund-cancellation" element={<ReturnRefundCancellation />} />
+      <Route
+        path="/return-refund-cancellation"
+        element={<ReturnRefundCancellation />}
+      />
       <Route path="/shipping-and-delivery" element={<ShippingAndDelivery />} />
       {/* Catch-all route for 404 */}
       <Route path="*" element={<NotFound />} />
@@ -163,17 +166,17 @@ function App() {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
 

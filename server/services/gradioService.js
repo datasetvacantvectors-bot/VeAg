@@ -1,11 +1,11 @@
 import { Client, handle_file } from "@gradio/client";
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const TEMP_DIR = path.join(__dirname, '../temp');
+const TEMP_DIR = path.join(__dirname, "../temp");
 
 // Ensure temp directory exists
 if (!fs.existsSync(TEMP_DIR)) {
@@ -22,7 +22,7 @@ class GradioService {
   }
 
   getHfToken() {
-    return process.env.HF_TOKEN || process.env.HUGGING_FACE_HUB_TOKEN || '';
+    return process.env.HF_TOKEN || process.env.HUGGING_FACE_HUB_TOKEN || "";
   }
 
   getConnectOptions() {
@@ -54,7 +54,7 @@ class GradioService {
   }
 
   cleanupFiles(filePaths) {
-    filePaths.forEach(filePath => {
+    filePaths.forEach((filePath) => {
       try {
         if (fs.existsSync(filePath)) {
           fs.unlinkSync(filePath);
@@ -68,7 +68,7 @@ class GradioService {
 
   async processCase(images) {
     const downloadedFiles = [];
-    
+
     try {
       await this.connect();
 
@@ -88,7 +88,7 @@ class GradioService {
         files: fileHandles,
         model_choice: "Best Overall",
         weights_text: "",
-        mode: "weighted"
+        mode: "weighted",
       });
 
       // console.log('Inference completed successfully');
@@ -97,22 +97,22 @@ class GradioService {
       this.cleanupFiles(downloadedFiles);
 
       // Extract disease status from result[7]
-      const diseaseStatus = result.data[7] || 'Unknown';
+      const diseaseStatus = result.data[7] || "Unknown";
 
       return {
         success: true,
         diseaseStatus,
-        fullResponse: result.data
+        fullResponse: result.data,
       };
     } catch (error) {
       // console.error('Error processing case with Gradio:', error);
-      
+
       // Clean up files even on error
       this.cleanupFiles(downloadedFiles);
 
       return {
         success: false,
-        error: error.message || 'Failed to process images'
+        error: error.message || "Failed to process images",
       };
     }
   }

@@ -1,5 +1,8 @@
 node_modules
 dist
+.firebase
+firebase.json
+.firebaserc
 .env
 .env.local
 .env.*.local

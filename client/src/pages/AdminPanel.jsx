@@ -1,15 +1,33 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  Shield, LogOut, Plus, Search, ChevronDown, ChevronUp,
-  Pencil, Trash2, X, Check, Loader2, ExternalLink,
-  Clock, Image, Package, History, AlertTriangle, Info,
-  CheckCircle, XCircle, Timer
-} from 'lucide-react';
-import axios from 'axios';
+  Shield,
+  LogOut,
+  Plus,
+  Search,
+  ChevronDown,
+  ChevronUp,
+  Pencil,
+  Trash2,
+  X,
+  Check,
+  Loader2,
+  ExternalLink,
+  Clock,
+  Image,
+  Package,
+  History,
+  AlertTriangle,
+  Info,
+  CheckCircle,
+  XCircle,
+  Timer,
+} from "lucide-react";
+import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 const SESSION_DURATION = 3600000; // 1 hour in ms
 
 // ─── Toast System ───────────────────────────────────────────────────────────────
@@ -22,20 +40,26 @@ const ToastContainer = ({ toasts, removeToast }) => (
           initial={{ opacity: 0, x: 80, scale: 0.9 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={{ opacity: 0, x: 80, scale: 0.9 }}
-          transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+          transition={{ type: "spring", stiffness: 200, damping: 20 }}
           className={`bg-black/40 backdrop-blur-2xl border rounded-xl px-4 py-3 shadow-2xl flex items-start gap-3 cursor-pointer ${
-            toast.type === 'success'
-              ? 'border-emerald-400/40'
-              : toast.type === 'error'
-              ? 'border-red-400/40'
-              : 'border-blue-400/40'
+            toast.type === "success"
+              ? "border-emerald-400/40"
+              : toast.type === "error"
+                ? "border-red-400/40"
+                : "border-blue-400/40"
           }`}
           onClick={() => removeToast(toast.id)}
         >
           <div className="flex-shrink-0 mt-0.5">
-            {toast.type === 'success' && <CheckCircle className="w-5 h-5 text-emerald-400" />}
-            {toast.type === 'error' && <XCircle className="w-5 h-5 text-red-400" />}
-            {toast.type === 'info' && <Info className="w-5 h-5 text-blue-400" />}
+            {toast.type === "success" && (
+              <CheckCircle className="w-5 h-5 text-emerald-400" />
+            )}
+            {toast.type === "error" && (
+              <XCircle className="w-5 h-5 text-red-400" />
+            )}
+            {toast.type === "info" && (
+              <Info className="w-5 h-5 text-blue-400" />
+            )}
           </div>
           <p className="text-white text-sm flex-1">{toast.message}</p>
         </motion.div>
@@ -62,7 +86,14 @@ const SkeletonCard = () => (
 );
 
 // ─── Confirmation Modal ─────────────────────────────────────────────────────────
-const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, loading }) => (
+const ConfirmModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  loading,
+}) => (
   <AnimatePresence>
     {isOpen && (
       <motion.div
@@ -71,13 +102,16 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, loading }) =
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+        <div
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={onClose}
+        />
         <motion.div
           className="relative bg-black/40 backdrop-blur-2xl border border-white/30 rounded-3xl p-6 max-w-md w-full shadow-2xl"
           initial={{ scale: 0.9, y: 20 }}
           animate={{ scale: 1, y: 0 }}
           exit={{ scale: 0.9, y: 20 }}
-          transition={{ type: 'spring', stiffness: 200 }}
+          transition={{ type: "spring", stiffness: 200 }}
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-full bg-red-500/20 border border-red-400/40 flex items-center justify-center">
@@ -116,21 +150,21 @@ const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message, loading }) =
 // ─── Edit Modal ─────────────────────────────────────────────────────────────────
 const EditModal = ({ isOpen, product, onClose, onSave, loading }) => {
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    productLink: '',
-    imageUrl: '',
-    price: '',
+    title: "",
+    description: "",
+    productLink: "",
+    imageUrl: "",
+    price: "",
   });
 
   useEffect(() => {
     if (product) {
       setForm({
-        title: product.title || '',
-        description: product.description || '',
-        productLink: product.link || product.productLink || '',
-        imageUrl: product.imageUrl || '',
-        price: product.price?.toString() || '',
+        title: product.title || "",
+        description: product.description || "",
+        productLink: product.link || product.productLink || "",
+        imageUrl: product.imageUrl || "",
+        price: product.price?.toString() || "",
       });
     }
   }, [product]);
@@ -148,13 +182,16 @@ const EditModal = ({ isOpen, product, onClose, onSave, loading }) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={onClose}
+          />
           <motion.div
             className="relative bg-black/40 backdrop-blur-2xl border border-white/30 rounded-3xl p-6 max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto"
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
-            transition={{ type: 'spring', stiffness: 200 }}
+            transition={{ type: "spring", stiffness: 200 }}
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-white font-bold text-lg flex items-center gap-2">
@@ -171,38 +208,46 @@ const EditModal = ({ isOpen, product, onClose, onSave, loading }) => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-1.5">Title *</label>
+                <label className="block text-white/80 text-sm font-medium mb-1.5">
+                  Title *
+                </label>
                 <input
                   type="text"
                   value={form.title}
-                  onChange={(e) => handleChange('title', e.target.value)}
+                  onChange={(e) => handleChange("title", e.target.value)}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                 />
               </div>
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-1.5">Description *</label>
+                <label className="block text-white/80 text-sm font-medium mb-1.5">
+                  Description *
+                </label>
                 <textarea
                   value={form.description}
-                  onChange={(e) => handleChange('description', e.target.value)}
+                  onChange={(e) => handleChange("description", e.target.value)}
                   rows={3}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all resize-none"
                 />
               </div>
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-1.5">Product Link *</label>
+                <label className="block text-white/80 text-sm font-medium mb-1.5">
+                  Product Link *
+                </label>
                 <input
                   type="text"
                   value={form.productLink}
-                  onChange={(e) => handleChange('productLink', e.target.value)}
+                  onChange={(e) => handleChange("productLink", e.target.value)}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                 />
               </div>
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-1.5">Image URL</label>
+                <label className="block text-white/80 text-sm font-medium mb-1.5">
+                  Image URL
+                </label>
                 <input
                   type="text"
                   value={form.imageUrl}
-                  onChange={(e) => handleChange('imageUrl', e.target.value)}
+                  onChange={(e) => handleChange("imageUrl", e.target.value)}
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                 />
                 {form.imageUrl && (
@@ -211,17 +256,21 @@ const EditModal = ({ isOpen, product, onClose, onSave, loading }) => {
                       src={form.imageUrl}
                       alt="Preview"
                       className="w-full h-full object-cover"
-                      onError={(e) => { e.target.style.display = 'none'; }}
+                      onError={(e) => {
+                        e.target.style.display = "none";
+                      }}
                     />
                   </div>
                 )}
               </div>
               <div>
-                <label className="block text-white/80 text-sm font-medium mb-1.5">Price (₹) *</label>
+                <label className="block text-white/80 text-sm font-medium mb-1.5">
+                  Price (₹) *
+                </label>
                 <input
                   type="number"
                   value={form.price}
-                  onChange={(e) => handleChange('price', e.target.value)}
+                  onChange={(e) => handleChange("price", e.target.value)}
                   min="0"
                   step="0.01"
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
@@ -266,7 +315,9 @@ const AdminPanel = () => {
 
   // ─── Auth State ───────────────────────────────────────────────────────────
   const [authVerified, setAuthVerified] = useState(false);
-  const [token, setToken] = useState(localStorage.getItem('veag_admin_token') || '');
+  const [token, setToken] = useState(
+    localStorage.getItem("veag_admin_token") || "",
+  );
 
   // ─── Products State ───────────────────────────────────────────────────────
   const [products, setProducts] = useState([]);
@@ -277,13 +328,17 @@ const AdminPanel = () => {
   const productsPerPage = 10;
 
   // ─── Search & Sort ────────────────────────────────────────────────────────
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('newest');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("newest");
 
   // ─── Add Product Form ─────────────────────────────────────────────────────
   const [addFormOpen, setAddFormOpen] = useState(false);
   const [addForm, setAddForm] = useState({
-    title: '', description: '', productLink: '', imageUrl: '', price: '',
+    title: "",
+    description: "",
+    productLink: "",
+    imageUrl: "",
+    price: "",
   });
   const [addLoading, setAddLoading] = useState(false);
 
@@ -303,7 +358,7 @@ const AdminPanel = () => {
   const [toasts, setToasts] = useState([]);
   const toastIdRef = useRef(0);
 
-  const addToast = useCallback((message, type = 'info') => {
+  const addToast = useCallback((message, type = "info") => {
     const id = ++toastIdRef.current;
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
@@ -316,42 +371,51 @@ const AdminPanel = () => {
   }, []);
 
   // ─── Logout ───────────────────────────────────────────────────────────────
-  const handleLogout = useCallback((message) => {
-    localStorage.removeItem('veag_admin_token');
-    localStorage.removeItem('veag_admin_login_time');
-    if (message) addToast(message, 'info');
-    navigate('/dashboard/admin', { replace: true });
-  }, [navigate, addToast]);
+  const handleLogout = useCallback(
+    (message) => {
+      localStorage.removeItem("veag_admin_token");
+      localStorage.removeItem("veag_admin_login_time");
+      if (message) addToast(message, "info");
+      navigate("/dashboard/admin", { replace: true });
+    },
+    [navigate, addToast],
+  );
 
   // ─── Axios Instance ───────────────────────────────────────────────────────
-  const getAuthHeaders = useCallback(() => ({
-    Authorization: `Bearer ${token}`,
-  }), [token]);
+  const getAuthHeaders = useCallback(
+    () => ({
+      Authorization: `Bearer ${token}`,
+    }),
+    [token],
+  );
 
-  const apiCall = useCallback(async (method, url, data = null) => {
-    try {
-      const config = { headers: getAuthHeaders() };
-      let res;
-      if (method === 'get') res = await axios.get(url, config);
-      else if (method === 'post') res = await axios.post(url, data, config);
-      else if (method === 'put') res = await axios.put(url, data, config);
-      else if (method === 'delete') res = await axios.delete(url, config);
-      return res;
-    } catch (err) {
-      if (err.response?.status === 401) {
-        handleLogout('Session expired. Please login again.');
-        return null;
+  const apiCall = useCallback(
+    async (method, url, data = null) => {
+      try {
+        const config = { headers: getAuthHeaders() };
+        let res;
+        if (method === "get") res = await axios.get(url, config);
+        else if (method === "post") res = await axios.post(url, data, config);
+        else if (method === "put") res = await axios.put(url, data, config);
+        else if (method === "delete") res = await axios.delete(url, config);
+        return res;
+      } catch (err) {
+        if (err.response?.status === 401) {
+          handleLogout("Session expired. Please login again.");
+          return null;
+        }
+        throw err;
       }
-      throw err;
-    }
-  }, [getAuthHeaders, handleLogout]);
+    },
+    [getAuthHeaders, handleLogout],
+  );
 
   // ─── Verify Token on Mount ────────────────────────────────────────────────
   useEffect(() => {
     const verifyToken = async () => {
-      const storedToken = localStorage.getItem('veag_admin_token');
+      const storedToken = localStorage.getItem("veag_admin_token");
       if (!storedToken) {
-        navigate('/dashboard/admin', { replace: true });
+        navigate("/dashboard/admin", { replace: true });
         return;
       }
 
@@ -362,9 +426,9 @@ const AdminPanel = () => {
         setToken(storedToken);
         setAuthVerified(true);
       } catch {
-        localStorage.removeItem('veag_admin_token');
-        localStorage.removeItem('veag_admin_login_time');
-        navigate('/dashboard/admin', { replace: true });
+        localStorage.removeItem("veag_admin_token");
+        localStorage.removeItem("veag_admin_login_time");
+        navigate("/dashboard/admin", { replace: true });
       }
     };
 
@@ -376,13 +440,16 @@ const AdminPanel = () => {
     if (!authVerified) return;
 
     const interval = setInterval(() => {
-      const loginTime = parseInt(localStorage.getItem('veag_admin_login_time') || '0', 10);
+      const loginTime = parseInt(
+        localStorage.getItem("veag_admin_login_time") || "0",
+        10,
+      );
       const elapsed = Date.now() - loginTime;
       const remaining = SESSION_DURATION - elapsed;
 
       if (remaining <= 0) {
         clearInterval(interval);
-        handleLogout('Session expired. Auto-logged out after 1 hour.');
+        handleLogout("Session expired. Auto-logged out after 1 hour.");
         return;
       }
       setTimeRemaining(remaining);
@@ -396,10 +463,13 @@ const AdminPanel = () => {
     if (!authVerified) return;
 
     const check = setInterval(() => {
-      const loginTime = parseInt(localStorage.getItem('veag_admin_login_time') || '0', 10);
+      const loginTime = parseInt(
+        localStorage.getItem("veag_admin_login_time") || "0",
+        10,
+      );
       if (Date.now() - loginTime > SESSION_DURATION) {
         clearInterval(check);
-        handleLogout('Session expired. Auto-logged out after 1 hour.');
+        handleLogout("Session expired. Auto-logged out after 1 hour.");
       }
     }, 30000);
 
@@ -408,11 +478,11 @@ const AdminPanel = () => {
 
   // ─── Format Time Remaining ────────────────────────────────────────────────
   const formatTime = (ms) => {
-    if (ms <= 0) return '00:00';
+    if (ms <= 0) return "00:00";
     const totalSec = Math.floor(ms / 1000);
     const min = Math.floor(totalSec / 60);
     const sec = totalSec % 60;
-    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    return `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}`;
   };
 
   // ─── Fetch Products ──────────────────────────────────────────────────────
@@ -421,17 +491,28 @@ const AdminPanel = () => {
     setProductsLoading(true);
     try {
       const res = await apiCall(
-        'get',
-        `${API_BASE_URL}/admin/products?page=${currentPage}&limit=${productsPerPage}&search=${encodeURIComponent(searchQuery)}&sort=${sortBy}`
+        "get",
+        `${API_BASE_URL}/admin/products?page=${currentPage}&limit=${productsPerPage}&search=${encodeURIComponent(searchQuery)}&sort=${sortBy}`,
       );
       if (res) {
         const data = res.data;
         setProducts(data.products || data.data || []);
-        setTotalPages(data.totalPages || Math.ceil((data.total || 0) / productsPerPage) || 1);
-        setTotalProducts(data.total || data.totalProducts || (data.products || data.data || []).length);
+        setTotalPages(
+          data.totalPages ||
+            Math.ceil((data.total || 0) / productsPerPage) ||
+            1,
+        );
+        setTotalProducts(
+          data.total ||
+            data.totalProducts ||
+            (data.products || data.data || []).length,
+        );
       }
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to fetch products', 'error');
+      addToast(
+        err.response?.data?.message || "Failed to fetch products",
+        "error",
+      );
     } finally {
       setProductsLoading(false);
     }
@@ -444,17 +525,17 @@ const AdminPanel = () => {
   // ─── Sort Products Client-Side ────────────────────────────────────────────
   const sortedProducts = [...products].sort((a, b) => {
     switch (sortBy) {
-      case 'title-asc':
-        return (a.title || '').localeCompare(b.title || '');
-      case 'title-desc':
-        return (b.title || '').localeCompare(a.title || '');
-      case 'price-asc':
+      case "title-asc":
+        return (a.title || "").localeCompare(b.title || "");
+      case "title-desc":
+        return (b.title || "").localeCompare(a.title || "");
+      case "price-asc":
         return (a.price || 0) - (b.price || 0);
-      case 'price-desc':
+      case "price-desc":
         return (b.price || 0) - (a.price || 0);
-      case 'oldest':
+      case "oldest":
         return new Date(a.createdAt || 0) - new Date(b.createdAt || 0);
-      case 'newest':
+      case "newest":
       default:
         return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
     }
@@ -465,35 +546,46 @@ const AdminPanel = () => {
     if (!searchQuery) return true;
     const q = searchQuery.toLowerCase();
     return (
-      (p.title || '').toLowerCase().includes(q) ||
-      (p.description || '').toLowerCase().includes(q) ||
-      (p.productLink || '').toLowerCase().includes(q)
+      (p.title || "").toLowerCase().includes(q) ||
+      (p.description || "").toLowerCase().includes(q) ||
+      (p.productLink || "").toLowerCase().includes(q)
     );
   });
 
   // ─── Add Product ──────────────────────────────────────────────────────────
   const handleAddProduct = async (e) => {
     e.preventDefault();
-    if (!addForm.title.trim() || !addForm.description.trim() || !addForm.productLink.trim() || !addForm.price) {
-      addToast('Please fill in all required fields', 'error');
+    if (
+      !addForm.title.trim() ||
+      !addForm.description.trim() ||
+      !addForm.productLink.trim() ||
+      !addForm.price
+    ) {
+      addToast("Please fill in all required fields", "error");
       return;
     }
 
     setAddLoading(true);
     try {
-      await apiCall('post', `${API_BASE_URL}/admin/products`, {
+      await apiCall("post", `${API_BASE_URL}/admin/products`, {
         title: addForm.title.trim(),
         description: addForm.description.trim(),
         productLink: addForm.productLink.trim(),
         imageUrl: addForm.imageUrl.trim() || undefined,
         price: parseFloat(addForm.price),
       });
-      addToast('Product added successfully!', 'success');
-      setAddForm({ title: '', description: '', productLink: '', imageUrl: '', price: '' });
+      addToast("Product added successfully!", "success");
+      setAddForm({
+        title: "",
+        description: "",
+        productLink: "",
+        imageUrl: "",
+        price: "",
+      });
       setAddFormOpen(false);
       fetchProducts();
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to add product', 'error');
+      addToast(err.response?.data?.message || "Failed to add product", "error");
     } finally {
       setAddLoading(false);
     }
@@ -501,25 +593,33 @@ const AdminPanel = () => {
 
   // ─── Edit Product ─────────────────────────────────────────────────────────
   const handleSaveEdit = async (productId, form) => {
-    if (!form.title.trim() || !form.description.trim() || !form.productLink.trim() || !form.price) {
-      addToast('Please fill in all required fields', 'error');
+    if (
+      !form.title.trim() ||
+      !form.description.trim() ||
+      !form.productLink.trim() ||
+      !form.price
+    ) {
+      addToast("Please fill in all required fields", "error");
       return;
     }
 
     setEditLoading(true);
     try {
-      await apiCall('put', `${API_BASE_URL}/admin/products/${productId}`, {
+      await apiCall("put", `${API_BASE_URL}/admin/products/${productId}`, {
         title: form.title.trim(),
         description: form.description.trim(),
         productLink: form.productLink.trim(),
         imageUrl: form.imageUrl.trim() || undefined,
         price: parseFloat(form.price),
       });
-      addToast('Product updated successfully!', 'success');
+      addToast("Product updated successfully!", "success");
       setEditProduct(null);
       fetchProducts();
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to update product', 'error');
+      addToast(
+        err.response?.data?.message || "Failed to update product",
+        "error",
+      );
     } finally {
       setEditLoading(false);
     }
@@ -530,12 +630,18 @@ const AdminPanel = () => {
     if (!deleteProduct) return;
     setDeleteLoading(true);
     try {
-      await apiCall('delete', `${API_BASE_URL}/admin/products/${deleteProduct._id || deleteProduct.id}`);
-      addToast('Product deleted successfully!', 'success');
+      await apiCall(
+        "delete",
+        `${API_BASE_URL}/admin/products/${deleteProduct._id || deleteProduct.id}`,
+      );
+      addToast("Product deleted successfully!", "success");
       setDeleteProduct(null);
       fetchProducts();
     } catch (err) {
-      addToast(err.response?.data?.message || 'Failed to delete product', 'error');
+      addToast(
+        err.response?.data?.message || "Failed to delete product",
+        "error",
+      );
     } finally {
       setDeleteLoading(false);
     }
@@ -543,17 +649,22 @@ const AdminPanel = () => {
 
   // ─── Format Date ──────────────────────────────────────────────────────────
   const formatDate = (dateStr) => {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   };
 
   const formatDateTime = (dateStr) => {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -571,19 +682,49 @@ const AdminPanel = () => {
           animate={{ x: [0, -40, 0] }}
           transition={{ duration: 10, repeat: Infinity }}
         />
-        <svg className="absolute bottom-0 left-0 w-full h-80 opacity-50" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="#a0522d" d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z" />
+        <svg
+          className="absolute bottom-0 left-0 w-full h-80 opacity-50"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#a0522d"
+            d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z"
+          />
         </svg>
-        <svg className="absolute bottom-0 left-0 w-full h-64 opacity-70" viewBox="0 0 1440 320" preserveAspectRatio="none">
-          <path fill="#d97706" d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z" />
+        <svg
+          className="absolute bottom-0 left-0 w-full h-64 opacity-70"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            fill="#d97706"
+            d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z"
+          />
         </svg>
         <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-b from-green-600 to-green-700 z-10" />
-        <motion.div className="relative z-30 flex flex-col items-center gap-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <motion.div
+          className="relative z-30 flex flex-col items-center gap-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <div className="relative w-20 h-20">
-            <motion.div className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
-            <motion.div className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white" animate={{ rotate: -360 }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }} />
+            <motion.div
+              className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
           </div>
-          <motion.p className="text-white font-semibold text-lg drop-shadow-lg" animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity }}>
+          <motion.p
+            className="text-white font-semibold text-lg drop-shadow-lg"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             Verifying admin access...
           </motion.p>
         </motion.div>
@@ -629,11 +770,25 @@ const AdminPanel = () => {
         animate={{ x: [0, 50, 0] }}
         transition={{ duration: 12, repeat: Infinity }}
       />
-      <svg className="fixed bottom-0 left-0 w-full h-80 opacity-50 z-0" viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#a0522d" d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z" />
+      <svg
+        className="fixed bottom-0 left-0 w-full h-80 opacity-50 z-0"
+        viewBox="0 0 1440 320"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#a0522d"
+          d="M0,160L60,144C120,128,240,96,360,112C480,128,600,192,720,186.7C840,181,960,107,1080,96C1200,85,1320,139,1380,165.3L1440,192L1440,320L0,320Z"
+        />
       </svg>
-      <svg className="fixed bottom-0 left-0 w-full h-64 opacity-70 z-0" viewBox="0 0 1440 320" preserveAspectRatio="none">
-        <path fill="#d97706" d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z" />
+      <svg
+        className="fixed bottom-0 left-0 w-full h-64 opacity-70 z-0"
+        viewBox="0 0 1440 320"
+        preserveAspectRatio="none"
+      >
+        <path
+          fill="#d97706"
+          d="M0,96L60,112C120,128,240,160,360,160C480,160,600,128,720,122.7C840,117,960,139,1080,144C1200,149,1320,139,1380,133.3L1440,128L1440,320L0,320Z"
+        />
       </svg>
       <div className="fixed bottom-0 left-0 w-full h-24 bg-gradient-to-b from-green-600 to-green-700 z-0" />
 
@@ -646,19 +801,37 @@ const AdminPanel = () => {
               <Shield className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-white font-bold text-lg leading-tight">Admin Panel</h1>
-              <p className="text-white/50 text-xs hidden sm:block">Product Management</p>
+              <h1 className="text-white font-bold text-lg leading-tight">
+                Admin Panel
+              </h1>
+              <p className="text-white/50 text-xs hidden sm:block">
+                Product Management
+              </p>
             </div>
           </div>
 
           {/* Center: Session Timer */}
           <motion.div
             className="hidden sm:flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5"
-            animate={timeRemaining < 300000 ? { borderColor: ['rgba(255,255,255,0.2)', 'rgba(239,68,68,0.5)', 'rgba(255,255,255,0.2)'] } : {}}
+            animate={
+              timeRemaining < 300000
+                ? {
+                    borderColor: [
+                      "rgba(255,255,255,0.2)",
+                      "rgba(239,68,68,0.5)",
+                      "rgba(255,255,255,0.2)",
+                    ],
+                  }
+                : {}
+            }
             transition={{ duration: 1.5, repeat: Infinity }}
           >
-            <Timer className={`w-4 h-4 ${timeRemaining < 300000 ? 'text-red-400' : 'text-white/70'}`} />
-            <span className={`text-sm font-mono font-medium ${timeRemaining < 300000 ? 'text-red-400' : 'text-white/90'}`}>
+            <Timer
+              className={`w-4 h-4 ${timeRemaining < 300000 ? "text-red-400" : "text-white/70"}`}
+            />
+            <span
+              className={`text-sm font-mono font-medium ${timeRemaining < 300000 ? "text-red-400" : "text-white/90"}`}
+            >
               {formatTime(timeRemaining)}
             </span>
           </motion.div>
@@ -678,7 +851,6 @@ const AdminPanel = () => {
 
       {/* ─── Main Content ────────────────────────────────────────────────────── */}
       <main className="relative z-10 container mx-auto px-4 sm:px-6 py-6 pb-32 space-y-6">
-
         {/* ═══ A. Add Product Section ═══════════════════════════════════════ */}
         <motion.div
           className="bg-black/30 backdrop-blur-xl border border-white/30 rounded-2xl overflow-hidden shadow-xl"
@@ -696,7 +868,9 @@ const AdminPanel = () => {
               <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/40 to-green-500/40 border border-white/20 flex items-center justify-center">
                 <Plus className="w-5 h-5 text-white" />
               </div>
-              <span className="text-white font-bold text-lg">Add New Product</span>
+              <span className="text-white font-bold text-lg">
+                Add New Product
+              </span>
             </div>
             <motion.div
               animate={{ rotate: addFormOpen ? 180 : 0 }}
@@ -711,30 +885,41 @@ const AdminPanel = () => {
             {addFormOpen && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                 className="overflow-hidden"
               >
-                <form onSubmit={handleAddProduct} className="px-6 pb-6 space-y-4 border-t border-white/10 pt-4">
+                <form
+                  onSubmit={handleAddProduct}
+                  className="px-6 pb-6 space-y-4 border-t border-white/10 pt-4"
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-1.5">Title *</label>
+                      <label className="block text-white/80 text-sm font-medium mb-1.5">
+                        Title *
+                      </label>
                       <input
                         type="text"
                         value={addForm.title}
-                        onChange={(e) => setAddForm({ ...addForm, title: e.target.value })}
+                        onChange={(e) =>
+                          setAddForm({ ...addForm, title: e.target.value })
+                        }
                         placeholder="Product title"
                         className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-1.5">Price (₹) *</label>
+                      <label className="block text-white/80 text-sm font-medium mb-1.5">
+                        Price (₹) *
+                      </label>
                       <input
                         type="number"
                         value={addForm.price}
-                        onChange={(e) => setAddForm({ ...addForm, price: e.target.value })}
+                        onChange={(e) =>
+                          setAddForm({ ...addForm, price: e.target.value })
+                        }
                         placeholder="0.00"
                         min="0"
                         step="0.01"
@@ -745,10 +930,14 @@ const AdminPanel = () => {
                   </div>
 
                   <div>
-                    <label className="block text-white/80 text-sm font-medium mb-1.5">Description *</label>
+                    <label className="block text-white/80 text-sm font-medium mb-1.5">
+                      Description *
+                    </label>
                     <textarea
                       value={addForm.description}
-                      onChange={(e) => setAddForm({ ...addForm, description: e.target.value })}
+                      onChange={(e) =>
+                        setAddForm({ ...addForm, description: e.target.value })
+                      }
                       placeholder="Product description"
                       rows={3}
                       className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all resize-none"
@@ -758,22 +947,33 @@ const AdminPanel = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-1.5">Product Link / URL *</label>
+                      <label className="block text-white/80 text-sm font-medium mb-1.5">
+                        Product Link / URL *
+                      </label>
                       <input
                         type="text"
                         value={addForm.productLink}
-                        onChange={(e) => setAddForm({ ...addForm, productLink: e.target.value })}
+                        onChange={(e) =>
+                          setAddForm({
+                            ...addForm,
+                            productLink: e.target.value,
+                          })
+                        }
                         placeholder="https://..."
                         className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-white/80 text-sm font-medium mb-1.5">Image URL</label>
+                      <label className="block text-white/80 text-sm font-medium mb-1.5">
+                        Image URL
+                      </label>
                       <input
                         type="text"
                         value={addForm.imageUrl}
-                        onChange={(e) => setAddForm({ ...addForm, imageUrl: e.target.value })}
+                        onChange={(e) =>
+                          setAddForm({ ...addForm, imageUrl: e.target.value })
+                        }
                         placeholder="https://... (optional)"
                         className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl px-4 py-2.5 text-white placeholder-white/50 outline-none transition-all"
                       />
@@ -793,8 +993,8 @@ const AdminPanel = () => {
                           alt="Preview"
                           className="w-full h-full object-cover"
                           onError={(e) => {
-                            e.target.src = '';
-                            e.target.style.display = 'none';
+                            e.target.src = "";
+                            e.target.style.display = "none";
                           }}
                         />
                       </div>
@@ -860,12 +1060,24 @@ const AdminPanel = () => {
                   onChange={(e) => setSortBy(e.target.value)}
                   className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-3 py-2 text-white text-sm outline-none appearance-none cursor-pointer"
                 >
-                  <option value="newest" className="bg-gray-900 text-white">Newest</option>
-                  <option value="oldest" className="bg-gray-900 text-white">Oldest</option>
-                  <option value="title-asc" className="bg-gray-900 text-white">Title A-Z</option>
-                  <option value="title-desc" className="bg-gray-900 text-white">Title Z-A</option>
-                  <option value="price-asc" className="bg-gray-900 text-white">Price Low-High</option>
-                  <option value="price-desc" className="bg-gray-900 text-white">Price High-Low</option>
+                  <option value="newest" className="bg-gray-900 text-white">
+                    Newest
+                  </option>
+                  <option value="oldest" className="bg-gray-900 text-white">
+                    Oldest
+                  </option>
+                  <option value="title-asc" className="bg-gray-900 text-white">
+                    Title A-Z
+                  </option>
+                  <option value="title-desc" className="bg-gray-900 text-white">
+                    Title Z-A
+                  </option>
+                  <option value="price-asc" className="bg-gray-900 text-white">
+                    Price Low-High
+                  </option>
+                  <option value="price-desc" className="bg-gray-900 text-white">
+                    Price High-Low
+                  </option>
                 </select>
 
                 <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-1.5">
@@ -894,12 +1106,12 @@ const AdminPanel = () => {
               >
                 <Package className="w-16 h-16 text-white/20 mx-auto mb-4" />
                 <h3 className="text-white/60 font-semibold text-lg mb-1">
-                  {searchQuery ? 'No products found' : 'No products yet'}
+                  {searchQuery ? "No products found" : "No products yet"}
                 </h3>
                 <p className="text-white/40 text-sm">
                   {searchQuery
-                    ? 'Try adjusting your search query'
-                    : 'Add your first product using the form above'}
+                    ? "Try adjusting your search query"
+                    : "Add your first product using the form above"}
                 </p>
               </motion.div>
             ) : (
@@ -926,8 +1138,9 @@ const AdminPanel = () => {
                               alt={product.title}
                               className="w-full h-full object-cover"
                               onError={(e) => {
-                                e.target.style.display = 'none';
-                                e.target.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center"><svg class="w-5 h-5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>';
+                                e.target.style.display = "none";
+                                e.target.parentElement.innerHTML =
+                                  '<div class="w-full h-full flex items-center justify-center"><svg class="w-5 h-5 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>';
                               }}
                             />
                           ) : (
@@ -945,7 +1158,10 @@ const AdminPanel = () => {
                                 {product.title}
                               </h4>
                               <p className="text-emerald-400 font-bold text-sm">
-                                ₹{product.price != null ? Number(product.price).toFixed(2) : '0.00'}
+                                ₹
+                                {product.price != null
+                                  ? Number(product.price).toFixed(2)
+                                  : "0.00"}
                               </p>
                             </div>
                             {/* Actions */}
@@ -981,41 +1197,46 @@ const AdminPanel = () => {
                                 className="flex items-center gap-1 hover:text-white/80 transition-colors truncate max-w-[200px]"
                               >
                                 <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                <span className="truncate">{product.productLink}</span>
+                                <span className="truncate">
+                                  {product.productLink}
+                                </span>
                               </a>
                             )}
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {formatDate(product.createdAt)}
                             </span>
-                            {product.updatedAt && product.updatedAt !== product.createdAt && (
-                              <span className="flex items-center gap-1 text-amber-400/60">
-                                <Pencil className="w-3 h-3" />
-                                Modified {formatDate(product.updatedAt)}
-                              </span>
-                            )}
+                            {product.updatedAt &&
+                              product.updatedAt !== product.createdAt && (
+                                <span className="flex items-center gap-1 text-amber-400/60">
+                                  <Pencil className="w-3 h-3" />
+                                  Modified {formatDate(product.updatedAt)}
+                                </span>
+                              )}
                           </div>
 
                           {/* View History Toggle */}
-                          {product.editHistory && product.editHistory.length > 0 && (
-                            <button
-                              onClick={() =>
-                                setExpandedHistory((prev) => ({
-                                  ...prev,
-                                  [productId]: !prev[productId],
-                                }))
-                              }
-                              className="mt-2 flex items-center gap-1 text-xs text-white/40 hover:text-white/70 transition-colors"
-                            >
-                              <History className="w-3 h-3" />
-                              {isHistoryExpanded ? 'Hide' : 'View'} History ({product.editHistory.length})
-                              {isHistoryExpanded ? (
-                                <ChevronUp className="w-3 h-3" />
-                              ) : (
-                                <ChevronDown className="w-3 h-3" />
-                              )}
-                            </button>
-                          )}
+                          {product.editHistory &&
+                            product.editHistory.length > 0 && (
+                              <button
+                                onClick={() =>
+                                  setExpandedHistory((prev) => ({
+                                    ...prev,
+                                    [productId]: !prev[productId],
+                                  }))
+                                }
+                                className="mt-2 flex items-center gap-1 text-xs text-white/40 hover:text-white/70 transition-colors"
+                              >
+                                <History className="w-3 h-3" />
+                                {isHistoryExpanded ? "Hide" : "View"} History (
+                                {product.editHistory.length})
+                                {isHistoryExpanded ? (
+                                  <ChevronUp className="w-3 h-3" />
+                                ) : (
+                                  <ChevronDown className="w-3 h-3" />
+                                )}
+                              </button>
+                            )}
                         </div>
                       </div>
 
@@ -1024,7 +1245,7 @@ const AdminPanel = () => {
                         {isHistoryExpanded && product.editHistory && (
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
+                            animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
@@ -1039,16 +1260,22 @@ const AdminPanel = () => {
                                   className="bg-white/5 backdrop-blur-md border border-white/10 rounded-lg px-3 py-2 text-xs"
                                 >
                                   <div className="flex items-center justify-between mb-1">
-                                    <span className="text-white/60 font-medium capitalize">{edit.field}</span>
-                                    <span className="text-white/40">{formatDateTime(edit.date || edit.timestamp)}</span>
+                                    <span className="text-white/60 font-medium capitalize">
+                                      {edit.field}
+                                    </span>
+                                    <span className="text-white/40">
+                                      {formatDateTime(
+                                        edit.date || edit.timestamp,
+                                      )}
+                                    </span>
                                   </div>
                                   <div className="flex items-center gap-2 text-white/50">
                                     <span className="line-through text-red-400/60 truncate max-w-[150px]">
-                                      {edit.oldValue || '—'}
+                                      {edit.oldValue || "—"}
                                     </span>
                                     <span className="text-white/30">→</span>
                                     <span className="text-emerald-400/80 truncate max-w-[150px]">
-                                      {edit.newValue || '—'}
+                                      {edit.newValue || "—"}
                                     </span>
                                   </div>
                                 </motion.div>
@@ -1100,8 +1327,8 @@ const AdminPanel = () => {
                         onClick={() => setCurrentPage(pageNum)}
                         className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${
                           currentPage === pageNum
-                            ? 'bg-white/20 text-white border border-white/40'
-                            : 'text-white/50 hover:bg-white/10 hover:text-white border border-transparent'
+                            ? "bg-white/20 text-white border border-white/40"
+                            : "text-white/50 hover:bg-white/10 hover:text-white border border-transparent"
                         }`}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -1113,7 +1340,9 @@ const AdminPanel = () => {
                 </div>
 
                 <motion.button
-                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  onClick={() =>
+                    setCurrentPage((p) => Math.min(totalPages, p + 1))
+                  }
                   disabled={currentPage === totalPages}
                   className="px-4 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl text-white text-sm disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/20 transition-all"
                   whileHover={currentPage !== totalPages ? { scale: 1.02 } : {}}

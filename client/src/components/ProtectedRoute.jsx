@@ -1,6 +1,6 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { motion } from 'framer-motion';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { motion } from "framer-motion";
 
 const ProtectedRoute = ({ children }) => {
   const { currentUser, loading } = useAuth();
@@ -59,17 +59,17 @@ const ProtectedRoute = ({ children }) => {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
 

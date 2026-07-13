@@ -221,8 +221,9 @@ code {
    Mobile Global Background Theme (Blur Effect)
    ═══════════════════════════════════════════════════ */
 @media (max-width: 639px) {
+
   /* Lower the grass z-index so it sits behind the blur overlay */
-  .min-h-screen:not(.no-blur-theme) > .from-green-600.to-green-700 {
+  .min-h-screen:not(.no-blur-theme)>.from-green-600.to-green-700 {
     z-index: 1 !important;
   }
 
@@ -238,4 +239,3 @@ code {
     pointer-events: none;
   }
 }
-

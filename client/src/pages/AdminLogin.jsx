@@ -1,23 +1,24 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Lock, Eye, EyeOff, ArrowLeft, Loader2 } from 'lucide-react';
-import axios from 'axios';
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Lock, Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react";
+import axios from "axios";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const [adminId, setAdminId] = useState('');
-  const [password, setPassword] = useState('');
+  const [adminId, setAdminId] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [verifying, setVerifying] = useState(true);
 
   // On mount: check if token already exists and verify it
   const verifyExistingToken = useCallback(async () => {
-    const token = localStorage.getItem('veag_admin_token');
+    const token = localStorage.getItem("veag_admin_token");
     if (!token) {
       setVerifying(false);
       return;
@@ -29,15 +30,15 @@ const AdminLogin = () => {
       });
 
       if (res.data && res.status === 200) {
-        navigate('/dashboard/admin/panel', { replace: true });
+        navigate("/dashboard/admin/panel", { replace: true });
       } else {
-        localStorage.removeItem('veag_admin_token');
-        localStorage.removeItem('veag_admin_login_time');
+        localStorage.removeItem("veag_admin_token");
+        localStorage.removeItem("veag_admin_login_time");
         setVerifying(false);
       }
     } catch {
-      localStorage.removeItem('veag_admin_token');
-      localStorage.removeItem('veag_admin_login_time');
+      localStorage.removeItem("veag_admin_token");
+      localStorage.removeItem("veag_admin_login_time");
       setVerifying(false);
     }
   }, [navigate]);
@@ -49,12 +50,12 @@ const AdminLogin = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!adminId.trim() || !password.trim()) {
-      setError('Please fill in all fields');
+      setError("Please fill in all fields");
       return;
     }
 
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       const res = await axios.post(`${API_BASE_URL}/admin/login`, {
@@ -63,14 +64,14 @@ const AdminLogin = () => {
       });
 
       const { token } = res.data;
-      localStorage.setItem('veag_admin_token', token);
-      localStorage.setItem('veag_admin_login_time', Date.now().toString());
-      navigate('/dashboard/admin/panel', { replace: true });
+      localStorage.setItem("veag_admin_token", token);
+      localStorage.setItem("veag_admin_login_time", Date.now().toString());
+      navigate("/dashboard/admin/panel", { replace: true });
     } catch (err) {
       const message =
         err.response?.data?.message ||
         err.response?.data?.error ||
-        'Invalid credentials. Please try again.';
+        "Invalid credentials. Please try again.";
       setError(message);
     } finally {
       setLoading(false);
@@ -131,17 +132,17 @@ const AdminLogin = () => {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
           <motion.p
@@ -212,7 +213,7 @@ const AdminLogin = () => {
         className="relative z-20 w-full max-w-md mx-4"
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, type: 'spring', stiffness: 100 }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 100 }}
       >
         <div className="bg-black/40 backdrop-blur-2xl border border-white/30 rounded-3xl p-8 shadow-2xl">
           {/* Shield Icon */}
@@ -220,7 +221,7 @@ const AdminLogin = () => {
             className="flex justify-center mb-6"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
           >
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-500/40 to-green-500/40 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-xl">
               <Shield className="w-10 h-10 text-white" />
@@ -249,7 +250,7 @@ const AdminLogin = () => {
                 }}
                 exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                 transition={{
-                  x: { duration: 0.5, ease: 'easeInOut' },
+                  x: { duration: 0.5, ease: "easeInOut" },
                   opacity: { duration: 0.3 },
                 }}
                 className="mb-6 bg-red-500/20 backdrop-blur-md border border-red-400/40 rounded-xl px-4 py-3"
@@ -277,7 +278,7 @@ const AdminLogin = () => {
                   value={adminId}
                   onChange={(e) => {
                     setAdminId(e.target.value);
-                    setError('');
+                    setError("");
                   }}
                   placeholder="Enter admin ID"
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl pl-11 pr-4 py-3 text-white placeholder-white/50 outline-none transition-all duration-300"
@@ -299,11 +300,11 @@ const AdminLogin = () => {
               <div className="relative">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50" />
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    setError('');
+                    setError("");
                   }}
                   placeholder="Enter password"
                   className="w-full bg-white/10 backdrop-blur-md border border-white/30 focus:border-white/60 rounded-xl pl-11 pr-12 py-3 text-white placeholder-white/50 outline-none transition-all duration-300"
@@ -361,7 +362,7 @@ const AdminLogin = () => {
             transition={{ delay: 0.7 }}
           >
             <button
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate("/dashboard")}
               className="text-white/60 hover:text-white text-sm transition-colors flex items-center gap-1.5 mx-auto"
             >
               <ArrowLeft className="w-4 h-4" />

@@ -1,11 +1,16 @@
-import User from '../models/User.js';
-import NameHistory from '../models/NameHistory.js';
-import { validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
+import User from "../models/User.js";
+import NameHistory from "../models/NameHistory.js";
+import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 
 // Generate unique userId
 const generateUserId = () => {
-  return 'USER_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9).toUpperCase();
+  return (
+    "USER_" +
+    Date.now() +
+    "_" +
+    Math.random().toString(36).substr(2, 9).toUpperCase()
+  );
 };
 
 // Authenticate or create user
@@ -31,12 +36,12 @@ export const authenticateUser = async (req, res) => {
       const token = jwt.sign(
         { userId: user.userId, email: user.email },
         process.env.JWT_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: "7d" },
       );
-      
+
       // Return existing user data with updated photoURL
       return res.status(200).json({
-        message: 'User authenticated',
+        message: "User authenticated",
         token,
         userId: user.userId,
         user: {
@@ -44,20 +49,20 @@ export const authenticateUser = async (req, res) => {
           email: user.email,
           name: user.name,
           photoURL: user.photoURL,
-          firebaseUid: user.firebaseUid
-        }
+          firebaseUid: user.firebaseUid,
+        },
       });
     }
 
     // Create new user if doesn't exist
     const userId = generateUserId();
-    
+
     user = new User({
       userId,
       email,
       name,
-      photoURL: photoURL || '',
-      firebaseUid
+      photoURL: photoURL || "",
+      firebaseUid,
     });
 
     await user.save();
@@ -65,11 +70,11 @@ export const authenticateUser = async (req, res) => {
     const token = jwt.sign(
       { userId: user.userId, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: "7d" },
     );
 
     res.status(201).json({
-      message: 'User created successfully',
+      message: "User created successfully",
       token,
       userId: user.userId,
       user: {
@@ -77,15 +82,14 @@ export const authenticateUser = async (req, res) => {
         email: user.email,
         name: user.name,
         photoURL: user.photoURL,
-        firebaseUid: user.firebaseUid
-      }
+        firebaseUid: user.firebaseUid,
+      },
     });
-
   } catch (error) {
     // console.error('Error in authenticateUser:', error);
-    res.status(500).json({ 
-      message: 'Server error during authentication',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error during authentication",
+      error: error.message,
     });
   }
 };
@@ -94,16 +98,18 @@ export const authenticateUser = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     const { userId } = req.params;
-    
+
     // Authorization check
     if (req.user.userId !== userId) {
-      return res.status(403).json({ message: 'Forbidden. You can only view your own profile.' });
+      return res
+        .status(403)
+        .json({ message: "Forbidden. You can only view your own profile." });
     }
 
     const user = await User.findOne({ userId });
-    
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
@@ -113,15 +119,14 @@ export const getUserById = async (req, res) => {
         name: user.name,
         photoURL: user.photoURL,
         firebaseUid: user.firebaseUid,
-        createdAt: user.createdAt
-      }
+        createdAt: user.createdAt,
+      },
     });
-
   } catch (error) {
     // console.error('Error in getUserById:', error);
-    res.status(500).json({ 
-      message: 'Server error',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };
@@ -130,16 +135,18 @@ export const getUserById = async (req, res) => {
 export const getUserByEmail = async (req, res) => {
   try {
     const { email } = req.params;
-    
+
     // Authorization check
     if (req.user.email !== email) {
-      return res.status(403).json({ message: 'Forbidden. You can only view your own profile.' });
+      return res
+        .status(403)
+        .json({ message: "Forbidden. You can only view your own profile." });
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
@@ -149,15 +156,14 @@ export const getUserByEmail = async (req, res) => {
         name: user.name,
         photoURL: user.photoURL,
         firebaseUid: user.firebaseUid,
-        createdAt: user.createdAt
-      }
+        createdAt: user.createdAt,
+      },
     });
-
   } catch (error) {
     // console.error('Error in getUserByEmail:', error);
-    res.status(500).json({ 
-      message: 'Server error',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };
@@ -170,13 +176,15 @@ export const updateUserProfile = async (req, res) => {
 
     // Authorization check
     if (req.user.userId !== userId) {
-      return res.status(403).json({ message: 'Forbidden. You can only update your own profile.' });
+      return res
+        .status(403)
+        .json({ message: "Forbidden. You can only update your own profile." });
     }
 
     const user = await User.findOne({ userId });
-    
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Only allow name updates
@@ -185,32 +193,31 @@ export const updateUserProfile = async (req, res) => {
       const nameHistory = new NameHistory({
         userId: user.userId,
         oldName: user.name,
-        newName: name
+        newName: name,
       });
-      
+
       await nameHistory.save();
-      
+
       // Update user's name
       user.name = name;
       await user.save();
     }
 
     res.status(200).json({
-      message: 'User profile updated successfully',
+      message: "User profile updated successfully",
       user: {
         userId: user.userId,
         email: user.email,
         name: user.name,
         photoURL: user.photoURL,
-        firebaseUid: user.firebaseUid
-      }
+        firebaseUid: user.firebaseUid,
+      },
     });
-
   } catch (error) {
     // console.error('Error in updateUserProfile:', error);
-    res.status(500).json({ 
-      message: 'Server error',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };
@@ -225,9 +232,13 @@ export const getNameHistory = async (req, res) => {
 
     // Authorization check
     if (req.user.userId !== userId) {
-      return res.status(403).json({ message: 'Forbidden. You can only view your own name history.' });
+      return res
+        .status(403)
+        .json({
+          message: "Forbidden. You can only view your own name history.",
+        });
     }
-    
+
     const totalItems = await NameHistory.countDocuments({ userId });
     const totalPages = Math.ceil(totalItems / limit);
 
@@ -235,19 +246,18 @@ export const getNameHistory = async (req, res) => {
       .sort({ changedAt: -1 })
       .skip(skip)
       .limit(limit);
-    
+
     res.status(200).json({
       history,
       currentPage: page,
       totalPages,
-      totalItems
+      totalItems,
     });
-
   } catch (error) {
     // console.error('Error in getNameHistory:', error);
-    res.status(500).json({ 
-      message: 'Server error',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };
@@ -256,11 +266,11 @@ export const getNameHistory = async (req, res) => {
 export const verifyUserToken = async (req, res) => {
   try {
     const { userId } = req.user;
-    
+
     const user = await User.findOne({ userId });
-    
+
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json({
@@ -270,14 +280,13 @@ export const verifyUserToken = async (req, res) => {
         email: user.email,
         name: user.name,
         photoURL: user.photoURL,
-        firebaseUid: user.firebaseUid
-      }
+        firebaseUid: user.firebaseUid,
+      },
     });
-
   } catch (error) {
-    res.status(500).json({ 
-      message: 'Server error',
-      error: error.message 
+    res.status(500).json({
+      message: "Server error",
+      error: error.message,
     });
   }
 };

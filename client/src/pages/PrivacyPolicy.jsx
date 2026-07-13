@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Lock } from 'lucide-react';
-import veagLogo from '../assets/veag_logo.svg';
-import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowLeft, Lock } from "lucide-react";
+import veagLogo from "../assets/veag_logo.svg";
+import { useState, useEffect } from "react";
 
 const PrivacyPolicy = ({ isModal = false }) => {
   const navigate = useNavigate();
@@ -20,10 +20,20 @@ const PrivacyPolicy = ({ isModal = false }) => {
       return (
         <div className="flex flex-col items-center justify-center min-h-[50vh] bg-transparent">
           <div className="relative w-16 h-16 mb-4">
-            <motion.div className="absolute inset-0 rounded-full border-4 border-transparent border-t-orange-500 border-r-orange-500" animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} />
-            <motion.div className="absolute inset-2 rounded-full border-4 border-transparent border-b-green-500 border-l-green-500" animate={{ rotate: -360 }} transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }} />
+            <motion.div
+              className="absolute inset-0 rounded-full border-4 border-transparent border-t-orange-500 border-r-orange-500"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            <motion.div
+              className="absolute inset-2 rounded-full border-4 border-transparent border-b-green-500 border-l-green-500"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
           </div>
-          <p className="text-gray-600 font-semibold animate-pulse">Loading...</p>
+          <p className="text-gray-600 font-semibold animate-pulse">
+            Loading...
+          </p>
         </div>
       );
     }
@@ -80,17 +90,17 @@ const PrivacyPolicy = ({ isModal = false }) => {
             <motion.div
               className="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-2 rounded-full border-4 border-transparent border-b-white border-l-white"
               animate={{ rotate: -360 }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full border-2 border-transparent border-t-white"
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             />
           </div>
 
@@ -115,24 +125,39 @@ const PrivacyPolicy = ({ isModal = false }) => {
             <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-xl flex items-center justify-center shrink-0">
               <Lock className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Privacy Policy</h1>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+              Privacy Policy
+            </h1>
           </div>
 
-
           <div className="prose prose-lg max-w-none text-gray-700">
-            <p className="text-sm text-gray-500 mb-6">Last Updated: December 12, 2025</p>
+            <p className="text-sm text-gray-500 mb-6">
+              Last Updated: December 12, 2025
+            </p>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">1. Introduction</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                1. Introduction
+              </h2>
               <p className="mb-4">
-                VeAg ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our agricultural disease detection service.
+                VeAg ("we," "our," or "us") is committed to protecting your
+                privacy. This Privacy Policy explains how we collect, use,
+                disclose, and safeguard your information when you use our
+                agricultural disease detection service.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">2. Information We Collect</h2>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">2.1 Personal Information</h3>
-              <p className="mb-4">We may collect personal information that you provide to us, including:</p>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                2. Information We Collect
+              </h2>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                2.1 Personal Information
+              </h3>
+              <p className="mb-4">
+                We may collect personal information that you provide to us,
+                including:
+              </p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Name and contact information</li>
                 <li>Email address</li>
@@ -142,8 +167,13 @@ const PrivacyPolicy = ({ isModal = false }) => {
                 <li>Payment information</li>
               </ul>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">2.2 Usage Data</h3>
-              <p className="mb-4">We automatically collect certain information when you use our service:</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                2.2 Usage Data
+              </h3>
+              <p className="mb-4">
+                We automatically collect certain information when you use our
+                service:
+              </p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Device information</li>
                 <li>IP address</li>
@@ -154,7 +184,9 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">3. How We Use Your Information</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                3. How We Use Your Information
+              </h2>
               <p className="mb-4">We use the collected information for:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Providing and maintaining our service</li>
@@ -168,7 +200,9 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">4. Data Sharing and Disclosure</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                4. Data Sharing and Disclosure
+              </h2>
               <p className="mb-4">We may share your information with:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Service providers who assist in operating our platform</li>
@@ -181,21 +215,31 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">5. Data Security</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                5. Data Security
+              </h2>
               <p className="mb-4">
-                We implement appropriate technical and organizational measures to protect your data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.
+                We implement appropriate technical and organizational measures
+                to protect your data against unauthorized access, alteration,
+                disclosure, or destruction. However, no method of transmission
+                over the internet is 100% secure.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">6. Data Retention</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                6. Data Retention
+              </h2>
               <p className="mb-4">
-                We retain your personal information for as long as necessary to provide our services and comply with legal obligations.
+                We retain your personal information for as long as necessary to
+                provide our services and comply with legal obligations.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">7. Your Rights</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                7. Your Rights
+              </h2>
               <p className="mb-4">You have the right to:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Access your personal data</li>
@@ -204,36 +248,56 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">8. Cookies</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                8. Cookies
+              </h2>
               <p className="mb-4">
-                We use cookies and similar tracking technologies to improve your experience. You can control cookie preferences through your browser settings.
+                We use cookies and similar tracking technologies to improve your
+                experience. You can control cookie preferences through your
+                browser settings.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">9. Children's Privacy</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                9. Children's Privacy
+              </h2>
               <p className="mb-4">
-                Our service is not intended for children under 18 years of age. We do not knowingly collect personal information from children.
+                Our service is not intended for children under 18 years of age.
+                We do not knowingly collect personal information from children.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">10. Changes to This Policy</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                10. Changes to This Policy
+              </h2>
               <p className="mb-4">
-                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.
+                We may update this Privacy Policy from time to time. We will
+                notify you of any changes by posting the new policy on this
+                page.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">11. Contact Us</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                11. Contact Us
+              </h2>
               <p className="mb-4">
-                If you have questions about this Privacy Policy, please contact us at:
+                If you have questions about this Privacy Policy, please contact
+                us at:
                 <br />
-                <a href="tel:+917501493146" className="text-orange-600 hover:text-orange-700">
+                <a
+                  href="tel:+917501493146"
+                  className="text-orange-600 hover:text-orange-700"
+                >
                   +91 7501493146
                 </a>
                 <br />
-                <a href="mailto:sarthak@vacantvectors.com" className="text-orange-600 hover:text-orange-700">
+                <a
+                  href="mailto:sarthak@vacantvectors.com"
+                  className="text-orange-600 hover:text-orange-700"
+                >
                   sarthak@vacantvectors.com
                 </a>
               </p>
@@ -251,11 +315,15 @@ const PrivacyPolicy = ({ isModal = false }) => {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={veagLogo} alt="VeAg" className="w-10 h-10 border border-white/100 rounded-3xl" />
+              <img
+                src={veagLogo}
+                alt="VeAg"
+                className="w-10 h-10 border border-white/100 rounded-3xl"
+              />
               <span className="text-2xl font-bold text-white">VeAg</span>
             </div>
             <motion.button
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-xl rounded-xl text-white hover:bg-white/30 transition-all"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -279,23 +347,39 @@ const PrivacyPolicy = ({ isModal = false }) => {
             <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-2xl flex items-center justify-center shrink-0">
               <Lock className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800">Privacy Policy</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
+              Privacy Policy
+            </h1>
           </div>
 
           <div className="prose prose-lg max-w-none text-gray-700">
-            <p className="text-sm text-gray-500 mb-6">Last Updated: December 12, 2025</p>
+            <p className="text-sm text-gray-500 mb-6">
+              Last Updated: December 12, 2025
+            </p>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">1. Introduction</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                1. Introduction
+              </h2>
               <p className="mb-4">
-                VeAg ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our agricultural disease detection service.
+                VeAg ("we," "our," or "us") is committed to protecting your
+                privacy. This Privacy Policy explains how we collect, use,
+                disclose, and safeguard your information when you use our
+                agricultural disease detection service.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">2. Information We Collect</h2>
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">2.1 Personal Information</h3>
-              <p className="mb-4">We may collect personal information that you provide to us, including:</p>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                2. Information We Collect
+              </h2>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                2.1 Personal Information
+              </h3>
+              <p className="mb-4">
+                We may collect personal information that you provide to us,
+                including:
+              </p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Name and contact information</li>
                 <li>Email address</li>
@@ -305,8 +389,13 @@ const PrivacyPolicy = ({ isModal = false }) => {
                 <li>Payment information</li>
               </ul>
 
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">2.2 Usage Data</h3>
-              <p className="mb-4">We automatically collect certain information when you use our service:</p>
+              <h3 className="text-xl font-semibold text-gray-800 mb-3">
+                2.2 Usage Data
+              </h3>
+              <p className="mb-4">
+                We automatically collect certain information when you use our
+                service:
+              </p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Device information</li>
                 <li>IP address</li>
@@ -317,7 +406,9 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">3. How We Use Your Information</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                3. How We Use Your Information
+              </h2>
               <p className="mb-4">We use the collected information for:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Providing and maintaining our service</li>
@@ -331,7 +422,9 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">4. Data Sharing and Disclosure</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                4. Data Sharing and Disclosure
+              </h2>
               <p className="mb-4">We may share your information with:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Service providers who assist in operating our platform</li>
@@ -344,21 +437,31 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">5. Data Security</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                5. Data Security
+              </h2>
               <p className="mb-4">
-                We implement appropriate technical and organizational measures to protect your data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.
+                We implement appropriate technical and organizational measures
+                to protect your data against unauthorized access, alteration,
+                disclosure, or destruction. However, no method of transmission
+                over the internet is 100% secure.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">6. Data Retention</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                6. Data Retention
+              </h2>
               <p className="mb-4">
-                We retain your personal information for as long as necessary to provide our services and comply with legal obligations.
+                We retain your personal information for as long as necessary to
+                provide our services and comply with legal obligations.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">7. Your Rights</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                7. Your Rights
+              </h2>
               <p className="mb-4">You have the right to:</p>
               <ul className="list-disc pl-6 mb-4 space-y-2">
                 <li>Access your personal data</li>
@@ -367,36 +470,56 @@ const PrivacyPolicy = ({ isModal = false }) => {
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">8. Cookies</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                8. Cookies
+              </h2>
               <p className="mb-4">
-                We use cookies and similar tracking technologies to improve your experience. You can control cookie preferences through your browser settings.
+                We use cookies and similar tracking technologies to improve your
+                experience. You can control cookie preferences through your
+                browser settings.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">9. Children's Privacy</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                9. Children's Privacy
+              </h2>
               <p className="mb-4">
-                Our service is not intended for children under 18 years of age. We do not knowingly collect personal information from children.
+                Our service is not intended for children under 18 years of age.
+                We do not knowingly collect personal information from children.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">10. Changes to This Policy</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                10. Changes to This Policy
+              </h2>
               <p className="mb-4">
-                We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page.
+                We may update this Privacy Policy from time to time. We will
+                notify you of any changes by posting the new policy on this
+                page.
               </p>
             </section>
 
             <section className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">11. Contact Us</h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                11. Contact Us
+              </h2>
               <p className="mb-4">
-                If you have questions about this Privacy Policy, please contact us at:
+                If you have questions about this Privacy Policy, please contact
+                us at:
                 <br />
-                <a href="tel:+917501493146" className="text-orange-600 hover:text-orange-700">
+                <a
+                  href="tel:+917501493146"
+                  className="text-orange-600 hover:text-orange-700"
+                >
                   +91 7501493146
                 </a>
                 <br />
-                <a href="mailto:sarthak@vacantvectors.com" className="text-orange-600 hover:text-orange-700">
+                <a
+                  href="mailto:sarthak@vacantvectors.com"
+                  className="text-orange-600 hover:text-orange-700"
+                >
                   sarthak@vacantvectors.com
                 </a>
               </p>

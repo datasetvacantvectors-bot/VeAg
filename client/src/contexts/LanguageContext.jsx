@@ -1,13 +1,13 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from "react";
 
 const LanguageContext = createContext();
 
-const LANGUAGE_KEY = 'veag_language';
+const LANGUAGE_KEY = "veag_language";
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider');
+    throw new Error("useLanguage must be used within LanguageProvider");
   }
   return context;
 };
@@ -17,10 +17,10 @@ export const LanguageProvider = ({ children }) => {
     // Get saved language from localStorage or default to 'en'
     try {
       const saved = localStorage.getItem(LANGUAGE_KEY);
-      return saved || 'en';
+      return saved || "en";
     } catch (error) {
       // console.error('Error reading language preference:', error);
-      return 'en';
+      return "en";
     }
   });
 
@@ -36,7 +36,7 @@ export const LanguageProvider = ({ children }) => {
 
   const value = {
     language,
-    changeLanguage
+    changeLanguage,
   };
 
   return (

@@ -1,15 +1,17 @@
-import Case from '../models/Case.js';
-import CaseResult from '../models/CaseResult.js';
-import TreatmentInfo from '../models/TreatmentInfo.js';
-import cloudinary from '../config/cloudinary.js';
-import gradioService from '../services/gradioService.js';
-import geminiService from '../services/geminiService.js';
-import { Readable } from 'stream';
+import Case from "../models/Case.js";
+import CaseResult from "../models/CaseResult.js";
+import TreatmentInfo from "../models/TreatmentInfo.js";
+import cloudinary from "../config/cloudinary.js";
+import gradioService from "../services/gradioService.js";
+import geminiService from "../services/geminiService.js";
+import { Readable } from "stream";
 
 // Generate unique numeric case ID
 const generateCaseId = () => {
   const timestamp = Date.now().toString();
-  const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+  const random = Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(4, "0");
   return timestamp + random;
 };
 
@@ -19,16 +21,16 @@ const uploadToCloudinary = async (base64Image, caseId, index) => {
     const result = await cloudinary.uploader.upload(base64Image, {
       folder: `veag_cases/${caseId}`,
       public_id: `image_${index}`,
-      resource_type: 'image'
+      resource_type: "image",
     });
 
     return {
       url: result.secure_url,
-      publicId: result.public_id
+      publicId: result.public_id,
     };
   } catch (error) {
     // console.error('Cloudinary upload error:', error);
-    throw new Error('Failed to upload image to Cloudinary');
+    throw new Error("Failed to upload image to Cloudinary");
   }
 };
 
@@ -39,25 +41,27 @@ export const createCase = async (req, res) => {
 
     // Authorization check
     if (req.user.userId !== userId) {
-      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+      return res.status(403).json({ error: "Forbidden. Access denied." });
     }
 
     // Validation
     if (!userId || !cropName) {
-      return res.status(400).json({ error: 'User ID and crop name are required' });
+      return res
+        .status(400)
+        .json({ error: "User ID and crop name are required" });
     }
 
     if (!images || images.length === 0) {
-      return res.status(400).json({ error: 'At least one image is required' });
+      return res.status(400).json({ error: "At least one image is required" });
     }
 
     if (images.length > 10) {
-      return res.status(400).json({ error: 'Maximum 10 images allowed' });
+      return res.status(400).json({ error: "Maximum 10 images allowed" });
     }
 
     // Generate unique case ID
     let caseId = generateCaseId();
-    
+
     // Ensure uniqueness
     let existingCase = await Case.findOne({ caseId });
     while (existingCase) {
@@ -89,23 +93,23 @@ export const createCase = async (req, res) => {
       caseId,
       userId,
       cropName,
-      diseaseObservation: diseaseObservation || '',
+      diseaseObservation: diseaseObservation || "",
       images: uploadedImages,
-      status: 'pending'
+      status: "pending",
     });
 
     await newCase.save();
 
     res.status(201).json({
       success: true,
-      message: 'Case created successfully',
-      case: newCase
+      message: "Case created successfully",
+      case: newCase,
     });
   } catch (error) {
     // console.error('Error creating case:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message || 'Failed to create case'
+      error: error.message || "Failed to create case",
     });
   }
 };
@@ -117,21 +121,20 @@ export const getUserCases = async (req, res) => {
 
     // Authorization check
     if (req.user.userId !== userId) {
-      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+      return res.status(403).json({ error: "Forbidden. Access denied." });
     }
 
-    const cases = await Case.find({ userId })
-      .sort({ createdAt: -1 });
+    const cases = await Case.find({ userId }).sort({ createdAt: -1 });
 
     res.json({
       success: true,
-      cases
+      cases,
     });
   } catch (error) {
     // console.error('Error fetching user cases:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: 'Failed to fetch cases'
+      error: "Failed to fetch cases",
     });
   }
 };
@@ -144,26 +147,28 @@ export const getCaseById = async (req, res) => {
     const caseData = await Case.findOne({ caseId });
 
     if (!caseData) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        error: 'Case not found'
+        error: "Case not found",
       });
     }
 
     // Authorization check
     if (req.user.userId !== caseData.userId) {
-      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+      return res
+        .status(403)
+        .json({ success: false, error: "Forbidden. Access denied." });
     }
 
     res.json({
       success: true,
-      case: caseData
+      case: caseData,
     });
   } catch (error) {
     // console.error('Error fetching case:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: 'Failed to fetch case'
+      error: "Failed to fetch case",
     });
   }
 };
@@ -171,7 +176,7 @@ export const getCaseById = async (req, res) => {
 // Process case with Gradio AI model
 export const processCase = async (req, res) => {
   const startTime = Date.now();
-  
+
   try {
     const { caseId } = req.params;
 
@@ -179,41 +184,43 @@ export const processCase = async (req, res) => {
     const caseData = await Case.findOne({ caseId });
 
     if (!caseData) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        error: 'Case not found'
+        error: "Case not found",
       });
     }
 
     // Authorization check
     if (req.user.userId !== caseData.userId) {
-      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+      return res
+        .status(403)
+        .json({ success: false, error: "Forbidden. Access denied." });
     }
 
     // Check if case is already processing or completed
-    if (caseData.status === 'processing') {
+    if (caseData.status === "processing") {
       return res.status(400).json({
         success: false,
-        error: 'Case is already being processed'
+        error: "Case is already being processed",
       });
     }
 
-    if (caseData.status === 'completed') {
+    if (caseData.status === "completed") {
       return res.status(400).json({
         success: false,
-        error: 'Case has already been processed'
+        error: "Case has already been processed",
       });
     }
 
     // Update status to processing
-    caseData.status = 'processing';
+    caseData.status = "processing";
     await caseData.save();
 
     // Send immediate response that processing has started
     res.json({
       success: true,
-      message: 'Processing started',
-      caseId: caseData.caseId
+      message: "Processing started",
+      caseId: caseData.caseId,
     });
 
     // Process in background
@@ -232,33 +239,32 @@ export const processCase = async (req, res) => {
             cropName: caseData.cropName,
             diseaseStatus: result.diseaseStatus,
             modelResponse: result.fullResponse,
-            processingTime
+            processingTime,
           });
 
           // Update case status to completed
-          caseData.status = 'completed';
+          caseData.status = "completed";
           await caseData.save();
 
           // console.log(`Case ${caseId} processed successfully`);
         } else {
           // Update case status to failed with error
-          caseData.status = 'failed';
+          caseData.status = "failed";
           await caseData.save();
 
           // console.error(`Case ${caseId} processing failed:`, result.error);
         }
       } catch (error) {
         // console.error(`Background processing error for case ${caseId}:`, error);
-        caseData.status = 'failed';
+        caseData.status = "failed";
         await caseData.save();
       }
     })();
-
   } catch (error) {
     // console.error('Error processing case:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: error.message || 'Failed to process case'
+      error: error.message || "Failed to process case",
     });
   }
 };
@@ -271,26 +277,28 @@ export const getCaseResult = async (req, res) => {
     const result = await CaseResult.findOne({ caseId });
 
     if (!result) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        error: 'Result not found'
+        error: "Result not found",
       });
     }
 
     // Authorization check
     if (req.user.userId !== result.userId) {
-      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+      return res
+        .status(403)
+        .json({ success: false, error: "Forbidden. Access denied." });
     }
 
     res.json({
       success: true,
-      result
+      result,
     });
   } catch (error) {
     // console.error('Error fetching result:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      error: 'Failed to fetch result'
+      error: "Failed to fetch result",
     });
   }
 };
@@ -301,23 +309,28 @@ export const getTreatmentInfo = async (req, res) => {
     const { caseId } = req.params;
 
     const caseData = await Case.findOne({ caseId });
-    if (!caseData) return res.status(404).json({ success: false, error: 'Case not found' });
-    
+    if (!caseData)
+      return res.status(404).json({ success: false, error: "Case not found" });
+
     // Authorization check
     if (req.user.userId !== caseData.userId) {
-      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+      return res
+        .status(403)
+        .json({ success: false, error: "Forbidden. Access denied." });
     }
 
     const treatments = await TreatmentInfo.find({ caseId });
     const treatmentMap = {};
-    treatments.forEach(item => {
+    treatments.forEach((item) => {
       treatmentMap[item.type] = item;
     });
 
     res.json({ success: true, treatments: treatmentMap });
   } catch (error) {
     // console.error('Error fetching treatment info:', error);
-    res.status(500).json({ success: false, error: 'Failed to fetch treatment info' });
+    res
+      .status(500)
+      .json({ success: false, error: "Failed to fetch treatment info" });
   }
 };
 
@@ -327,44 +340,49 @@ export const generateTreatmentInfo = async (req, res) => {
     const { caseId, type } = req.params;
 
     // Validate type
-    if (!['treatment', 'causes', 'prevention'].includes(type)) {
+    if (!["treatment", "causes", "prevention"].includes(type)) {
       return res.status(400).json({
         success: false,
-        error: 'Invalid type. Must be treatment, causes, or prevention'
+        error: "Invalid type. Must be treatment, causes, or prevention",
       });
     }
 
     // Find the case
     const caseData = await Case.findOne({ caseId });
     if (!caseData) {
-      return res.status(404).json({ success: false, error: 'Case not found' });
+      return res.status(404).json({ success: false, error: "Case not found" });
     }
 
     // Authorization check
     if (req.user.userId !== caseData.userId) {
-      return res.status(403).json({ success: false, error: 'Forbidden. Access denied.' });
+      return res
+        .status(403)
+        .json({ success: false, error: "Forbidden. Access denied." });
     }
 
-    if (caseData.status !== 'completed') {
+    if (caseData.status !== "completed") {
       return res.status(400).json({
         success: false,
-        error: 'Case analysis must be completed before generating treatment info'
+        error:
+          "Case analysis must be completed before generating treatment info",
       });
     }
 
     // Find the case result
     const caseResult = await CaseResult.findOne({ caseId });
     if (!caseResult) {
-      return res.status(404).json({ success: false, error: 'Case result not found' });
+      return res
+        .status(404)
+        .json({ success: false, error: "Case result not found" });
     }
 
     const diseaseName = caseResult.diseaseStatus;
 
     // Check if it's a healthy detection
-    if (diseaseName.toLowerCase().includes('healthy')) {
+    if (diseaseName.toLowerCase().includes("healthy")) {
       return res.status(400).json({
         success: false,
-        error: 'Treatment info is not available for healthy crops'
+        error: "Treatment info is not available for healthy crops",
       });
     }
 
@@ -380,7 +398,7 @@ export const generateTreatmentInfo = async (req, res) => {
     if (!result.success) {
       return res.status(500).json({
         success: false,
-        error: result.error || 'Failed to generate content from AI'
+        error: result.error || "Failed to generate content from AI",
       });
     }
 
@@ -390,7 +408,7 @@ export const generateTreatmentInfo = async (req, res) => {
       userId: caseData.userId,
       diseaseName,
       type,
-      content: result.content
+      content: result.content,
     });
 
     res.json({ success: true, treatmentInfo });
@@ -398,7 +416,7 @@ export const generateTreatmentInfo = async (req, res) => {
     // console.error('Error generating treatment info:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to generate treatment info'
+      error: error.message || "Failed to generate treatment info",
     });
   }
 };

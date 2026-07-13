@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
-import Product from '../models/Product.js';
-import SearchAnalytics from '../models/SearchAnalytics.js';
-import ClickAnalytics from '../models/ClickAnalytics.js';
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import Product from "../models/Product.js";
+import SearchAnalytics from "../models/SearchAnalytics.js";
+import ClickAnalytics from "../models/ClickAnalytics.js";
 
 // Helper: build query that matches either _id or custom productId
 const buildProductQuery = (id) => {
@@ -19,23 +19,26 @@ export const login = async (req, res) => {
     const { adminId, password } = req.body;
 
     if (!adminId || !password) {
-      return res.status(400).json({ message: 'adminId and password are required.' });
+      return res
+        .status(400)
+        .json({ message: "adminId and password are required." });
     }
 
-    if (adminId !== process.env.ADMIN_ID || password !== process.env.ADMIN_PASSWORD) {
-      return res.status(401).json({ message: 'Invalid admin credentials.' });
+    if (
+      adminId !== process.env.ADMIN_ID ||
+      password !== process.env.ADMIN_PASSWORD
+    ) {
+      return res.status(401).json({ message: "Invalid admin credentials." });
     }
 
-    const token = jwt.sign(
-      { adminId, role: 'admin' },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ adminId, role: "admin" }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     res.status(200).json({ token, expiresIn: 3600 });
   } catch (error) {
-    console.error('Admin login error:', error);
-    res.status(500).json({ message: 'Login failed.', error: error.message });
+    // console.error("Admin login error:", error);
+    res.status(500).json({ message: "Login failed.", error: error.message });
   }
 };
 
@@ -45,8 +48,10 @@ export const verifyToken = async (req, res) => {
   try {
     res.status(200).json({ valid: true, admin: req.admin });
   } catch (error) {
-    console.error('Verify token error:', error);
-    res.status(500).json({ message: 'Token verification failed.', error: error.message });
+    // console.error("Verify token error:", error);
+    res
+      .status(500)
+      .json({ message: "Token verification failed.", error: error.message });
   }
 };
 
@@ -58,9 +63,9 @@ export const getAllProducts = async (req, res) => {
       q,
       page = 1,
       limit = 12,
-      sort = 'newest',
+      sort = "newest",
       minPrice,
-      maxPrice
+      maxPrice,
     } = req.query;
 
     const pageNum = Math.max(1, parseInt(page));
@@ -84,20 +89,20 @@ export const getAllProducts = async (req, res) => {
 
     // Build sort object
     let sortObj = {};
-    if (q && q.trim() && sort === 'relevance') {
-      sortObj = { score: { $meta: 'textScore' } };
+    if (q && q.trim() && sort === "relevance") {
+      sortObj = { score: { $meta: "textScore" } };
     } else {
       switch (sort) {
-        case 'price_asc':
+        case "price_asc":
           sortObj = { price: 1 };
           break;
-        case 'price_desc':
+        case "price_desc":
           sortObj = { price: -1 };
           break;
-        case 'newest':
+        case "newest":
           sortObj = { createdAt: -1 };
           break;
-        case 'oldest':
+        case "oldest":
           sortObj = { createdAt: 1 };
           break;
         default:
@@ -107,9 +112,7 @@ export const getAllProducts = async (req, res) => {
     }
 
     // Build projection (include textScore if text search)
-    const projection = q && q.trim()
-      ? { score: { $meta: 'textScore' } }
-      : {};
+    const projection = q && q.trim() ? { score: { $meta: "textScore" } } : {};
 
     const [products, totalProducts] = await Promise.all([
       Product.find(filter, projection)
@@ -117,7 +120,7 @@ export const getAllProducts = async (req, res) => {
         .skip(skip)
         .limit(limitNum)
         .lean(),
-      Product.countDocuments(filter)
+      Product.countDocuments(filter),
     ]);
 
     const totalPages = Math.ceil(totalProducts / limitNum);
@@ -126,11 +129,13 @@ export const getAllProducts = async (req, res) => {
       products,
       totalProducts,
       totalPages,
-      currentPage: pageNum
+      currentPage: pageNum,
     });
   } catch (error) {
-    console.error('Get all products error:', error);
-    res.status(500).json({ message: 'Failed to fetch products.', error: error.message });
+    // console.error("Get all products error:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch products.", error: error.message });
   }
 };
 
@@ -142,11 +147,16 @@ export const addProduct = async (req, res) => {
     const productUrl = link || productLink;
 
     if (!title || !description || !productUrl || price === undefined) {
-      return res.status(400).json({ message: 'title, description, link, and price are required.' });
+      return res
+        .status(400)
+        .json({ message: "title, description, link, and price are required." });
     }
 
     // Generate unique productId
-    const randomChars = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const randomChars = Math.random()
+      .toString(36)
+      .substring(2, 6)
+      .toUpperCase();
     const productId = `PROD-${Date.now()}-${randomChars}`;
 
     const product = await Product.create({
@@ -154,14 +164,16 @@ export const addProduct = async (req, res) => {
       title,
       description,
       link: productUrl,
-      imageUrl: imageUrl || '',
-      price: parseFloat(price)
+      imageUrl: imageUrl || "",
+      price: parseFloat(price),
     });
 
-    res.status(201).json({ message: 'Product created successfully.', product });
+    res.status(201).json({ message: "Product created successfully.", product });
   } catch (error) {
-    console.error('Add product error:', error);
-    res.status(500).json({ message: 'Failed to add product.', error: error.message });
+    // console.error("Add product error:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to add product.", error: error.message });
   }
 };
 
@@ -176,16 +188,22 @@ export const editProduct = async (req, res) => {
     const product = await Product.findOne(buildProductQuery(productId));
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found.' });
+      return res.status(404).json({ message: "Product not found." });
     }
 
     // Track changes in edit history
     const editEntries = [];
-    const fieldsToCheck = { title, description, link: productUrl, imageUrl, price };
+    const fieldsToCheck = {
+      title,
+      description,
+      link: productUrl,
+      imageUrl,
+      price,
+    };
 
     for (const [field, newValue] of Object.entries(fieldsToCheck)) {
       if (newValue !== undefined) {
-        const oldValue = String(product[field] ?? '');
+        const oldValue = String(product[field] ?? "");
         const newVal = String(newValue);
 
         if (oldValue !== newVal) {
@@ -193,7 +211,7 @@ export const editProduct = async (req, res) => {
             field,
             oldValue,
             newValue: newVal,
-            editedAt: new Date()
+            editedAt: new Date(),
           });
         }
       }
@@ -211,15 +229,22 @@ export const editProduct = async (req, res) => {
       buildProductQuery(productId),
       {
         $set: updateData,
-        $push: { editHistory: { $each: editEntries } }
+        $push: { editHistory: { $each: editEntries } },
       },
-      { new: true }
+      { new: true },
     );
 
-    res.status(200).json({ message: 'Product updated successfully.', product: updatedProduct });
+    res
+      .status(200)
+      .json({
+        message: "Product updated successfully.",
+        product: updatedProduct,
+      });
   } catch (error) {
-    console.error('Edit product error:', error);
-    res.status(500).json({ message: 'Failed to update product.', error: error.message });
+    // console.error("Edit product error:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to update product.", error: error.message });
   }
 };
 
@@ -229,16 +254,20 @@ export const deleteProduct = async (req, res) => {
   try {
     const { productId } = req.params;
 
-    const product = await Product.findOneAndDelete(buildProductQuery(productId));
+    const product = await Product.findOneAndDelete(
+      buildProductQuery(productId),
+    );
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found.' });
+      return res.status(404).json({ message: "Product not found." });
     }
 
-    res.status(200).json({ message: 'Product deleted successfully.' });
+    res.status(200).json({ message: "Product deleted successfully." });
   } catch (error) {
-    console.error('Delete product error:', error);
-    res.status(500).json({ message: 'Failed to delete product.', error: error.message });
+    // console.error("Delete product error:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to delete product.", error: error.message });
   }
 };
 
@@ -258,7 +287,7 @@ export const getSearchAnalytics = async (req, res) => {
         .skip(skip)
         .limit(limitNum)
         .lean(),
-      SearchAnalytics.countDocuments()
+      SearchAnalytics.countDocuments(),
     ]);
 
     const totalPages = Math.ceil(total / limitNum);
@@ -267,11 +296,16 @@ export const getSearchAnalytics = async (req, res) => {
       data,
       total,
       totalPages,
-      currentPage: pageNum
+      currentPage: pageNum,
     });
   } catch (error) {
-    console.error('Get search analytics error:', error);
-    res.status(500).json({ message: 'Failed to fetch search analytics.', error: error.message });
+    // console.error("Get search analytics error:", error);
+    res
+      .status(500)
+      .json({
+        message: "Failed to fetch search analytics.",
+        error: error.message,
+      });
   }
 };
 
@@ -291,7 +325,7 @@ export const getClickAnalytics = async (req, res) => {
         .skip(skip)
         .limit(limitNum)
         .lean(),
-      ClickAnalytics.countDocuments()
+      ClickAnalytics.countDocuments(),
     ]);
 
     const totalPages = Math.ceil(total / limitNum);
@@ -300,10 +334,15 @@ export const getClickAnalytics = async (req, res) => {
       data,
       total,
       totalPages,
-      currentPage: pageNum
+      currentPage: pageNum,
     });
   } catch (error) {
-    console.error('Get click analytics error:', error);
-    res.status(500).json({ message: 'Failed to fetch click analytics.', error: error.message });
+    // console.error("Get click analytics error:", error);
+    res
+      .status(500)
+      .json({
+        message: "Failed to fetch click analytics.",
+        error: error.message,
+      });
   }
 };

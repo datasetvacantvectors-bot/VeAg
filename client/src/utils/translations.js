@@ -6,51 +6,58 @@ export const translations = {
     loading: "Loading...",
     logout: "Logout",
     goBack: "Go Back",
-    
+
     // Landing Page
     landing: {
       getStarted: "Get Started",
       hero: {
         title: "AI-Powered Crop Disease Detection",
-        subtitle: "Protect your crops with intelligent disease detection. Upload images and get instant AI-powered diagnosis.",
+        subtitle:
+          "Protect your crops with intelligent disease detection. Upload images and get instant AI-powered diagnosis.",
         cta: "Start Detection",
-        learnMore: "Learn More"
+        learnMore: "Learn More",
       },
       features: {
         title: "Why Choose VeAg?",
         subtitle: "Advanced AI technology meets agricultural expertise",
         feature1: {
           title: "AI-Powered Analysis",
-          description: "Our advanced AI model analyzes crop images and identifies diseases with high accuracy."
+          description:
+            "Our advanced AI model analyzes crop images and identifies diseases with high accuracy.",
         },
         feature2: {
           title: "Instant Results",
-          description: "Get detailed disease detection results within minutes, not days."
+          description:
+            "Get detailed disease detection results within minutes, not days.",
         },
         feature3: {
           title: "Multiple Crops",
-          description: "Support for various crops including Rice, and many more coming soon."
-        }
+          description:
+            "Support for various crops including Rice, and many more coming soon.",
+        },
       },
       howItWorks: {
         title: "How It Works",
         subtitle: "Simple process to protect your crops",
         step1: {
           title: "Sign Up",
-          description: "Create your account with Google in seconds"
+          description: "Create your account with Google in seconds",
         },
         step2: {
           title: "Upload Images",
-          description: "Take photos of affected plants and upload up to 10 images"
+          description:
+            "Take photos of affected plants and upload up to 10 images",
         },
         step3: {
           title: "AI Analysis",
-          description: "Our AI model processes your images and detects diseases"
+          description:
+            "Our AI model processes your images and detects diseases",
         },
         step4: {
           title: "Get Results",
-          description: "Receive detailed diagnosis and treatment recommendations"
-        }
+          description:
+            "Receive detailed diagnosis and treatment recommendations",
+        },
       },
       faq: {
         title: "Frequently Asked Questions",
@@ -66,7 +73,7 @@ export const translations = {
         q5: "Is my data secure?",
         a5: "Absolutely! We use industry-standard encryption and secure cloud storage. Your data is never shared with third parties.",
         q6: "What payment methods do you accept?",
-        a6: "We accept all major payment methods through Razorpay, including credit/debit cards, UPI, and net banking."
+        a6: "We accept all major payment methods through Razorpay, including credit/debit cards, UPI, and net banking.",
       },
       contact: {
         title: "Get In Touch",
@@ -74,20 +81,20 @@ export const translations = {
         general: {
           title: "General Inquiries",
           email: "sarthak@vacantvectors.com",
-          description: "For support and general questions"
+          description: "For support and general questions",
         },
         payment: {
           title: "Payment Related",
           email: "sarthak@vacantvectors.com",
-          description: "For billing and subscription queries"
-        }
+          description: "For billing and subscription queries",
+        },
       },
       footer: {
         tagline: "Protecting crops with artificial intelligence",
-        rights: "All rights reserved"
-      }
+        rights: "All rights reserved",
+      },
     },
-    
+
     // Login Page
     login: {
       welcome: "Welcome to VeAg",
@@ -95,10 +102,11 @@ export const translations = {
       signInGoogle: "Sign In with Google",
       signingIn: "Signing in...",
       secureAccount: "We use Google to keep your account secure",
-      informationUsage: "By continuing, you agree to our 1) Terms and Conditions, 2) Privacy Policy, 3) Return, Refund & Cancellation Policy and 4) Shipping & Delivery Policy.",
-      errorSignIn: "Failed to sign in with Google. Please try again."
+      informationUsage:
+        "By continuing, you agree to our 1) Terms and Conditions, 2) Privacy Policy, 3) Return, Refund & Cancellation Policy and 4) Shipping & Delivery Policy.",
+      errorSignIn: "Failed to sign in with Google. Please try again.",
     },
-    
+
     // Product Search
     productSearch: {
       title: "Product Search",
@@ -106,9 +114,10 @@ export const translations = {
         "Search for agricultural products...",
         "Find farming equipment...",
         "Discover seeds & fertilizers...",
-        "Search organic products..."
+        "Search organic products...",
       ],
-      helperText: "VeAg Product Search - Find the best agricultural products for your needs.",
+      helperText:
+        "VeAg Product Search - Find the best agricultural products for your needs.",
       backToDashboard: "Back to Dashboard",
       searchPlaceholder: "Search for agricultural products...",
       searchButton: "Search",
@@ -139,17 +148,20 @@ export const translations = {
         priceAsc: "Price: Low → High",
         priceDesc: "Price: High → Low",
         newest: "Newest First",
-        oldest: "Oldest First"
+        oldest: "Oldest First",
       },
       modal: {
         description: "Description",
         visitStore: "Visit Store",
-        disclaimer1Part1: "Price displayed may not be accurate and is subject to change without notice. The listed price was last fetched from the external seller's website",
-        disclaimer1Part2: ". Actual pricing, offers, discounts, and availability may vary at the time of purchase.",
-        disclaimer2: "VeAg acts solely as a product discovery platform and is not affiliated with, endorsed by, or responsible for any third-party sellers. We do not guarantee the accuracy of product information, pricing, stock availability, or delivery timelines. All transactions are conducted directly between you and the external seller. Please verify all details on the seller's website before making a purchase."
-      }
+        disclaimer1Part1:
+          "Price displayed may not be accurate and is subject to change without notice. The listed price was last fetched from the external seller's website",
+        disclaimer1Part2:
+          ". Actual pricing, offers, discounts, and availability may vary at the time of purchase.",
+        disclaimer2:
+          "VeAg acts solely as a product discovery platform and is not affiliated with, endorsed by, or responsible for any third-party sellers. We do not guarantee the accuracy of product information, pricing, stock availability, or delivery timelines. All transactions are conducted directly between you and the external seller. Please verify all details on the seller's website before making a purchase.",
+      },
     },
-    
+
     // Dashboard
     dashboard: {
       title: "Your gateway to smart agriculture.",
@@ -173,23 +185,24 @@ export const translations = {
       date: "Date",
       viewDetails: "View Details",
       noCases: "No cases found",
-      noCasesDesc: "You haven't registered any cases yet. Click 'Register New Case' to get started.",
+      noCasesDesc:
+        "You haven't registered any cases yet. Click 'Register New Case' to get started.",
       subscriptionStatus: "Subscription Status",
       active: "Active",
       daysLeft: "days left",
       needHelp: "Need Help?",
       helpDesc: "Have questions or need assistance? We're here to help!",
-      contactSupport: "Contact Support"
+      contactSupport: "Contact Support",
     },
-    
+
     // Status
     status: {
       pending: "Pending",
       processing: "Processing",
       completed: "Completed",
-      failed: "Failed"
+      failed: "Failed",
     },
-    
+
     // Register Case
     registerCase: {
       title: "Register New Case",
@@ -239,16 +252,17 @@ export const translations = {
       maxImagesAlert: "Maximum 10 images can be uploaded",
       cameraError: "Unable to access camera. Please check permissions.",
       uploadingCloud: "Uploading to cloud storage...",
-      caseCreated: "Case created successfully!"
+      caseCreated: "Case created successfully!",
     },
 
     // Report Download
     generateReport: {
-      information: "Please generate all the above 3 sections to enable report download and Ask VeAg",
+      information:
+        "Please generate all the above 3 sections to enable report download and Ask VeAg",
       generatingReport: "Generating Report...",
-      saveReport: "Save Report"
+      saveReport: "Save Report",
     },
-    
+
     // Manage Cases
     manageCases: {
       title: "My Cases",
@@ -263,7 +277,8 @@ export const translations = {
       error: "Error Loading Cases",
       tryAgain: "Try Again",
       noCasesYet: "No Cases Yet",
-      registerFirst: "You haven't registered any cases yet. Start by registering your first case!",
+      registerFirst:
+        "You haven't registered any cases yet. Start by registering your first case!",
       registerCase: "Register New Case",
       viewCase: "View Case",
       needHelp: "Need Help?",
@@ -274,15 +289,16 @@ export const translations = {
       activeSubscription: "Active Premium Subscription",
       daysRemaining: "days remaining",
       retry: "Try Again",
-      noCasesMessage: "You haven't registered any cases yet. Start by registering your first case!",
+      noCasesMessage:
+        "You haven't registered any cases yet. Start by registering your first case!",
       viewDetails: "View Details",
       summary: "Summary",
       page: "Page",
       of: "of",
       refresh: "Refresh",
-      refreshing: "Refreshing..."
+      refreshing: "Refreshing...",
     },
-    
+
     // Case Detail
     caseDetail: {
       needHelp: "Need Help?",
@@ -310,7 +326,8 @@ export const translations = {
       completed: "Completed",
       processingFailed: "Processing Failed",
       errorOccurred: "An error occurred during analysis",
-      errorDesc: "The AI model encountered an error while processing your images. Please try again.",
+      errorDesc:
+        "The AI model encountered an error while processing your images. Please try again.",
       retry: "Retry Processing",
       retrying: "Retrying...",
       cropInfo: "Crop Information",
@@ -328,13 +345,15 @@ export const translations = {
       aiAnalyzing: "AI model is analyzing your images...",
       runningAI: "Running AI analysis",
       cropInformation: "Crop Information",
-      failedMessage: "The AI model encountered an error while processing your images. Please try again.",
+      failedMessage:
+        "The AI model encountered an error while processing your images. Please try again.",
       status: "Status",
       photos: "photos",
       // Treatment & Insights
       treatmentInsights: "Treatment & Insights",
       treatmentInsightsDesc: "AI-powered recommendations for",
-      treatmentInsightsInformation: "Click on the buttons below to generate / view detailed treatment guide, disease causes, and prevention strategies.",
+      treatmentInsightsInformation:
+        "Click on the buttons below to generate / view detailed treatment guide, disease causes, and prevention strategies.",
       getTreatment: "Get Treatment",
       getCauses: "Causes",
       getPrevention: "Prevention",
@@ -355,8 +374,10 @@ export const translations = {
       askVeAgTitle: "Ask VeAg",
       askVeAgSubtitle: "AI Agricultural Assistant",
       askVeAgWelcome: "Welcome to Ask VeAg!",
-      askVeAgWelcomeMsg: "I'm your AI assistant specialized in helping with the disease detected in your crop. Ask me anything about the disease, like its causes, treatment options, or prevention strategies. I'm here to help you understand and manage your crop's health better!",
-      askVeAgRules: "Important: I can only answer questions related to the detected disease. Text messages only.",
+      askVeAgWelcomeMsg:
+        "I'm your AI assistant specialized in helping with the disease detected in your crop. Ask me anything about the disease, like its causes, treatment options, or prevention strategies. I'm here to help you understand and manage your crop's health better!",
+      askVeAgRules:
+        "Important: I can only answer questions related to the detected disease. Text messages only.",
       askVeAgPlaceholder: "Type your question here...",
       askVeAgSend: "Send",
       askVeAgClose: "Close",
@@ -375,9 +396,10 @@ export const translations = {
       askVeAgLoadingOlder: "Loading older messages...",
       askVeAgToday: "Today",
       askVeAgYesterday: "Yesterday",
-      askVeAgPrivacy: "I'm not a conversational chatbot — I don't retain memory between questions. Each answer is independent, to protect your privacy."
+      askVeAgPrivacy:
+        "I'm not a conversational chatbot — I don't retain memory between questions. Each answer is independent, to protect your privacy.",
     },
-    
+
     // Edit Profile
     editProfile: {
       title: "Edit Profile",
@@ -413,9 +435,9 @@ export const translations = {
       copied: "Copied!",
       logout: "Log Out",
       copyUserId: "Copy User ID",
-      noNameHistory: "No name history found."
+      noNameHistory: "No name history found.",
     },
-    
+
     // Manage Subscription
     manageSubscription: {
       title: "Manage Subscription",
@@ -480,9 +502,11 @@ export const translations = {
       paymentCancelled: "Payment Cancelled",
       failedToInitiatePayment: "Failed to Initiate Payment",
       paymentId: "Payment ID",
-      subscriptionActivated: "✓ Your subscription has been activated successfully!",
+      subscriptionActivated:
+        "✓ Your subscription has been activated successfully!",
       noChargesMade: "No charges were made to your account.",
-      amountRefund: "If amount was deducted, it will be refunded within 5-7 business days.",
+      amountRefund:
+        "If amount was deducted, it will be refunded within 5-7 business days.",
       continue: "Continue",
       close: "Close",
       errorVerifyPayment: "Unable to verify payment. Please contact support.",
@@ -490,9 +514,9 @@ export const translations = {
       errorCheckConnection: "Check your internet connection and try again.",
       infoCancelledPayment: "You have cancelled the payment process.",
       page: "Page",
-      of: "of"
+      of: "of",
     },
-    
+
     // Not Found
     notFound: {
       title: "404 - Page Not Found",
@@ -509,9 +533,9 @@ export const translations = {
       registerCase: "Register Case",
       manageCases: "Manage Cases",
       editProfile: "Edit Profile",
-      subscription: "Subscription"
+      subscription: "Subscription",
     },
-    
+
     // No Subscription (withSubscription HOC)
     noSubscription: {
       title: "No Active Subscription",
@@ -519,68 +543,75 @@ export const translations = {
       feature1: "AI-powered disease detection",
       feature2: "Unlimited case registrations",
       feature3: "Priority support",
-      contactAdmin: "Please contact the administrator to activate your subscription.",
+      contactAdmin:
+        "Please contact the administrator to activate your subscription.",
       email: "Email",
       goToDashboard: "Go to Dashboard",
       checking: "Checking subscription...",
       getPremium: "Get Premium Access",
       startingAt: "Starting at ₹9/month",
       getSubscription: "Get Subscription",
-      backToDashboard: "Back to Dashboard"
-    }
+      backToDashboard: "Back to Dashboard",
+    },
   },
-  
+
   hi: {
     // Common
     veag: "VeAg",
     loading: "लोड हो रहा है...",
     logout: "लॉगआउट",
     goBack: "वापस जाएं",
-    
+
     // Landing Page
     landing: {
       getStarted: "शुरू करें",
       hero: {
         title: "AI-संचालित फसल रोग पहचान",
-        subtitle: "बुद्धिमान रोग पहचान से अपनी फसलों की रक्षा करें। छवियां अपलोड करें और तुरंत AI-संचालित निदान प्राप्त करें।",
+        subtitle:
+          "बुद्धिमान रोग पहचान से अपनी फसलों की रक्षा करें। छवियां अपलोड करें और तुरंत AI-संचालित निदान प्राप्त करें।",
         cta: "पहचान शुरू करें",
-        learnMore: "और जानें"
+        learnMore: "और जानें",
       },
       features: {
         title: "VeAg क्यों चुनें?",
         subtitle: "उन्नत AI तकनीक कृषि विशेषज्ञता से मिलती है",
         feature1: {
           title: "AI-संचालित विश्लेषण",
-          description: "हमारा उन्नत AI मॉडल फसल छवियों का विश्लेषण करता है और उच्च सटीकता के साथ रोगों की पहचान करता है।"
+          description:
+            "हमारा उन्नत AI मॉडल फसल छवियों का विश्लेषण करता है और उच्च सटीकता के साथ रोगों की पहचान करता है।",
         },
         feature2: {
           title: "तत्काल परिणाम",
-          description: "दिनों के बजाय मिनटों में विस्तृत रोग पहचान परिणाम प्राप्त करें।"
+          description:
+            "दिनों के बजाय मिनटों में विस्तृत रोग पहचान परिणाम प्राप्त करें।",
         },
         feature3: {
           title: "कई फसलें",
-          description: "चावल सहित विभिन्न फसलों के लिए समर्थन, और जल्द ही कई और आ रहे हैं।"
-        }
+          description:
+            "चावल सहित विभिन्न फसलों के लिए समर्थन, और जल्द ही कई और आ रहे हैं।",
+        },
       },
       howItWorks: {
         title: "यह कैसे काम करता है",
         subtitle: "अपनी फसलों की रक्षा के लिए सरल प्रक्रिया",
         step1: {
           title: "साइन अप करें",
-          description: "सेकंड में Google के साथ अपना खाता बनाएं"
+          description: "सेकंड में Google के साथ अपना खाता बनाएं",
         },
         step2: {
           title: "छवियां अपलोड करें",
-          description: "प्रभावित पौधों की तस्वीरें लें और 10 छवियों तक अपलोड करें"
+          description:
+            "प्रभावित पौधों की तस्वीरें लें और 10 छवियों तक अपलोड करें",
         },
         step3: {
           title: "AI विश्लेषण",
-          description: "हमारा AI मॉडल आपकी छवियों को संसाधित करता है और रोगों का पता लगाता है"
+          description:
+            "हमारा AI मॉडल आपकी छवियों को संसाधित करता है और रोगों का पता लगाता है",
         },
         step4: {
           title: "परिणाम प्राप्त करें",
-          description: "विस्तृत निदान और उपचार सिफारिशें प्राप्त करें"
-        }
+          description: "विस्तृत निदान और उपचार सिफारिशें प्राप्त करें",
+        },
       },
       faq: {
         title: "अक्सर पूछे जाने वाले प्रश्न",
@@ -596,7 +627,7 @@ export const translations = {
         q5: "क्या मेरा डेटा सुरक्षित है?",
         a5: "बिल्कुल! हम उद्योग-मानक एन्क्रिप्शन और सुरक्षित क्लाउड स्टोरेज का उपयोग करते हैं। आपका डेटा कभी भी तीसरे पक्ष के साथ साझा नहीं किया जाता है।",
         q6: "आप कौन से भुगतान विधियां स्वीकार करते हैं?",
-        a6: "हम Razorpay के माध्यम से सभी प्रमुख भुगतान विधियां स्वीकार करते हैं, जिसमें क्रेडिट/डेबिट कार्ड, UPI और नेट बैंकिंग शामिल हैं।"
+        a6: "हम Razorpay के माध्यम से सभी प्रमुख भुगतान विधियां स्वीकार करते हैं, जिसमें क्रेडिट/डेबिट कार्ड, UPI और नेट बैंकिंग शामिल हैं।",
       },
       contact: {
         title: "संपर्क करें",
@@ -604,31 +635,33 @@ export const translations = {
         general: {
           title: "सामान्य पूछताछ",
           email: "sarthak@vacantvectors.com",
-          description: "समर्थन और सामान्य प्रश्नों के लिए"
+          description: "समर्थन और सामान्य प्रश्नों के लिए",
         },
         payment: {
           title: "भुगतान संबंधित",
           email: "sarthak@vacantvectors.com",
-          description: "बिलिंग और सदस्यता प्रश्नों के लिए"
-        }
+          description: "बिलिंग और सदस्यता प्रश्नों के लिए",
+        },
       },
       footer: {
         tagline: "कृत्रिम बुद्धिमत्ता से फसलों की रक्षा",
-        rights: "सर्वाधिकार सुरक्षित"
-      }
+        rights: "सर्वाधिकार सुरक्षित",
+      },
     },
-    
+
     // Login Page
     login: {
       welcome: "VeAg में आपका स्वागत है",
       subtitle: "AI-संचालित फसल रोग पहचान",
       signInGoogle: "Google से साइन इन करें",
       signingIn: "साइन इन हो रहा है...",
-      secureAccount: "हम आपके खाते को सुरक्षित रखने के लिए Google का उपयोग करते हैं",
-      informationUsage: "जारी रखकर, आप हमारी 1) नियम और शर्तें, 2) गोपनीयता नीति, 3) वापसी, रिफंड और रद्द करने की नीति और 4) शिपिंग और डिलीवरी नीति से सहमत होते हैं।",
-      errorSignIn: "Google से साइन इन करने में विफल। कृपया पुनः प्रयास करें।"
+      secureAccount:
+        "हम आपके खाते को सुरक्षित रखने के लिए Google का उपयोग करते हैं",
+      informationUsage:
+        "जारी रखकर, आप हमारी 1) नियम और शर्तें, 2) गोपनीयता नीति, 3) वापसी, रिफंड और रद्द करने की नीति और 4) शिपिंग और डिलीवरी नीति से सहमत होते हैं।",
+      errorSignIn: "Google से साइन इन करने में विफल। कृपया पुनः प्रयास करें।",
     },
-    
+
     // Product Search
     productSearch: {
       title: "उत्पाद खोज",
@@ -636,9 +669,10 @@ export const translations = {
         "कृषि उत्पाद खोजें...",
         "खेती के उपकरण खोजें...",
         "बीज और उर्वरक खोजें...",
-        "जैविक उत्पाद खोजें..."
+        "जैविक उत्पाद खोजें...",
       ],
-      helperText: "VeAg उत्पाद खोज - अपनी आवश्यकताओं के लिए सर्वोत्तम कृषि उत्पाद खोजें।",
+      helperText:
+        "VeAg उत्पाद खोज - अपनी आवश्यकताओं के लिए सर्वोत्तम कृषि उत्पाद खोजें।",
       backToDashboard: "डैशबोर्ड पर वापस जाएं",
       searchPlaceholder: "कृषि उत्पाद खोजें...",
       searchButton: "खोजें",
@@ -669,17 +703,20 @@ export const translations = {
         priceAsc: "कीमत: कम → अधिक",
         priceDesc: "कीमत: अधिक → कम",
         newest: "नवीनतम पहले",
-        oldest: "सबसे पुराना पहले"
+        oldest: "सबसे पुराना पहले",
       },
       modal: {
         description: "विवरण",
         visitStore: "स्टोर पर जाएं",
-        disclaimer1Part1: "प्रदर्शित मूल्य सटीक नहीं हो सकता है और बिना किसी सूचना के परिवर्तन के अधीन है। सूचीबद्ध मूल्य अंतिम बार बाहरी विक्रेता की वेबसाइट से प्राप्त किया गया था",
-        disclaimer1Part2: "। वास्तविक मूल्य निर्धारण, ऑफ़र, छूट और उपलब्धता खरीदारी के समय भिन्न हो सकती है।",
-        disclaimer2: "VeAg पूरी तरह से एक उत्पाद खोज मंच के रूप में कार्य करता है और किसी तीसरे पक्ष के विक्रेताओं से संबद्ध, समर्थित या जिम्मेदार नहीं है। हम उत्पाद जानकारी, मूल्य निर्धारण, स्टॉक उपलब्धता, या डिलीवरी समयसीमा की सटीकता की गारंटी नहीं देते हैं। सभी लेनदेन सीधे आपके और बाहरी विक्रेता के बीच किए जाते हैं। खरीदारी करने से पहले कृपया विक्रेता की वेबसाइट पर सभी विवरण सत्यापित करें।"
-      }
+        disclaimer1Part1:
+          "प्रदर्शित मूल्य सटीक नहीं हो सकता है और बिना किसी सूचना के परिवर्तन के अधीन है। सूचीबद्ध मूल्य अंतिम बार बाहरी विक्रेता की वेबसाइट से प्राप्त किया गया था",
+        disclaimer1Part2:
+          "। वास्तविक मूल्य निर्धारण, ऑफ़र, छूट और उपलब्धता खरीदारी के समय भिन्न हो सकती है।",
+        disclaimer2:
+          "VeAg पूरी तरह से एक उत्पाद खोज मंच के रूप में कार्य करता है और किसी तीसरे पक्ष के विक्रेताओं से संबद्ध, समर्थित या जिम्मेदार नहीं है। हम उत्पाद जानकारी, मूल्य निर्धारण, स्टॉक उपलब्धता, या डिलीवरी समयसीमा की सटीकता की गारंटी नहीं देते हैं। सभी लेनदेन सीधे आपके और बाहरी विक्रेता के बीच किए जाते हैं। खरीदारी करने से पहले कृपया विक्रेता की वेबसाइट पर सभी विवरण सत्यापित करें।",
+      },
     },
-    
+
     // Dashboard
     dashboard: {
       title: "स्मार्ट कृषि के लिए आपका द्वार।",
@@ -703,23 +740,25 @@ export const translations = {
       date: "तारीख",
       viewDetails: "विवरण देखें",
       noCases: "कोई केस नहीं मिला",
-      noCasesDesc: "आपने अभी तक कोई केस पंजीकृत नहीं किया है। शुरू करने के लिए 'नया केस पंजीकृत करें' पर क्लिक करें।",
+      noCasesDesc:
+        "आपने अभी तक कोई केस पंजीकृत नहीं किया है। शुरू करने के लिए 'नया केस पंजीकृत करें' पर क्लिक करें।",
       subscriptionStatus: "सदस्यता स्थिति",
       active: "सक्रिय",
       daysLeft: "दिन बचे",
       needHelp: "मदद चाहिए?",
-      helpDesc: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
-      contactSupport: "सहायता से संपर्क करें"
+      helpDesc:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      contactSupport: "सहायता से संपर्क करें",
     },
-    
+
     // Status
     status: {
       pending: "लंबित",
       processing: "प्रसंस्करण",
       completed: "पूर्ण",
-      failed: "विफल"
+      failed: "विफल",
     },
-    
+
     // Register Case
     registerCase: {
       title: "नया केस पंजीकृत करें",
@@ -730,7 +769,8 @@ export const translations = {
       dragDrop: "यहां चित्र खींचें और छोड़ें, या चुनने के लिए क्लिक करें",
       imageCount: "चित्र चुने गए",
       observation: "रोग अवलोकन (वैकल्पिक)",
-      observationPlaceholder: "पौधे के बारे में आप क्या देखते हैं वर्णन करें...",
+      observationPlaceholder:
+        "पौधे के बारे में आप क्या देखते हैं वर्णन करें...",
       submitting: "सबमिट हो रहा है...",
       submitCase: "केस सबमिट करें",
       enterDetails: "कृपया केस विवरण दर्ज करें",
@@ -741,7 +781,8 @@ export const translations = {
       goToCases: "मेरे केस पर जाएं",
       goToDashboard: "डैशबोर्ड पर जाएं",
       needHelp: "मदद चाहिए?",
-      supportText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      supportText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       activeSubscription: "सक्रिय प्रीमियम सदस्यता",
       daysRemaining: "दिन शेष",
@@ -769,16 +810,17 @@ export const translations = {
       maxImagesAlert: "अधिकतम 10 चित्र अपलोड किए जा सकते हैं",
       cameraError: "कैमरे तक पहुंचने में असमर्थ। कृपया अनुमतियां जांचें।",
       uploadingCloud: "क्लाउड स्टोरेज में अपलोड हो रहा है...",
-      caseCreated: "केस सफलतापूर्वक बनाया गया!"
+      caseCreated: "केस सफलतापूर्वक बनाया गया!",
     },
 
     // Report Download
     generateReport: {
-      information: "रिपोर्ट डाउनलोड और Ask VeAg को सक्षम करने के लिए कृपया ऊपर दिए गए सभी 3 सेक्शन उत्पन्न करें।",
+      information:
+        "रिपोर्ट डाउनलोड और Ask VeAg को सक्षम करने के लिए कृपया ऊपर दिए गए सभी 3 सेक्शन उत्पन्न करें।",
       generatingReport: "रिपोर्ट तैयार हो रही है...",
-      saveReport: "रिपोर्ट सहेजें"
+      saveReport: "रिपोर्ट सहेजें",
     },
-    
+
     // Manage Cases
     manageCases: {
       title: "मेरे केस",
@@ -793,30 +835,34 @@ export const translations = {
       error: "केस लोड करने में त्रुटि",
       tryAgain: "पुनः प्रयास करें",
       noCasesYet: "अभी तक कोई केस नहीं",
-      registerFirst: "आपने अभी तक कोई केस पंजीकृत नहीं किया है। अपना पहला केस पंजीकृत करके शुरू करें!",
+      registerFirst:
+        "आपने अभी तक कोई केस पंजीकृत नहीं किया है। अपना पहला केस पंजीकृत करके शुरू करें!",
       registerCase: "नया केस पंजीकृत करें",
       viewCase: "केस देखें",
       needHelp: "मदद चाहिए?",
-      supportText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      supportText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       subtitle: "अपने सभी पंजीकृत केस देखें और प्रबंधित करें",
       newCase: "नया केस",
       activeSubscription: "सक्रिय प्रीमियम सदस्यता",
       daysRemaining: "दिन शेष",
       retry: "पुनः प्रयास करें",
-      noCasesMessage: "आपने अभी तक कोई केस पंजीकृत नहीं किया है। अपना पहला केस पंजीकृत करके शुरू करें!",
+      noCasesMessage:
+        "आपने अभी तक कोई केस पंजीकृत नहीं किया है। अपना पहला केस पंजीकृत करके शुरू करें!",
       viewDetails: "विवरण देखें",
       summary: "सारांश",
       page: "पृष्ठ",
       of: "में से",
       refresh: "रिफ्रेश करें",
-      refreshing: "रिफ्रेश हो रहा है..."
+      refreshing: "रिफ्रेश हो रहा है...",
     },
-    
+
     // Case Detail
     caseDetail: {
       needHelp: "मदद चाहिए?",
-      helpText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      helpText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       unauthorizedTitle: "अनधिकृत पहुंच",
       unauthorizedText: "आपके पास इस केस को देखने की अनुमति नहीं है।",
@@ -840,7 +886,8 @@ export const translations = {
       completed: "पूर्ण",
       processingFailed: "प्रोसेसिंग विफल",
       errorOccurred: "विश्लेषण के दौरान एक त्रुटि हुई",
-      errorDesc: "आपकी छवियों को संसाधित करते समय AI मॉडल में एक त्रुटि आई। कृपया पुनः प्रयास करें।",
+      errorDesc:
+        "आपकी छवियों को संसाधित करते समय AI मॉडल में एक त्रुटि आई। कृपया पुनः प्रयास करें।",
       retry: "प्रोसेसिंग पुनः प्रयास करें",
       retrying: "पुनः प्रयास हो रहा है...",
       cropInfo: "फसल की जानकारी",
@@ -858,13 +905,15 @@ export const translations = {
       aiAnalyzing: "AI मॉडल आपके चित्रों का विश्लेषण कर रहा है...",
       runningAI: "AI विश्लेषण चल रहा है",
       cropInformation: "फसल की जानकारी",
-      failedMessage: "आपकी छवियों को संसाधित करते समय AI मॉडल में एक त्रुटि आई। कृपया पुनः प्रयास करें।",
+      failedMessage:
+        "आपकी छवियों को संसाधित करते समय AI मॉडल में एक त्रुटि आई। कृपया पुनः प्रयास करें।",
       status: "स्थिति",
       photos: "चित्र",
       // Treatment & Insights
       treatmentInsights: "उपचार और जानकारी",
       treatmentInsightsDesc: "AI-संचालित सिफारिशें",
-      treatmentInsightsInformation: "विस्तृत उपचार गाइड, रोग कारणों और रोकथाम रणनीतियों को उत्पन्न / देखने के लिए नीचे दिए गए बटनों पर क्लिक करें।",
+      treatmentInsightsInformation:
+        "विस्तृत उपचार गाइड, रोग कारणों और रोकथाम रणनीतियों को उत्पन्न / देखने के लिए नीचे दिए गए बटनों पर क्लिक करें।",
       getTreatment: "उपचार प्राप्त करें",
       getCauses: "कारण",
       getPrevention: "रोकथाम",
@@ -885,8 +934,10 @@ export const translations = {
       askVeAgTitle: "VeAg से पूछें",
       askVeAgSubtitle: "AI कृषि सहायक",
       askVeAgWelcome: "VeAg से पूछें में आपका स्वागत है!",
-      askVeAgWelcomeMsg: "मैं आपकी फसल में पाए गए रोग के बारे में मदद करने के लिए आपका AI सहायक हूं। मुझसे इस रोग के बारे में कुछ भी पूछें, जैसे इसके कारण, उपचार विकल्प, या रोकथाम रणनीतियाँ। मैं आपकी फसल के स्वास्थ्य को बेहतर ढंग से समझने और प्रबंधित करने में आपकी मदद करने के लिए यहां हूं!",
-      askVeAgRules: "महत्वपूर्ण: मैं केवल पहचाने गए रोग से संबंधित प्रश्नों का उत्तर दे सकता हूं। केवल टेक्स्ट संदेश।",
+      askVeAgWelcomeMsg:
+        "मैं आपकी फसल में पाए गए रोग के बारे में मदद करने के लिए आपका AI सहायक हूं। मुझसे इस रोग के बारे में कुछ भी पूछें, जैसे इसके कारण, उपचार विकल्प, या रोकथाम रणनीतियाँ। मैं आपकी फसल के स्वास्थ्य को बेहतर ढंग से समझने और प्रबंधित करने में आपकी मदद करने के लिए यहां हूं!",
+      askVeAgRules:
+        "महत्वपूर्ण: मैं केवल पहचाने गए रोग से संबंधित प्रश्नों का उत्तर दे सकता हूं। केवल टेक्स्ट संदेश।",
       askVeAgPlaceholder: "यहां अपना प्रश्न लिखें...",
       askVeAgSend: "भेजें",
       askVeAgClose: "बंद करें",
@@ -905,9 +956,10 @@ export const translations = {
       askVeAgLoadingOlder: "पुराने संदेश लोड हो रहे हैं...",
       askVeAgToday: "आज",
       askVeAgYesterday: "कल",
-      askVeAgPrivacy: "मैं एक संवादात्मक चैटबॉट नहीं हूं — मैं प्रश्नों के बीच मेमोरी नहीं रखता। आपकी गोपनीयता की रक्षा के लिए प्रत्येक उत्तर स्वतंत्र है।"
+      askVeAgPrivacy:
+        "मैं एक संवादात्मक चैटबॉट नहीं हूं — मैं प्रश्नों के बीच मेमोरी नहीं रखता। आपकी गोपनीयता की रक्षा के लिए प्रत्येक उत्तर स्वतंत्र है।",
     },
-    
+
     // Edit Profile
     editProfile: {
       title: "प्रोफ़ाइल संपादित करें",
@@ -925,7 +977,8 @@ export const translations = {
       profileSuccess: "आपकी प्रोफ़ाइल सफलतापूर्वक अपडेट हो गई है।",
       enterName: "कृपया अपना नाम दर्ज करें",
       needHelp: "मदद चाहिए?",
-      supportText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      supportText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       loadingProfile: "प्रोफ़ाइल लोड हो रहा है...",
       edit: "संपादित करें",
@@ -943,15 +996,16 @@ export const translations = {
       copied: "कॉपी हो गया!",
       logout: "लॉग आउट",
       copyUserId: "उपयोगकर्ता आईडी कॉपी करें",
-      noNameHistory: "कोई नाम इतिहास नहीं मिला।"
+      noNameHistory: "कोई नाम इतिहास नहीं मिला।",
     },
-    
+
     // Manage Subscription
     manageSubscription: {
       title: "सदस्यता प्रबंधित करें",
       loadingSubscription: "सदस्यता लोड हो रही है...",
       needHelp: "मदद चाहिए?",
-      helpText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      helpText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       activePremiumSubscription: "सक्रिय प्रीमियम सदस्यता",
       daysRemaining: "शेष दिन",
@@ -1012,17 +1066,20 @@ export const translations = {
       paymentId: "भुगतान आईडी",
       subscriptionActivated: "✓ आपकी सदस्यता सफलतापूर्वक सक्रिय कर दी गई है!",
       noChargesMade: "आपके खाते से कोई शुल्क नहीं लिया गया।",
-      amountRefund: "यदि राशि कट ली गई है, तो इसे 5-7 व्यावसायिक दिनों में वापस कर दिया जाएगा।",
+      amountRefund:
+        "यदि राशि कट ली गई है, तो इसे 5-7 व्यावसायिक दिनों में वापस कर दिया जाएगा।",
       continue: "जारी रखें",
       close: "बंद करें",
-      errorVerifyPayment: "भुगतान सत्यापित नहीं कर सके। कृपया सहायता से संपर्क करें।",
-      errorStartPayment: "भुगतान प्रक्रिया शुरू नहीं कर सके। कृपया पुनः प्रयास करें।",
+      errorVerifyPayment:
+        "भुगतान सत्यापित नहीं कर सके। कृपया सहायता से संपर्क करें।",
+      errorStartPayment:
+        "भुगतान प्रक्रिया शुरू नहीं कर सके। कृपया पुनः प्रयास करें।",
       errorCheckConnection: "अपना इंटरनेट कनेक्शन जांचें और पुनः प्रयास करें।",
       infoCancelledPayment: "आपने भुगतान प्रक्रिया रद्द कर दी है।",
       page: "पृष्ठ",
-      of: "में से"
+      of: "में से",
     },
-    
+
     // Not Found
     notFound: {
       title: "404 - पृष्ठ नहीं मिला",
@@ -1031,7 +1088,8 @@ export const translations = {
       goHome: "होम पर जाएं",
       goToDashboard: "डैशबोर्ड पर जाएं",
       needHelp: "मदद चाहिए?",
-      supportText: "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
+      supportText:
+        "क्या आपके कोई प्रश्न हैं या सहायता चाहिए? हम यहां मदद के लिए हैं!",
       contactSupport: "सहायता से संपर्क करें",
       redirecting: "डैशबोर्ड पर स्वतः रीडायरेक्ट हो रहा है",
       in5Seconds: "5 सेकंड में...",
@@ -1039,78 +1097,87 @@ export const translations = {
       registerCase: "केस पंजीकृत करें",
       manageCases: "केस प्रबंधित करें",
       editProfile: "प्रोफ़ाइल संपादित करें",
-      subscription: "सदस्यता"
+      subscription: "सदस्यता",
     },
-    
+
     // No Subscription
     noSubscription: {
       title: "कोई सक्रिय सदस्यता नहीं",
-      message: "इस सुविधा तक पहुंचने के लिए आपको एक सक्रिय सदस्यता की आवश्यकता है।",
+      message:
+        "इस सुविधा तक पहुंचने के लिए आपको एक सक्रिय सदस्यता की आवश्यकता है।",
       feature1: "AI-संचालित रोग पहचान",
       feature2: "असीमित केस पंजीकरण",
       feature3: "प्राथमिकता सहायता",
-      contactAdmin: "कृपया अपनी सदस्यता सक्रिय करने के लिए व्यवस्थापक से संपर्क करें।",
+      contactAdmin:
+        "कृपया अपनी सदस्यता सक्रिय करने के लिए व्यवस्थापक से संपर्क करें।",
       email: "ईमेल",
       goToDashboard: "डैशबोर्ड पर जाएं",
       checking: "सदस्यता जांच रहे हैं...",
       getPremium: "प्रीमियम एक्सेस प्राप्त करें",
       startingAt: "₹9/माह से शुरू",
       getSubscription: "सदस्यता प्राप्त करें",
-      backToDashboard: "डैशबोर्ड पर वापस जाएं"
-    }
+      backToDashboard: "डैशबोर्ड पर वापस जाएं",
+    },
   },
-  
+
   bn: {
     // Common
     veag: "VeAg",
     loading: "লোড হচ্ছে...",
     logout: "লগআউট",
     goBack: "ফিরে যান",
-    
+
     // Landing Page
     landing: {
       getStarted: "শুরু করুন",
       hero: {
         title: "AI-চালিত ফসল রোগ সনাক্তকরণ",
-        subtitle: "বুদ্ধিমান রোগ সনাক্তকরণের মাধ্যমে আপনার ফসল রক্ষা করুন। ছবি আপলোড করুন এবং তাৎক্ষণিক AI-চালিত রোগ নির্ণয় পান।",
+        subtitle:
+          "বুদ্ধিমান রোগ সনাক্তকরণের মাধ্যমে আপনার ফসল রক্ষা করুন। ছবি আপলোড করুন এবং তাৎক্ষণিক AI-চালিত রোগ নির্ণয় পান।",
         cta: "সনাক্তকরণ শুরু করুন",
-        learnMore: "আরও জানুন"
+        learnMore: "আরও জানুন",
       },
       features: {
         title: "কেন VeAg বেছে নেবেন?",
         subtitle: "উন্নত AI প্রযুক্তি কৃষি দক্ষতার সাথে মিলিত",
         feature1: {
           title: "AI-চালিত বিশ্লেষণ",
-          description: "আমাদের উন্নত AI মডেল ফসলের ছবি বিশ্লেষণ করে এবং উচ্চ নির্ভুলতার সাথে রোগ সনাক্ত করে।"
+          description:
+            "আমাদের উন্নত AI মডেল ফসলের ছবি বিশ্লেষণ করে এবং উচ্চ নির্ভুলতার সাথে রোগ সনাক্ত করে।",
         },
         feature2: {
           title: "তাৎক্ষণিক ফলাফল",
-          description: "দিনের পরিবর্তে মিনিটের মধ্যে বিস্তারিত রোগ সনাক্তকরণ ফলাফল পান।"
+          description:
+            "দিনের পরিবর্তে মিনিটের মধ্যে বিস্তারিত রোগ সনাক্তকরণ ফলাফল পান।",
         },
         feature3: {
           title: "একাধিক ফসল",
-          description: "চাল সহ বিভিন্ন ফসলের জন্য সমর্থন, এবং শীঘ্রই আরও অনেক কিছু আসছে।"
-        }
+          description:
+            "চাল সহ বিভিন্ন ফসলের জন্য সমর্থন, এবং শীঘ্রই আরও অনেক কিছু আসছে।",
+        },
       },
       howItWorks: {
         title: "এটা কিভাবে কাজ করে",
         subtitle: "আপনার ফসল রক্ষার জন্য সহজ প্রক্রিয়া",
         step1: {
           title: "সাইন আপ করুন",
-          description: "সেকেন্ডের মধ্যে Google এর সাথে আপনার অ্যাকাউন্ট তৈরি করুন"
+          description:
+            "সেকেন্ডের মধ্যে Google এর সাথে আপনার অ্যাকাউন্ট তৈরি করুন",
         },
         step2: {
           title: "ছবি আপলোড করুন",
-          description: "আক্রান্ত গাছের ছবি তুলুন এবং 10টি ছবি পর্যন্ত আপলোড করুন"
+          description:
+            "আক্রান্ত গাছের ছবি তুলুন এবং 10টি ছবি পর্যন্ত আপলোড করুন",
         },
         step3: {
           title: "AI বিশ্লেষণ",
-          description: "আমাদের AI মডেল আপনার ছবি প্রক্রিয়া করে এবং রোগ সনাক্ত করে"
+          description:
+            "আমাদের AI মডেল আপনার ছবি প্রক্রিয়া করে এবং রোগ সনাক্ত করে",
         },
         step4: {
           title: "ফলাফল পান",
-          description: "বিস্তারিত রোগ নির্ণয় এবং চিকিৎসা সুপারিশ পান"
-        }
+          description: "বিস্তারিত রোগ নির্ণয় এবং চিকিৎসা সুপারিশ পান",
+        },
       },
       faq: {
         title: "প্রায়শই জিজ্ঞাসিত প্রশ্ন",
@@ -1126,7 +1193,7 @@ export const translations = {
         q5: "আমার ডেটা কি নিরাপদ?",
         a5: "একদম! আমরা শিল্প-মান এনক্রিপশন এবং সুরক্ষিত ক্লাউড স্টোরেজ ব্যবহার করি। আপনার ডেটা কখনই তৃতীয় পক্ষের সাথে শেয়ার করা হয় না।",
         q6: "আপনি কোন পেমেন্ট পদ্ধতি গ্রহণ করেন?",
-        a6: "আমরা Razorpay এর মাধ্যমে সমস্ত প্রধান পেমেন্ট পদ্ধতি গ্রহণ করি, যার মধ্যে ক্রেডিট/ডেবিট কার্ড, UPI এবং নেট ব্যাংকিং রয়েছে।"
+        a6: "আমরা Razorpay এর মাধ্যমে সমস্ত প্রধান পেমেন্ট পদ্ধতি গ্রহণ করি, যার মধ্যে ক্রেডিট/ডেবিট কার্ড, UPI এবং নেট ব্যাংকিং রয়েছে।",
       },
       contact: {
         title: "যোগাযোগ করুন",
@@ -1134,20 +1201,20 @@ export const translations = {
         general: {
           title: "সাধারণ অনুসন্ধান",
           email: "sarthak@vacantvectors.com",
-          description: "সহায়তা এবং সাধারণ প্রশ্নের জন্য"
+          description: "সহায়তা এবং সাধারণ প্রশ্নের জন্য",
         },
         payment: {
           title: "পেমেন্ট সম্পর্কিত",
           email: "sarthak@vacantvectors.com",
-          description: "বিলিং এবং সাবস্ক্রিপশন প্রশ্নের জন্য"
-        }
+          description: "বিলিং এবং সাবস্ক্রিপশন প্রশ্নের জন্য",
+        },
       },
       footer: {
         tagline: "কৃত্রিম বুদ্ধিমত্তা দিয়ে ফসল রক্ষা করা",
-        rights: "সমস্ত অধিকার সংরক্ষিত"
-      }
+        rights: "সমস্ত অধিকার সংরক্ষিত",
+      },
     },
-    
+
     // Login Page
     login: {
       welcome: "VeAg-এ স্বাগতম",
@@ -1155,10 +1222,12 @@ export const translations = {
       signInGoogle: "Google দিয়ে সাইন ইন করুন",
       signingIn: "সাইন ইন হচ্ছে...",
       secureAccount: "আমরা আপনার অ্যাকাউন্ট সুরক্ষিত রাখতে Google ব্যবহার করি",
-      informationUsage: "চালিয়ে যাওয়ার মাধ্যমে, আপনি আমাদের 1) নিয়ম ও শর্তাবলী, 2) গোপনীয়তা নীতি, 3) ফেরত, রিফান্ড এবং বাতিলকরণ নীতি এবং 4) শিপিং এবং ডেলিভারি নীতির সাথে সম্মত হন।",
-      errorSignIn: "Google দিয়ে সাইন ইন করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।"
+      informationUsage:
+        "চালিয়ে যাওয়ার মাধ্যমে, আপনি আমাদের 1) নিয়ম ও শর্তাবলী, 2) গোপনীয়তা নীতি, 3) ফেরত, রিফান্ড এবং বাতিলকরণ নীতি এবং 4) শিপিং এবং ডেলিভারি নীতির সাথে সম্মত হন।",
+      errorSignIn:
+        "Google দিয়ে সাইন ইন করতে ব্যর্থ। অনুগ্রহ করে আবার চেষ্টা করুন।",
     },
-    
+
     // Product Search
     productSearch: {
       title: "পণ্য অনুসন্ধান",
@@ -1166,9 +1235,10 @@ export const translations = {
         "কৃষি পণ্য খুঁজুন...",
         "কৃষি সরঞ্জাম খুঁজুন...",
         "বীজ ও সার খুঁজুন...",
-        "জৈব পণ্য খুঁজুন..."
+        "জৈব পণ্য খুঁজুন...",
       ],
-      helperText: "VeAg পণ্য অনুসন্ধান - আপনার প্রয়োজনের জন্য সেরা কৃষি পণ্য খুঁজুন।",
+      helperText:
+        "VeAg পণ্য অনুসন্ধান - আপনার প্রয়োজনের জন্য সেরা কৃষি পণ্য খুঁজুন।",
       backToDashboard: "ড্যাশবোর্ডে ফিরে যান",
       searchPlaceholder: "কৃষি পণ্য খুঁজুন...",
       searchButton: "অনুসন্ধান করুন",
@@ -1200,17 +1270,20 @@ export const translations = {
         priceAsc: "দাম: কম → বেশি",
         priceDesc: "দাম: বেশি → কম",
         newest: "নতুনগুলো আগে",
-        oldest: "পুরনোগুলো আগে"
+        oldest: "পুরনোগুলো আগে",
       },
       modal: {
         description: "বিবরণ",
         visitStore: "স্টোরে যান",
-        disclaimer1Part1: "প্রদর্শিত মূল্য সঠিক নাও হতে পারে এবং পূর্ব নোটিশ ছাড়াই পরিবর্তন সাপেক্ষ। তালিকাভুক্ত মূল্য সর্বশেষ বাহ্যিক বিক্রেতার ওয়েবসাইট থেকে আনা হয়েছিল",
-        disclaimer1Part2: "। কেনাকাটার সময় প্রকৃত মূল্য, অফার, ডিসকাউন্ট এবং প্রাপ্যতা ভিন্ন হতে পারে।",
-        disclaimer2: "VeAg শুধুমাত্র একটি পণ্য আবিষ্কারের প্ল্যাটফর্ম হিসাবে কাজ করে এবং কোনো তৃতীয় পক্ষের বিক্রেতার সাথে সম্পর্কিত, সমর্থিত বা তাদের জন্য দায়ী নয়। আমরা পণ্যের তথ্য, মূল্য, স্টকের প্রাপ্যতা বা ডেলিভারির সময়রেখার নির্ভুলতার গ্যারান্টি দিই না। সমস্ত লেনদেন সরাসরি আপনার এবং বাহ্যিক বিক্রেতার মধ্যে পরিচালিত হয়। কেনাকাটা করার আগে অনুগ্রহ করে বিক্রেতার ওয়েবসাইটে সমস্ত বিবরণ যাচাই করুন।"
-      }
+        disclaimer1Part1:
+          "প্রদর্শিত মূল্য সঠিক নাও হতে পারে এবং পূর্ব নোটিশ ছাড়াই পরিবর্তন সাপেক্ষ। তালিকাভুক্ত মূল্য সর্বশেষ বাহ্যিক বিক্রেতার ওয়েবসাইট থেকে আনা হয়েছিল",
+        disclaimer1Part2:
+          "। কেনাকাটার সময় প্রকৃত মূল্য, অফার, ডিসকাউন্ট এবং প্রাপ্যতা ভিন্ন হতে পারে।",
+        disclaimer2:
+          "VeAg শুধুমাত্র একটি পণ্য আবিষ্কারের প্ল্যাটফর্ম হিসাবে কাজ করে এবং কোনো তৃতীয় পক্ষের বিক্রেতার সাথে সম্পর্কিত, সমর্থিত বা তাদের জন্য দায়ী নয়। আমরা পণ্যের তথ্য, মূল্য, স্টকের প্রাপ্যতা বা ডেলিভারির সময়রেখার নির্ভুলতার গ্যারান্টি দিই না। সমস্ত লেনদেন সরাসরি আপনার এবং বাহ্যিক বিক্রেতার মধ্যে পরিচালিত হয়। কেনাকাটা করার আগে অনুগ্রহ করে বিক্রেতার ওয়েবসাইটে সমস্ত বিবরণ যাচাই করুন।",
+      },
     },
-    
+
     // Dashboard
     dashboard: {
       title: "স্মার্ট কৃষির জন্য আপনার প্রবেশদ্বার।",
@@ -1234,23 +1307,24 @@ export const translations = {
       date: "তারিখ",
       viewDetails: "বিস্তারিত দেখুন",
       noCases: "কোন কেস পাওয়া যায়নি",
-      noCasesDesc: "আপনি এখনও কোন কেস নিবন্ধন করেননি। শুরু করতে 'নতুন কেস নিবন্ধন করুন' ক্লিক করুন।",
+      noCasesDesc:
+        "আপনি এখনও কোন কেস নিবন্ধন করেননি। শুরু করতে 'নতুন কেস নিবন্ধন করুন' ক্লিক করুন।",
       subscriptionStatus: "সাবস্ক্রিপশন স্থিতি",
       active: "সক্রিয়",
       daysLeft: "দিন বাকি",
       needHelp: "সাহায্য প্রয়োজন?",
       helpDesc: "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
-      contactSupport: "সাপোর্টে যোগাযোগ করুন"
+      contactSupport: "সাপোর্টে যোগাযোগ করুন",
     },
-    
+
     // Status
     status: {
       pending: "মুলতুবি",
       processing: "প্রক্রিয়াকরণ",
       completed: "সম্পন্ন",
-      failed: "ব্যর্থ"
+      failed: "ব্যর্থ",
     },
-    
+
     // Register Case
     registerCase: {
       title: "নতুন কেস নিবন্ধন করুন",
@@ -1258,10 +1332,12 @@ export const translations = {
       chooseCrop: "একটি ফসল নির্বাচন করুন",
       uploadImages: "ছবি আপলোড করুন",
       uploadDesc: "আক্রান্ত উদ্ভিদের ছবি আপলোড করুন (সর্বোচ্চ ৫টি ছবি)",
-      dragDrop: "এখানে ছবি টেনে আনুন এবং ছেড়ে দিন, বা নির্বাচন করতে ক্লিক করুন",
+      dragDrop:
+        "এখানে ছবি টেনে আনুন এবং ছেড়ে দিন, বা নির্বাচন করতে ক্লিক করুন",
       imageCount: "ছবি নির্বাচিত",
       observation: "রোগ পর্যবেক্ষণ (ঐচ্ছিক)",
-      observationPlaceholder: "উদ্ভিদ সম্পর্কে আপনি কী পর্যবেক্ষণ করেন তা বর্ণনা করুন...",
+      observationPlaceholder:
+        "উদ্ভিদ সম্পর্কে আপনি কী পর্যবেক্ষণ করেন তা বর্ণনা করুন...",
       submitting: "জমা দেওয়া হচ্ছে...",
       submitCase: "কেস জমা দিন",
       enterDetails: "অনুগ্রহ করে কেস বিবরণ লিখুন",
@@ -1272,7 +1348,8 @@ export const translations = {
       goToCases: "আমার কেসে যান",
       goToDashboard: "ড্যাশবোর্ডে যান",
       needHelp: "সাহায্য প্রয়োজন?",
-      supportText: "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
+      supportText:
+        "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
       contactSupport: "সাপোর্টে যোগাযোগ করুন",
       activeSubscription: "সক্রিয় প্রিমিয়াম সাবস্ক্রিপশন",
       daysRemaining: "দিন বাকি",
@@ -1298,11 +1375,12 @@ export const translations = {
       capture: "ক্যাপচার করুন",
       closeCamera: "ক্যামেরা বন্ধ করুন",
       maxImagesAlert: "সর্বোচ্চ ১০টি ছবি আপলোড করা যাবে",
-      cameraError: "ক্যামেরা অ্যাক্সেস করতে অক্ষম। অনুগ্রহ করে অনুমতি পরীক্ষা করুন।",
+      cameraError:
+        "ক্যামেরা অ্যাক্সেস করতে অক্ষম। অনুগ্রহ করে অনুমতি পরীক্ষা করুন।",
       uploadingCloud: "ক্লাউড স্টোরেজে আপলোড হচ্ছে...",
-      caseCreated: "কেস সফলভাবে তৈরি হয়েছে!"
+      caseCreated: "কেস সফলভাবে তৈরি হয়েছে!",
     },
-    
+
     // Manage Cases
     manageCases: {
       title: "আমার কেস",
@@ -1317,33 +1395,37 @@ export const translations = {
       error: "কেস লোড করতে ত্রুটি",
       tryAgain: "আবার চেষ্টা করুন",
       noCasesYet: "এখনও কোন কেস নেই",
-      registerFirst: "আপনি এখনও কোন কেস নিবন্ধন করেননি। আপনার প্রথম কেস নিবন্ধন করে শুরু করুন!",
+      registerFirst:
+        "আপনি এখনও কোন কেস নিবন্ধন করেননি। আপনার প্রথম কেস নিবন্ধন করে শুরু করুন!",
       registerCase: "নতুন কেস নিবন্ধন করুন",
       viewCase: "কেস দেখুন",
       needHelp: "সাহায্য প্রয়োজন?",
-      supportText: "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
+      supportText:
+        "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
       contactSupport: "সাপোর্টে যোগাযোগ করুন",
       subtitle: "আপনার সমস্ত নিবন্ধিত কেস দেখুন এবং পরিচালনা করুন",
       newCase: "নতুন কেস",
       activeSubscription: "সক্রিয় প্রিমিয়াম সাবস্ক্রিপশন",
       daysRemaining: "দিন অবশিষ্ট",
       retry: "আবার চেষ্টা করুন",
-      noCasesMessage: "আপনি এখনও কোন কেস নিবন্ধন করেননি। আপনার প্রথম কেস নিবন্ধন করে শুরু করুন!",
+      noCasesMessage:
+        "আপনি এখনও কোন কেস নিবন্ধন করেননি। আপনার প্রথম কেস নিবন্ধন করে শুরু করুন!",
       viewDetails: "বিবরণ দেখুন",
       summary: "সারাংশ",
       page: "পৃষ্ঠা",
       of: "এর",
       refresh: "রিফ্রেশ করুন",
-      refreshing: "রিফ্রেশ হচ্ছে..."
+      refreshing: "রিফ্রেশ হচ্ছে...",
     },
 
     // Report Download
     generateReport: {
-      information: "রিপোর্ট ডাউনলোড এবং Ask VeAg সক্ষম করতে অনুগ্রহ করে উপরের সমস্ত 3টি সেকশন তৈরি করুন।",
+      information:
+        "রিপোর্ট ডাউনলোড এবং Ask VeAg সক্ষম করতে অনুগ্রহ করে উপরের সমস্ত 3টি সেকশন তৈরি করুন।",
       generatingReport: "রিপোর্ট প্রস্তুত হচ্ছে...",
-      saveReport: "রিপোর্ট সংরক্ষণ করুন"
+      saveReport: "রিপোর্ট সংরক্ষণ করুন",
     },
-    
+
     // Case Detail
     caseDetail: {
       needHelp: "সাহায্য প্রয়োজন?",
@@ -1371,7 +1453,8 @@ export const translations = {
       completed: "সম্পন্ন",
       processingFailed: "প্রসেসিং ব্যর্থ",
       errorOccurred: "বিশ্লেষণের সময় একটি ত্রুটি ঘটেছে",
-      errorDesc: "আপনার ছবি প্রসেস করার সময় AI মডেলে একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      errorDesc:
+        "আপনার ছবি প্রসেস করার সময় AI মডেলে একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
       retry: "প্রসেসিং পুনরায় চেষ্টা করুন",
       retrying: "পুনরায় চেষ্টা হচ্ছে...",
       cropInfo: "ফসলের তথ্য",
@@ -1389,13 +1472,15 @@ export const translations = {
       aiAnalyzing: "AI মডেল আপনার ছবি বিশ্লেষণ করছে...",
       runningAI: "AI বিশ্লেষণ চলছে",
       cropInformation: "ফসলের তথ্য",
-      failedMessage: "আপনার ছবি প্রসেস করার সময় AI মডেলে একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      failedMessage:
+        "আপনার ছবি প্রসেস করার সময় AI মডেলে একটি ত্রুটি ঘটেছে। অনুগ্রহ করে আবার চেষ্টা করুন।",
       status: "স্থিতি",
       photos: "ছবি",
       // Treatment & Insights
       treatmentInsights: "চিকিৎসা ও তথ্য",
       treatmentInsightsDesc: "AI-চালিত সুপারিশ",
-      treatmentInsightsInformation: "বিস্তারিত চিকিৎসা গাইড, রোগের কারণ এবং প্রতিরোধ কৌশল উৎপন্ন / দেখার জন্য নিচের বোতামগুলিতে ক্লিক করুন।",
+      treatmentInsightsInformation:
+        "বিস্তারিত চিকিৎসা গাইড, রোগের কারণ এবং প্রতিরোধ কৌশল উৎপন্ন / দেখার জন্য নিচের বোতামগুলিতে ক্লিক করুন।",
       getCauses: "কারণসমূহ",
       getPrevention: "প্রতিরোধ",
       treatmentTitle: "চিকিৎসা গাইড",
@@ -1415,8 +1500,10 @@ export const translations = {
       askVeAgTitle: "VeAg কে জিজ্ঞাসা করুন",
       askVeAgSubtitle: "AI কৃষি সহকারী",
       askVeAgWelcome: "VeAg কে জিজ্ঞাসা করুন-এ স্বাগতম!",
-      askVeAgWelcomeMsg: "আমি আপনার ফসলে সনাক্ত করা রোগ সম্পর্কে সাহায্য করার জন্য আপনার AI সহকারী। আমাকে এই রোগ সম্পর্কে কিছুই জিজ্ঞাসা করুন, যেমন এর কারণ, চিকিৎসার বিকল্প, বা প্রতিরোধ কৌশল। আমি আপনার ফসলের স্বাস্থ্যকে আরও ভালভাবে বুঝতে এবং পরিচালনা করতে সাহায্য করার জন্য এখানে আছি!",
-      askVeAgRules: "গুরুত্বপূর্ণ: আমি শুধুমাত্র সনাক্ত করা রোগ সম্পর্কিত প্রশ্নের উত্তর দিতে পারি। শুধুমাত্র টেক্সট বার্তা।",
+      askVeAgWelcomeMsg:
+        "আমি আপনার ফসলে সনাক্ত করা রোগ সম্পর্কে সাহায্য করার জন্য আপনার AI সহকারী। আমাকে এই রোগ সম্পর্কে কিছুই জিজ্ঞাসা করুন, যেমন এর কারণ, চিকিৎসার বিকল্প, বা প্রতিরোধ কৌশল। আমি আপনার ফসলের স্বাস্থ্যকে আরও ভালভাবে বুঝতে এবং পরিচালনা করতে সাহায্য করার জন্য এখানে আছি!",
+      askVeAgRules:
+        "গুরুত্বপূর্ণ: আমি শুধুমাত্র সনাক্ত করা রোগ সম্পর্কিত প্রশ্নের উত্তর দিতে পারি। শুধুমাত্র টেক্সট বার্তা।",
       askVeAgPlaceholder: "আপনার প্রশ্ন এখানে লিখুন...",
       askVeAgSend: "পাঠান",
       askVeAgClose: "বন্ধ করুন",
@@ -1435,9 +1522,10 @@ export const translations = {
       askVeAgLoadingOlder: "পুরানো বার্তা লোড হচ্ছে...",
       askVeAgToday: "আজ",
       askVeAgYesterday: "গতকাল",
-      askVeAgPrivacy: "আমি একজন কথোপকথনমূলক চ্যাটবট নই — আমি প্রশ্নগুলির মধ্যে মেমরি রাখি না। আপনার গোপনীয়তা রক্ষার জন্য প্রতিটি উত্তর স্বতন্ত্র।"
+      askVeAgPrivacy:
+        "আমি একজন কথোপকথনমূলক চ্যাটবট নই — আমি প্রশ্নগুলির মধ্যে মেমরি রাখি না। আপনার গোপনীয়তা রক্ষার জন্য প্রতিটি উত্তর স্বতন্ত্র।",
     },
-    
+
     // Edit Profile
     editProfile: {
       title: "প্রোফাইল সম্পাদনা করুন",
@@ -1473,9 +1561,9 @@ export const translations = {
       copied: "কপি হয়েছে!",
       logout: "লগ আউট",
       copyUserId: "ইউজার আইডি কপি করুন",
-      noNameHistory: "কোন নামের ইতিহাস পাওয়া যায়নি।"
+      noNameHistory: "কোন নামের ইতিহাস পাওয়া যায়নি।",
     },
-    
+
     // Manage Subscription
     manageSubscription: {
       title: "সাবস্ক্রিপশন পরিচালনা করুন",
@@ -1542,17 +1630,21 @@ export const translations = {
       paymentId: "পেমেন্ট আইডি",
       subscriptionActivated: "✓ আপনার সাবস্ক্রিপশন সফলভাবে সক্রিয় করা হয়েছে!",
       noChargesMade: "আপনার অ্যাকাউন্ট থেকে কোন চার্জ করা হয়নি।",
-      amountRefund: "যদি পরিমাণ কাটা হয়ে থাকে, তা ৫-৭ কার্যদিবসের মধ্যে ফেরত দেওয়া হবে।",
+      amountRefund:
+        "যদি পরিমাণ কাটা হয়ে থাকে, তা ৫-৭ কার্যদিবসের মধ্যে ফেরত দেওয়া হবে।",
       continue: "চালিয়ে যান",
       close: "বন্ধ করুন",
-      errorVerifyPayment: "পেমেন্ট যাচাই করতে অক্ষম। অনুগ্রহ করে সাপোর্টের সাথে যোগাযোগ করুন।",
-      errorStartPayment: "পেমেন্ট প্রক্রিয়া শুরু করতে অক্ষম। অনুগ্রহ করে আবার চেষ্টা করুন।",
-      errorCheckConnection: "আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
+      errorVerifyPayment:
+        "পেমেন্ট যাচাই করতে অক্ষম। অনুগ্রহ করে সাপোর্টের সাথে যোগাযোগ করুন।",
+      errorStartPayment:
+        "পেমেন্ট প্রক্রিয়া শুরু করতে অক্ষম। অনুগ্রহ করে আবার চেষ্টা করুন।",
+      errorCheckConnection:
+        "আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।",
       infoCancelledPayment: "আপনি পেমেন্ট প্রক্রিয়া বাতিল করেছেন।",
       page: "পৃষ্ঠা",
-      of: "এর"
+      of: "এর",
     },
-    
+
     // Not Found
     notFound: {
       title: "৪০৪ - পৃষ্ঠা পাওয়া যায়নি",
@@ -1561,7 +1653,8 @@ export const translations = {
       goHome: "হোমে যান",
       goToDashboard: "ড্যাশবোর্ডে যান",
       needHelp: "সাহায্য প্রয়োজন?",
-      supportText: "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
+      supportText:
+        "প্রশ্ন আছে বা সহায়তা প্রয়োজন? আমরা সাহায্য করতে এখানে আছি!",
       contactSupport: "সাপোর্টে যোগাযোগ করুন",
       redirecting: "ড্যাশবোর্ডে স্বয়ংক্রিয়ভাবে রিডাইরেক্ট হচ্ছে",
       in5Seconds: "৫ সেকেন্ডে...",
@@ -1569,40 +1662,42 @@ export const translations = {
       registerCase: "কেস নিবন্ধন করুন",
       manageCases: "কেস পরিচালনা করুন",
       editProfile: "প্রোফাইল সম্পাদনা করুন",
-      subscription: "সাবস্ক্রিপশন"
+      subscription: "সাবস্ক্রিপশন",
     },
-    
+
     // No Subscription
     noSubscription: {
       title: "কোন সক্রিয় সাবস্ক্রিপশন নেই",
-      message: "এই বৈশিষ্ট্য অ্যাক্সেস করতে আপনার একটি সক্রিয় সাবস্ক্রিপশন প্রয়োজন।",
+      message:
+        "এই বৈশিষ্ট্য অ্যাক্সেস করতে আপনার একটি সক্রিয় সাবস্ক্রিপশন প্রয়োজন।",
       feature1: "AI-চালিত রোগ সনাক্তকরণ",
       feature2: "সীমাহীন কেস নিবন্ধন",
       feature3: "অগ্রাধিকার সাপোর্ট",
-      contactAdmin: "আপনার সাবস্ক্রিপশন সক্রিয় করতে অনুগ্রহ করে প্রশাসকের সাথে যোগাযোগ করুন।",
+      contactAdmin:
+        "আপনার সাবস্ক্রিপশন সক্রিয় করতে অনুগ্রহ করে প্রশাসকের সাথে যোগাযোগ করুন।",
       email: "ইমেইল",
       goToDashboard: "ড্যাশবোর্ডে যান",
       checking: "সাবস্ক্রিপশন যাচাই করা হচ্ছে...",
       getPremium: "প্রিমিয়াম অ্যাক্সেস পান",
       startingAt: "₹9/মাস থেকে শুরু",
       getSubscription: "সাবস্ক্রিপশন পান",
-      backToDashboard: "ড্যাশবোর্ডে ফিরে যান"
-    }
-  }
+      backToDashboard: "ড্যাশবোর্ডে ফিরে যান",
+    },
+  },
 };
 
 // Helper function to get nested translation
 export const getTranslation = (lang, key) => {
-  const keys = key.split('.');
+  const keys = key.split(".");
   let value = translations[lang];
-  
+
   for (const k of keys) {
-    if (value && typeof value === 'object') {
+    if (value && typeof value === "object") {
       value = value[k];
     } else {
       return key; // Return key if translation not found
     }
   }
-  
+
   return value || key;
 };

@@ -1,7 +1,7 @@
-import AskChat from '../models/AskChat.js';
-import Case from '../models/Case.js';
-import CaseResult from '../models/CaseResult.js';
-import geminiService from '../services/geminiService.js';
+import AskChat from "../models/AskChat.js";
+import Case from "../models/Case.js";
+import CaseResult from "../models/CaseResult.js";
+import geminiService from "../services/geminiService.js";
 
 const BATCH_SIZE = 20;
 
@@ -12,17 +12,17 @@ export const getMessages = async (req, res) => {
     const { before, userId } = req.query;
 
     if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
+      return res.status(400).json({ error: "userId is required" });
     }
 
     if (req.user.userId !== userId) {
-      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+      return res.status(403).json({ error: "Forbidden. Access denied." });
     }
 
     // Verify case belongs to user
     const caseDoc = await Case.findOne({ caseId });
     if (!caseDoc || caseDoc.userId !== userId) {
-      return res.status(403).json({ error: 'Unauthorized' });
+      return res.status(403).json({ error: "Unauthorized" });
     }
 
     const query = { caseId, userId };
@@ -43,11 +43,11 @@ export const getMessages = async (req, res) => {
     res.json({
       success: true,
       messages,
-      hasMore
+      hasMore,
     });
   } catch (error) {
     // console.error('Error fetching ask messages:', error);
-    res.status(500).json({ error: 'Failed to fetch messages' });
+    res.status(500).json({ error: "Failed to fetch messages" });
   }
 };
 
@@ -58,41 +58,45 @@ export const sendMessage = async (req, res) => {
     const { userId, message } = req.body;
 
     if (!userId || !message) {
-      return res.status(400).json({ error: 'userId and message are required' });
+      return res.status(400).json({ error: "userId and message are required" });
     }
 
     if (req.user.userId !== userId) {
-      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+      return res.status(403).json({ error: "Forbidden. Access denied." });
     }
 
     // Validate text-only (no HTML, no URLs with scripts)
-    if (typeof message !== 'string' || message.trim().length === 0) {
-      return res.status(400).json({ error: 'Only text messages are allowed' });
+    if (typeof message !== "string" || message.trim().length === 0) {
+      return res.status(400).json({ error: "Only text messages are allowed" });
     }
 
     if (message.trim().length > 2000) {
-      return res.status(400).json({ error: 'Message too long. Maximum 2000 characters.' });
+      return res
+        .status(400)
+        .json({ error: "Message too long. Maximum 2000 characters." });
     }
 
     // Verify case belongs to user
     const caseDoc = await Case.findOne({ caseId });
     if (!caseDoc || caseDoc.userId !== userId) {
-      return res.status(403).json({ error: 'Unauthorized' });
+      return res.status(403).json({ error: "Unauthorized" });
     }
 
     // Verify case has completed analysis with a disease
-    if (caseDoc.status !== 'completed') {
-      return res.status(400).json({ error: 'Case analysis not completed yet' });
+    if (caseDoc.status !== "completed") {
+      return res.status(400).json({ error: "Case analysis not completed yet" });
     }
 
     const caseResult = await CaseResult.findOne({ caseId });
     if (!caseResult) {
-      return res.status(400).json({ error: 'No analysis result found' });
+      return res.status(400).json({ error: "No analysis result found" });
     }
 
     const diseaseName = caseResult.diseaseStatus;
-    if (diseaseName.toLowerCase().includes('healthy')) {
-      return res.status(400).json({ error: 'No disease detected for this case' });
+    if (diseaseName.toLowerCase().includes("healthy")) {
+      return res
+        .status(400)
+        .json({ error: "No disease detected for this case" });
     }
 
     // Create the chat message in "sent" status
@@ -101,40 +105,45 @@ export const sendMessage = async (req, res) => {
       userId,
       diseaseName,
       message: message.trim(),
-      status: 'sent'
+      status: "sent",
     });
     await chatMsg.save();
 
     // Update to analyzing
-    chatMsg.status = 'analyzing';
+    chatMsg.status = "analyzing";
     await chatMsg.save();
 
     // Generate AI response
     try {
-      const result = await geminiService.generateAskResponse(diseaseName, message.trim());
+      const result = await geminiService.generateAskResponse(
+        diseaseName,
+        message.trim(),
+      );
 
       if (result.success) {
         chatMsg.reply = result.content;
-        chatMsg.status = 'answered';
+        chatMsg.status = "answered";
       } else {
-        chatMsg.reply = result.content || 'Sorry, I could not process your question. Please try again.';
-        chatMsg.status = 'failed';
+        chatMsg.reply =
+          result.content ||
+          "Sorry, I could not process your question. Please try again.";
+        chatMsg.status = "failed";
       }
     } catch (aiError) {
-    //   console.error('AI response error:', aiError);
-      chatMsg.reply = 'Sorry, something went wrong. Please try again later.';
-      chatMsg.status = 'failed';
+      //   console.error('AI response error:', aiError);
+      chatMsg.reply = "Sorry, something went wrong. Please try again later.";
+      chatMsg.status = "failed";
     }
 
     await chatMsg.save();
 
     res.json({
       success: true,
-      message: chatMsg
+      message: chatMsg,
     });
   } catch (error) {
     // console.error('Error sending ask message:', error);
-    res.status(500).json({ error: 'Failed to send message' });
+    res.status(500).json({ error: "Failed to send message" });
   }
 };
 
@@ -145,49 +154,56 @@ export const retryMessage = async (req, res) => {
     const { userId } = req.body;
 
     if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
+      return res.status(400).json({ error: "userId is required" });
     }
 
     if (req.user.userId !== userId) {
-      return res.status(403).json({ error: 'Forbidden. Access denied.' });
+      return res.status(403).json({ error: "Forbidden. Access denied." });
     }
 
     const chatMsg = await AskChat.findById(messageId);
     if (!chatMsg || chatMsg.userId !== userId) {
-      return res.status(403).json({ error: 'Unauthorized' });
+      return res.status(403).json({ error: "Unauthorized" });
     }
 
-    if (chatMsg.status !== 'failed') {
-      return res.status(400).json({ error: 'Only failed messages can be retried' });
+    if (chatMsg.status !== "failed") {
+      return res
+        .status(400)
+        .json({ error: "Only failed messages can be retried" });
     }
 
-    chatMsg.status = 'analyzing';
+    chatMsg.status = "analyzing";
     await chatMsg.save();
 
     try {
-      const result = await geminiService.generateAskResponse(chatMsg.diseaseName, chatMsg.message);
+      const result = await geminiService.generateAskResponse(
+        chatMsg.diseaseName,
+        chatMsg.message,
+      );
 
       if (result.success) {
         chatMsg.reply = result.content;
-        chatMsg.status = 'answered';
+        chatMsg.status = "answered";
       } else {
-        chatMsg.reply = result.content || 'Sorry, I could not process your question. Please try again.';
-        chatMsg.status = 'failed';
+        chatMsg.reply =
+          result.content ||
+          "Sorry, I could not process your question. Please try again.";
+        chatMsg.status = "failed";
       }
     } catch (aiError) {
-    //   console.error('AI retry error:', aiError);
-      chatMsg.reply = 'Sorry, something went wrong. Please try again later.';
-      chatMsg.status = 'failed';
+      //   console.error('AI retry error:', aiError);
+      chatMsg.reply = "Sorry, something went wrong. Please try again later.";
+      chatMsg.status = "failed";
     }
 
     await chatMsg.save();
 
     res.json({
       success: true,
-      message: chatMsg
+      message: chatMsg,
     });
   } catch (error) {
     // console.error('Error retrying message:', error);
-    res.status(500).json({ error: 'Failed to retry message' });
+    res.status(500).json({ error: "Failed to retry message" });
   }
 };

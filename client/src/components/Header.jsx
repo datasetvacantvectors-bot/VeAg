@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -15,16 +15,16 @@ const Header = () => {
 
   const handleLogout = async () => {
     await signOut();
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <div className="bg-gradient-to-r from-veag-dark-green to-veag-green shadow-lg">
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <h1 
-            className="text-3xl font-bold text-white cursor-pointer" 
-            onClick={() => navigate('/dashboard')}
+          <h1
+            className="text-3xl font-bold text-white cursor-pointer"
+            onClick={() => navigate("/dashboard")}
           >
             VeAg
           </h1>
@@ -36,12 +36,12 @@ const Header = () => {
                     <div className="w-6 h-6 border-3 border-veag-dark-green border-t-transparent rounded-full animate-spin"></div>
                   </div>
                 )}
-                <img 
-                  src={currentUser.photoURL} 
-                  alt="Profile" 
+                <img
+                  src={currentUser.photoURL}
+                  alt="Profile"
                   crossOrigin="anonymous"
                   referrerPolicy="no-referrer"
-                  className={`w-10 h-10 rounded-full border-2 border-white object-cover transition-opacity duration-200 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  className={`w-10 h-10 rounded-full border-2 border-white object-cover transition-opacity duration-200 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
                   onLoad={() => {
                     // console.log('Image loaded successfully:', currentUser.photoURL);
                     setImageLoaded(true);
@@ -54,7 +54,9 @@ const Header = () => {
               </div>
             ) : (
               <div className="w-10 h-10 rounded-full border-2 border-white bg-white flex items-center justify-center">
-                <span className="text-veag-dark-green font-bold text-lg">{currentUser?.name?.charAt(0).toUpperCase()}</span>
+                <span className="text-veag-dark-green font-bold text-lg">
+                  {currentUser?.name?.charAt(0).toUpperCase()}
+                </span>
               </div>
             )}
             <span className="text-white font-medium">{currentUser?.name}</span>

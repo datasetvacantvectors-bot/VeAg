@@ -1,6 +1,6 @@
-import express from 'express';
-import * as cropController from '../controllers/cropController.js';
-import authMiddleware from '../config/authMiddleware.js';
+import express from "express";
+import * as cropController from "../controllers/cropController.js";
+import authMiddleware from "../config/authMiddleware.js";
 
 const router = express.Router();
 
@@ -8,9 +8,9 @@ const router = express.Router();
 router.use(authMiddleware);
 
 // Get all crops
-router.get('/', cropController.getAllCrops);
+router.get("/", cropController.getAllCrops);
 
 // Seed crops (development only)
-router.post('/seed', cropController.seedCrops);
+router.post("/seed", cropController.seedCrops);
 
 export default router;
