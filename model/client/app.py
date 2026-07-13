@@ -1,3 +1,4 @@
+#import spaces #Write this in the requirements.txt file if you are hosting the model on Hugging Face Spaces ZeroGPU, not required if you are hosting the model on Hugging Face Spaces with CPU.
 import os
 from pathlib import Path
 from datetime import datetime
@@ -178,6 +179,7 @@ def get_gemini_advice(disease_name: str):
     except Exception as e:
         return f'Error calling Gemini API: {str(e)}', None
 
+#@spaces.GPU #Write this in the requirements.txt file if you are hosting the model on Hugging Face Spaces ZeroGPU, not required if you are hosting the model on Hugging Face Spaces with CPU.
 def run_inference(files, model_choice, weights_text, mode):
     if not files:
         return None, None, pd.DataFrame(), None, "No files uploaded.", "", "Healthy"

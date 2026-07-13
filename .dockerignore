@@ -16,4 +16,6 @@ npm-debug.log*
 README.md
 temp/*
 .firebase
+.firebaserc
+firebase.json
 **/.firebase

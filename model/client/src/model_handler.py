@@ -396,4 +396,3 @@ def freeze_backbone(model, freeze=True):
     else:
         print("WARNING: Could not identify classifier head. All layers remain frozen.")
         print(f"Trainable: {trainable/1e6:.2f}M / {total/1e6:.2f}M")
-

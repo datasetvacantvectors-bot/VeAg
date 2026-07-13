@@ -1,7 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DownloadPage from './DownloadPage';
-import NotFoundPage from './NotFoundPage';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DownloadPage from "./DownloadPage";
+import NotFoundPage from "./NotFoundPage";
 
 function App() {
   return (

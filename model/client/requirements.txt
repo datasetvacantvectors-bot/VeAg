@@ -1,4 +1,5 @@
 gradio>=4.26.0
+#spaces #Write this in the requirements.txt file if you are hosting the model on Hugging Face Spaces ZeroGPU.
 torch
 torchvision
 timm
