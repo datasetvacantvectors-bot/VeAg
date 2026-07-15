@@ -282,7 +282,7 @@ const TermsAndConditions = ({ isModal = false }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-b from-orange-300 via-orange-200 to-yellow-100 overflow-hidden no-blur-theme">
       {/* Header */}
       <header className="relative z-50 bg-white/10 backdrop-blur-xl border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 py-4">
