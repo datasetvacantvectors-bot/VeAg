@@ -62,10 +62,9 @@ This repository demonstrates the complete workflow using **rice leaf disease det
 - ✅ Jupyter notebook for interactive training
 
 ### Client (Deployment)
-- ✅ User-friendly Gradio web interface
+- ✅ User-friendly Gradio web interface, designed to run headlessly as an API for the main node server.
 - ✅ Multi-model ensemble predictions
 - ✅ Real-time confidence visualization
-- ✅ AI-powered treatment advice (Google Gemini)
 - ✅ Batch image processing
 - ✅ Comprehensive logging and CSV export
 - ✅ Progressive Web App (PWA) support
@@ -85,7 +84,7 @@ model/
     ├── app.py                  # Gradio web application
     ├── classes.json            # Disease class definitions
     ├── requirements.txt        # Python dependencies
-    ├── Demo.ipynb             # Development notebook
+    ├── Model.ipynb             # Development notebook
     ├── src/
     │   ├── model_handler.py   # Model loading logic
     │   └── predict.py         # Prediction functions
@@ -93,7 +92,7 @@ model/
     │   └── checkpoints/       # Trained .pth files go here
     └── logs/
         ├── predictions/       # Prediction results
-        └── gemini/           # Treatment advice
+        └── gemini/           # Treatment advice (Legacy standalone logging)
 ```
 
 ## 🎯 Complete Workflow
@@ -143,7 +142,7 @@ pip install -r requirements.txt
 # Configure classes
 # Edit classes.json to match your disease categories
 
-# Set up Gemini API (optional)
+# Set up Gemini API (optional - mostly handled by main Node server now)
 # Create .env file with GEMINI_API_KEY=your_key
 
 # Launch application
@@ -158,8 +157,7 @@ python app.py
 2. Upload crop leaf images
 3. Select model (Best Overall, Individual, or Ensemble)
 4. View predictions with visualizations
-5. Get AI treatment advice
-6. Download results as CSV
+5. Download results as CSV
 
 ## 🔧 System Requirements
 
@@ -265,6 +263,11 @@ This example demonstrates **rice leaf disease detection**, but the system is des
 - **Strengths**: Best overall accuracy, robust predictions
 - **Best for**: Maximum performance, production use
 
+### Ensemble (logits)
+- **Combines**: All three models at the logit level before softmax
+- **Strengths**: Advanced fusion method, heavily resistant to single-model overconfidence
+- **Best for**: Highly ambiguous cases where visual features are overlapping
+
 ## 📊 Performance Metrics
 
 The system provides comprehensive metrics:
@@ -282,7 +285,7 @@ Integration with **Google Gemini API** provides:
 - **Treatment Methods**: Recommended treatments and remedies
 - **Prevention Measures**: How to prevent future occurrences
 
-Results saved in JSON and CSV formats for easy access.
+**Important Update (v5.5.5)**: The AI Treatment Advice logic, which originally only lived inside the standalone Gradio python app, is **now fully integrated into the main VeAg Node.js/React application**. The main application queries Gemini automatically based on the disease output from this model.
 
 ## 🔒 Important Notes
 
@@ -339,10 +342,9 @@ python app.py
 
 ## 🔗 Integration with VeAg Platform
 
-This model system integrates with the larger VeAg platform:
-- **Server**: Stores case data, user information, subscriptions
-- **Client**: Web application for farmers and agronomists
-- **Model**: AI-powered disease detection (this component)
+This model system integrates directly with the larger VeAg platform:
+- **Server**: Connects to the Gradio space securely via `HF_TOKEN`, sending Cloudinary buffers for rapid inference.
+- **Client**: Displays the results of this model visually to end-users.
 
 See main project README for complete platform documentation.
 

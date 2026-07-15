@@ -6,7 +6,7 @@
 
 **Empowering Agriculture with Artificial Intelligence**
 
-[![Version](https://img.shields.io/badge/version-3.3.3-blue.svg)](https://github.com/ok-sarthak/VeAg_Project)
+[![Version](https://img.shields.io/badge/version-5.5.5-blue.svg)](https://github.com/ok-sarthak/VeAg_Project)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![React](https://img.shields.io/badge/React-18.3-61dafb.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933.svg)](https://nodejs.org/)
@@ -17,23 +17,27 @@
 
 ## About VeAg
 
-**VeAg** (Vacant Vectors Agriculture) is a comprehensive AI-powered platform designed to help farmers and agronomists detect and manage crop diseases efficiently. Using state-of-the-art deep learning models, VeAg provides:
+**VeAg** (Vacant Vectors Agriculture) is a comprehensive AI-powered platform designed to help farmers and agronomists detect and manage crop diseases efficiently. Using state-of-the-art deep learning models and advanced LLMs, VeAg provides:
 
-- 🔍 **Accurate Disease Detection** - AI-powered analysis using ensemble of ConvNeXt, EfficientNetV2, and DeiT models
-- 📸 **Image-Based Diagnosis** - Upload crop images for instant analysis
-- 💡 **Treatment Recommendations** - Available in standalone model interface (integration with main platform coming soon)
-- 📊 **Case Management** - Track and manage multiple disease cases
-- 💳 **Subscription Plans** - Flexible pricing for different user needs
-- 🌐 **Web & Mobile Ready** - Responsive design for all devices
+- 🔍 **Accurate Disease Detection** - AI-powered analysis using ensemble of ConvNeXt, EfficientNetV2, and DeiT models via Gradio
+- 📸 **Image-Based Diagnosis** - Upload crop images for instant analysis (backed by Cloudinary)
+- 💡 **Fully Integrated Treatment, Causes & Prevention** - Deeply integrated insights powered by Gemini AI API directly in the main app
+- 🤖 **Ask VeAg Chatbot** - A specialized AI agricultural assistant featuring Markdown rendering, offline detection, and history tracking
+- 🛒 **Agricultural Marketplace** - Discover tools, fertilizers, and seeds with built-in search and click analytics tracking
+- 📊 **Advanced Admin Panel** - Complete dashboard to manage cases, edit marketplace products, and track product editing history
+- 📝 **Downloadable Reports** - Export detailed AI diagnostic case reports
+- 💳 **Subscription Plans** - Flexible pricing for different user needs with robust Razorpay integration
+- 🌐 **Web & Mobile Ready** - Responsive design with Mobile Bottom Navbar and a dedicated App Download Landing Page
 
 ## 🎯 Project Overview
 
 VeAg is a **final year project** by **Sarthak Chakraborty** , demonstrating the practical application of:
 - Deep Learning in Agriculture
 - Full-Stack Web Development
-- Cloud Computing & DevOps
+- Cloud Computing, DevOps (Docker, Nginx)
+- Advanced Security (Strict CORS, Firebase App Check, ReCaptcha)
 - Payment Gateway Integration
-- Real-time AI Model Deployment
+- Real-time AI Model Deployment (Hugging Face Spaces + Gemini API)
 
 ### Current Implementation
 - **Example Crop**: Rice Leaf Disease Detection
@@ -42,65 +46,62 @@ VeAg is a **final year project** by **Sarthak Chakraborty** , demonstrating the 
 
 ## 🏗️ Architecture
 
-VeAg follows a modern microservices architecture:
+VeAg follows a modern, secure, dockerized microservices architecture:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        VeAg Platform                         │
-└─────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────┐
+│                        VeAg Platform                          │
+└───────────────────────────────────────────────────────────────┘
 
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│                  │     │                  │     │                  │
-│  CLIENT (React)  │────▶│  SERVER (Node)   │────▶│  MODEL (Python)  │
-│                  │     │                  │     │                  │
-│  • React 18      │     │  • Express.js    │     │  • Gradio        │
-│  • Vite          │     │  • MongoDB       │     │  • PyTorch       │
-│  • Tailwind CSS  │     │  • Cloudinary    │     │  • TIMM          │
-│  • Firebase Auth │     │  • Razorpay      │     │  • ConvNeXt      │
-│  • Framer Motion │     │  • Gradio Client │     │  • EfficientNet  │
-│                  │     │                  │     │  • DeiT          │
-└──────────────────┘     └──────────────────┘     └──────────────────┘
-         │                        │                         │
-         │                        │                         │
-         ▼                        ▼                         ▼
-┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
-│  Firebase        │     │  MongoDB Atlas   │     │  Hugging Face    │
-│  Authentication  │     │  Database        │     │  Spaces          │
-└──────────────────┘     └──────────────────┘     └──────────────────┘
+┌──────────────────┐     ┌───────────────────┐     ┌──────────────────┐
+│                  │     │                   │     │                  │
+│  CLIENT (React)  │────▶│  SERVER (Node)    │────▶│  MODEL (Python)  │
+│                  │     │                   │     │                  │
+│  • React 18      │     │  • Express.js     │     │  • Gradio        │
+│  • Vite (Proxy)  │     │  • MongoDB (12x)  │     │  • PyTorch       │
+│  • Tailwind CSS  │     │  • Cloudinary     │     │  • TIMM          │
+│  • Firebase Auth │     │  • Razorpay       │     │  • ConvNeXt      │
+│  • Nginx Proxy   │     │  • Gradio Client  │     │  • EfficientNet  │
+│  • App Check     │     │  • Gemini Service │     │  • DeiT          │
+└──────────────────┘     └───────────────────┘     └──────────────────┘
+         │                         │                         │
+         │                         │                         │
+         ▼                         ▼                         ▼
+┌──────────────────┐     ┌───────────────────┐     ┌──────────────────┐
+│  Firebase        │     │  MongoDB Atlas    │     │  Hugging Face    │
+│  Authentication  │     │  Database         │     │  Spaces          │
+└──────────────────┘     └───────────────────┘     └──────────────────┘
 ```
 
 ## 📁 Project Structure
 
 ```
 VeAg_Project/
+├── app-download-page/           # Standalone Landing Page for Mobile App
 ├── client/                      # React frontend application
 │   ├── src/
-│   │   ├── components/         # Reusable React components
-│   │   ├── contexts/           # React context providers
-│   │   ├── pages/              # Application pages
-│   │   ├── config/             # Firebase configuration
-│   │   └── utils/              # Utility functions
-│   ├── public/                 # Static assets
-│   └── package.json            # Client dependencies
+│   │   ├── components/         # Reusable React components (AskVeAg, Navbars)
+│   │   ├── contexts/           # Auth and Language (i18n) contexts
+│   │   ├── pages/              # App pages (Dashboard, AdminPanel, ProductSearch)
+│   │   ├── config/             # Firebase configuration & App Check
+│   │   └── utils/              # Translations and utility functions
+│   ├── Dockerfile              # Docker container definition
+│   └── nginx.conf              # Nginx reverse proxy configuration
 │
 ├── server/                      # Node.js backend server
-│   ├── config/                 # Configuration files
-│   ├── controllers/            # Request handlers
-│   ├── models/                 # MongoDB schemas
+│   ├── config/                 # Admin, Auth, and Security Middlewares
+│   ├── controllers/            # Request handlers (Admin, Ask, Case, Product)
+│   ├── models/                 # 12 MongoDB schemas (Product, NameHistory, AskChat, etc.)
 │   ├── routes/                 # API routes
-│   ├── services/               # Business logic
-│   └── package.json            # Server dependencies
+│   ├── services/               # Gemini API and Gradio inference logic
+│   └── Dockerfile              # Node.js container definition
 │
 ├── model/                       # AI/ML components
 │   ├── backend/                # Model training pipeline
-│   │   └── ML_Crop_Disease_Detection_Model.ipynb
 │   ├── client/                 # Gradio inference application
-│   │   ├── app.py             # Gradio web interface
-│   │   ├── src/               # Model handlers
-│   │   ├── models/            # Trained model files
-│   │   └── Model.ipynb        # Development notebook
-│   └── README.md              # Model documentation
+│   └── README.md               # Model documentation
 │
+├── docker-compose.yml           # Multi-container orchestration
 └── README.md                    # This file
 ```
 
@@ -112,6 +113,7 @@ Before you begin, ensure you have the following installed:
 - **Node.js** 18.x or higher
 - **Python** 3.8 or higher
 - **MongoDB** 6.x or higher
+- **Docker** and **Docker Compose**
 - **Git** for version control
 
 ### Installation Steps
@@ -138,19 +140,19 @@ Before you begin, ensure you have the following installed:
    # Or deploy to Hugging Face Spaces
    ```
 
-4. **Set up the Backend Server**
+4. **Set up the Backend Server (Without Docker)**
    ```bash
    cd server
    npm install
    
    # Create .env file
    cp .env.example .env
-   # Edit .env with your credentials
+   # Edit .env with your credentials (see Environment Configuration)
    
    npm run dev
    ```
 
-5. **Set up the Frontend Client**
+5. **Set up the Frontend Client (Without Docker)**
    ```bash
    cd client
    npm install
@@ -162,8 +164,15 @@ Before you begin, ensure you have the following installed:
    npm run dev
    ```
 
-6. **Access the Application**
-   - Frontend: http://localhost:5173
+6. **Run with Docker Compose (Recommended for Production)**
+   ```bash
+   # Create .env files in both client/ and server/
+   # Run the docker compose build
+   docker-compose up --build -d
+   ```
+
+7. **Access the Application**
+   - Frontend: http://localhost:5173 (or http://localhost:80 via Docker)
    - Backend API: http://localhost:5000
    - Model Interface: http://localhost:7860
 
@@ -177,7 +186,8 @@ VITE_FIREBASE_PROJECT_ID=your-project-id
 VITE_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
-VITE_API_URL=http://localhost:5000
+VITE_RECAPTCHA_SITE_KEY=your_recaptcha_key # For Firebase App Check
+VITE_API_URL=http://localhost:5000 # Leave empty if using Docker Nginx proxy
 VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
@@ -192,12 +202,19 @@ CLOUDINARY_API_SECRET=your_cloudinary_secret
 RAZORPAY_KEY_ID=your_razorpay_key
 RAZORPAY_KEY_SECRET=your_razorpay_secret
 GRADIO_SPACE_URL=sharkthak/VeAg
-CLIENT_URL=http://localhost:5173
+HF_TOKEN=your_hugging_face_token
+GEMINI_API_KEY=your_gemini_api_key
+GEMINI_MODEL=gemini-2.0-flash
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_client_email
+FIREBASE_PRIVATE_KEY="your_private_key"
+ADMIN_ID=admin_username
+ADMIN_PASSWORD=admin_password
+JWT_SECRET=your_jwt_secret
 ```
 
 ### Model Client (.env)
 ```env
-GEMINI_API_KEY=your_gemini_api_key
 PORT=7860
 ```
 
@@ -207,9 +224,12 @@ PORT=7860
 
 - **Easy Image Upload**: Take photos of affected crops and upload instantly
 - **Quick Diagnosis**: Get AI-powered disease detection in seconds
-- **Treatment Advice**: Available in standalone model interface (full integration coming in v4.0.0)
+- **Fully Integrated Treatment**: Detailed causes, treatments, and prevention guides dynamically generated using Gemini AI.
+- **Ask VeAg Chatbot**: An intelligent, offline-aware AI agricultural assistant capable of rendering markdown, analyzing your crop, and answering specific disease-related questions.
+- **Agricultural Marketplace**: Search and discover agricultural tools, fertilizers, and seeds right from the app.
+- **Downloadable Reports**: Save your AI analysis as downloadable files for offline reference.
 - **Case History**: Track all your submitted cases in one place
-- **Multi-Language Support**: English, Hindi (हिंदी), and Bengali (বাংলা) - Making agriculture accessible across India
+- **Multi-Language Support**: Fully integrated English and Hindi (हिंदी) UI dictionaries - Making agriculture accessible across India.
 
 ### For Researchers & Students
 
@@ -222,26 +242,27 @@ PORT=7860
 ### Technical Features
 
 - **Authentication**: Secure Google Sign-In via Firebase
-- **Image Storage**: Cloud-based storage with Cloudinary
-- **AI Processing**: Gradio-powered ML inference
+- **Bot Protection**: Firebase App Check initialized with ReCaptcha Enterprise.
+- **Image Storage & Temporary Buffering**: Cloud-based storage with Cloudinary. The backend temporarily buffers images locally before routing to the Gradio Space for inference.
+- **AI Processing**: Gradio-powered ML inference + Gemini LLM dynamic generation.
+- **Admin Panel**: Dedicated dashboard for monitoring cases and managing marketplace products, tracking edit history.
+- **Strict Route Protection**: Comprehensive middlewares checking headers (`Origin`, `Referer`) to block non-browser programmatic access.
 - **Payment Gateway**: Razorpay integration for subscriptions
-- **Responsive Design**: Works on desktop, tablet, and mobile
+- **Responsive Design**: Works on desktop, tablet, and mobile (featuring a custom mobile Bottom Navbar).
 - **Real-time Updates**: Track case processing status
 - **RESTful API**: Clean, documented API endpoints
-- **Database**: MongoDB for scalable data storage
+- **Database**: 12 MongoDB collections for hyper-granular scalable data tracking (including SearchAnalytics, ClickAnalytics, NameHistory).
 - **Progressive Web App (PWA)**: Install and use offline capabilities
-- **Batch Processing**: Analyze multiple images simultaneously
 
 ### Multilingual Support 🌍
 
-VeAg supports three major Indian languages to make agricultural technology accessible to farmers across India:
+VeAg supports major Indian languages to make agricultural technology accessible to farmers across India:
 
 - **🇬🇧 English** - Primary language for international users and technical documentation
 - **🇮🇳 Hindi (हिंदी)** - India's most widely spoken language, serving millions of farmers
-- **🇮🇳 Bengali (বাংলা)** - Supporting farmers in West Bengal regions
 
 **Language Features:**
-- ✅ Full UI translation for all pages
+- ✅ Full UI translation for all pages and components
 - ✅ Disease names and descriptions in local languages
 - ✅ Treatment recommendations in user's preferred language
 - ✅ Easy language switching from settings
@@ -293,12 +314,11 @@ VeAg supports three major Indian languages to make agricultural technology acces
 | Cases per month | ❌  | Unlimited |
 | AI Analysis | ❌  | ✅ |
 | Treatment Advice | ❌  | ✅ |
+| Ask VeAg Chatbot | ❌ | ✅ |
 | Priority Support | ❌ | ✅ |
 | Advanced Analytics | ❌ | ✅ |
 | Export Reports | ❌ | ✅ |
 | **Price** | ₹0 | ₹9/month |
-
-*Treatment advice is currently available in the standalone model interface. Integration with the main platform is planned for v4.0.0.
 
 **Note**: Currently, there is no free plan. All users require a premium subscription.
 
@@ -306,12 +326,12 @@ VeAg supports three major Indian languages to make agricultural technology acces
 
 ### Frontend
 - **React 18.3** - UI library
-- **Vite 5.1** - Build tool
+- **Vite 5.1** - Build tool (with proxy for Nginx)
 - **Tailwind CSS** - Styling
 - **Framer Motion** - Animations
 - **React Router v6** - Routing
 - **Axios** - HTTP client
-- **Firebase** - Authentication
+- **Firebase** - Authentication & App Check
 
 ### Backend
 - **Node.js** - Runtime
@@ -320,14 +340,14 @@ VeAg supports three major Indian languages to make agricultural technology acces
 - **Mongoose** - ODM
 - **Cloudinary** - Image storage
 - **Razorpay** - Payments
+- **Firebase Admin SDK** - Token verification
 
 ### AI/ML
 - **Python 3.8+** - Programming language
 - **PyTorch** - Deep learning framework
 - **TIMM** - Model architectures
 - **Gradio** - Web interface
-- **Pandas** - Data processing
-- **Matplotlib** - Visualization
+- **Gemini API** - Conversational LLM
 
 ## 📖 Documentation
 
@@ -338,8 +358,15 @@ Detailed documentation for each component:
 - **[Model Documentation](model/README.md)** - AI/ML training and inference
 - **[Model Backend](model/backend/README.md)** - Training pipeline
 - **[Model Client](model/client/README.md)** - Gradio deployment
+- **[App Download Page Documentation](app-download-page/README.md)** - App landing page overview
 
 ## 🚀 Deployment
+
+### Docker (Recommended)
+```bash
+# Deploys both frontend (Nginx) and backend services seamlessly on a unified network
+docker-compose up --build -d
+```
 
 ### Frontend (Vercel/Netlify)
 ```bash
@@ -392,12 +419,13 @@ python -m pytest tests/
 
 ## 🔒 Security
 
-- **Authentication**: Firebase Auth with JWT tokens
-- **Data Encryption**: HTTPS/TLS for all communications
-- **Payment Security**: PCI-compliant Razorpay integration
-- **Input Validation**: Server-side validation for all inputs
-- **Rate Limiting**: API rate limits to prevent abuse
-- **CORS**: Configured for security
+- **Authentication**: Firebase Auth with JWT tokens & Firebase Admin SDK.
+- **Bot Protection**: Firebase App Check powered by ReCaptcha Enterprise.
+- **Data Protection**: Strict Origin and Referer checkers blocking programmatic non-browser access in production.
+- **Payment Security**: PCI-compliant Razorpay integration.
+- **Input Validation**: Server-side validation for all inputs.
+- **Rate Limiting**: API rate limits to prevent abuse.
+- **CORS**: Configured rigidly for enhanced security.
 
 ## 🤝 Contributing
 
@@ -467,6 +495,7 @@ We chose the MIT License for VeAg because:
 - **PyTorch Team** - Deep learning framework
 - **TIMM Library** - Pre-trained models
 - **Gradio** - ML interface framework
+- **Gemini** - LLM Generative AI
 - **Firebase** - Authentication services
 - **Cloudinary** - Image storage
 - **Razorpay** - Payment gateway
@@ -481,21 +510,19 @@ We chose the MIT License for VeAg because:
 
 ## 🗺️ Roadmap
 
-### Current Version (v3.3.3)
+### Current Version (v5.5.5)
 - ✅ Rice disease detection
-- ✅ User authentication
-- ✅ Case management
-- ✅ Subscription system
-- ✅ Payment integration
+- ✅ User authentication & Route Protection
+- ✅ Case management & Admin Panels
+- ✅ Marketplace / Product Search Analytics
+- ✅ Ask VeAg AI Chatbot & Treatment Generation
+- ✅ Subscription system with Payment integration
 
-### Upcoming Features (v4.0.0 and later)
+### Upcoming Features (v6.0.0 and later)
 - 🔄 Multi-crop support (10+ crops)
 - 🔄 Mobile app (React Native - iOS & Android)
-- 🔄 **Treatment Advice Integration** (currently available in model interface)
-- 🔄 Advanced analytics dashboard with insights
 - 🔄 Community forum for farmers
 - 🔄 Expert consultation system (connect with agronomists)
-- 🔄 Offline mode for areas with poor connectivity
 - 🔄 SMS/WhatsApp notifications for case updates
 - 🔄 Voice input for disease descriptions
 - 🔄 Weather integration for prevention advice
@@ -510,12 +537,12 @@ VeAg provides automated crop disease predictions and treatment suggestions for *
 
 ## 📊 Project Statistics
 
-- **Lines of Code**: 30,000+
-- **Components**: 25+ React components
-- **API Endpoints**: 20+ REST endpoints
+- **Lines of Code**: 45,000+
+- **Components**: 35+ React components
+- **API Endpoints**: 30+ REST endpoints
 - **ML Models**: 3 architectures + ensemble
-- **Database Collections**: 7 MongoDB collections
-- **Deployment Ready**: ✅ Production-grade
+- **Database Collections**: 12 MongoDB collections
+- **Deployment Ready**: ✅ Production-grade Docker Compose Support
 
 ---
 

@@ -7,17 +7,20 @@ The client-side application for VeAg (Vacant Vectors Agriculture), a comprehensi
 VeAg Client is a modern, responsive React-based web application that provides farmers and agronomists with an intuitive interface to:
 - Register and manage crop disease cases
 - Upload crop images for AI-powered disease detection
-- View detailed analysis results (treatment recommendations coming in v4.0.0)
-- Manage user profiles and subscriptions
-- Track case history and results
+- View detailed analysis results and dynamically generated treatment plans
+- Interact with the **Ask VeAg** AI agricultural chatbot
+- Search for products via the **Agricultural Marketplace**
+- Manage user profiles, name histories, and subscriptions
+- Track case history and export downloadable reports
+- Access the **Admin Panel** for management and analytics
 
 ## 🏗️ Tech Stack
 
 ### Core Technologies
 - **React 18.3** - UI library
-- **Vite 5.1** - Build tool and development server
+- **Vite 5.1** - Build tool and development server (with Nginx proxy support)
 - **React Router v6** - Client-side routing
-- **Firebase** - Authentication (Google Sign-In)
+- **Firebase** - Authentication (Google Sign-In) & App Check (ReCaptcha Enterprise)
 - **Tailwind CSS** - Utility-first CSS framework
 
 ### Key Libraries
@@ -34,24 +37,30 @@ client/
 ├── src/
 │   ├── assets/                  # Images, fonts, icons
 │   ├── components/              # Reusable React components
+│   │   ├── AskVeAg.jsx         # Custom AI chatbot component with Markdown rendering
+│   │   ├── BottomNavbar.jsx    # Mobile responsive bottom navigation
 │   │   ├── Header.jsx          # Navigation header
 │   │   ├── Layout.jsx          # Page layout wrapper
 │   │   ├── PageHeader.jsx      # Page title component
 │   │   ├── ProtectedRoute.jsx  # Authentication guard
-│   │   └── withSubscription.jsx # Subscription HOC
+│   │   ├── CookieConsent.jsx   # GDPR compliance banner
+│   │   └── withSubscription.jsx # Subscription check HOC
 │   ├── config/
-│   │   └── firebase.js         # Firebase configuration
+│   │   └── firebase.js         # Firebase Auth & App Check configuration
 │   ├── contexts/
 │   │   ├── AuthContext.jsx     # Authentication state
-│   │   └── LanguageContext.jsx # Localization (future)
+│   │   └── LanguageContext.jsx # Full i18n support (English & Hindi)
 │   ├── pages/                   # Application pages
 │   │   ├── Landing.jsx         # Home page
 │   │   ├── Login.jsx           # Authentication page
 │   │   ├── Dashboard.jsx       # User dashboard
 │   │   ├── RegisterCase.jsx    # Case registration form
 │   │   ├── ManageCases.jsx     # Cases list view
-│   │   ├── CaseDetail.jsx      # Single case view
-│   │   ├── EditProfile.jsx     # User profile editing
+│   │   ├── CaseDetail.jsx      # Single case view with Treatment insights
+│   │   ├── ProductSearch.jsx   # Agricultural marketplace
+│   │   ├── AdminLogin.jsx      # Admin authentication
+│   │   ├── AdminPanel.jsx      # Admin management dashboard
+│   │   ├── EditProfile.jsx     # User profile editing (with name history)
 │   │   ├── ManageSubscription.jsx # Subscription management
 │   │   ├── NotFound.jsx        # 404 page
 │   │   ├── PrivacyPolicy.jsx   # Privacy policy
@@ -59,10 +68,12 @@ client/
 │   │   ├── ReturnRefundCancellation.jsx
 │   │   └── ShippingAndDelivery.jsx
 │   ├── utils/
-│   │   └── translations.js     # Translation strings
+│   │   └── translations.js     # Comprehensive en/hi translation strings
 │   ├── App.jsx                  # Root component
 │   ├── main.jsx                 # Application entry point
 │   └── index.css                # Global styles
+├── Dockerfile                   # Docker production image build
+├── nginx.conf                   # Nginx reverse proxy routing rules
 ├── firebase.json                # Firebase hosting config
 ├── index.html                   # HTML template
 ├── package.json                 # Dependencies
@@ -78,7 +89,8 @@ client/
 
 - Node.js 18.x or higher
 - npm or yarn package manager
-- Firebase project with Google Authentication enabled
+- Firebase project with Google Authentication and App Check enabled
+- Docker (optional but recommended for production)
 - VeAg backend server running (see `../server/README.md`)
 
 ### Installation
@@ -105,7 +117,10 @@ client/
    VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
    VITE_FIREBASE_APP_ID=your_app_id
    
-   # Backend API URL
+   # Bot Protection
+   VITE_RECAPTCHA_SITE_KEY=your_recaptcha_key
+   
+   # Backend API URL (Empty if running via Docker/Nginx Proxy)
    VITE_API_URL=http://localhost:5000
    VITE_API_BASE_URL=http://localhost:5000/api
    ```
@@ -133,23 +148,23 @@ npm run preview
 
 ## 🔑 Key Features
 
-### Authentication
+### Authentication & Security
 - **Google Sign-In** via Firebase Authentication
+- **Firebase App Check** integration with ReCaptcha Enterprise for bot protection.
 - Protected routes requiring authentication
-- Automatic token management
-- User session persistence
+- Automatic token management and user session persistence
 
 ### Case Management
 - **Register New Cases**: Upload up to 10 crop images with disease observations
-- **View All Cases**: List of all registered cases with status
-- **Case Details**: Detailed view with analysis results
+- **View All Cases**: List of all registered cases with status and pagination
+- **Case Details**: Detailed view with analysis results, causes, and prevention
+- **Downloadable Reports**: Generate diagnostic reports offline.
 - **Status Tracking**: Monitor processing status (pending/processing/completed/failed)
 
-### AI-Powered Analysis
+### AI-Powered Analysis & Chat
 - Integration with Gradio-based ML model via backend
-- Real-time disease detection
-- Confidence scores and probability distributions
-- **Note**: Treatment recommendations are available in the standalone model interface (`model/client/app.py`) but not yet integrated into the main application. Full integration planned for v4.0.0.
+- Deep Gemini API integration for automated disease treatment, causes, and prevention.
+- **Ask VeAg Chatbot**: An offline-aware chat interface featuring custom Markdown rendering, message queuing, and history tracking.
 
 ### User Profile
 - Edit personal information
@@ -157,17 +172,24 @@ npm run preview
 - Manage account settings
 - View subscription status
 
+### Marketplace & Admin Panel
+- **Agricultural Marketplace**: Search and browse fertilizers, seeds, and equipment with built-in click and search analytics tracking.
+- **Admin Panel**: Secure dashboard to edit marketplace products, track product edit histories, and monitor user searches.
+
 ### Subscription Management
 - Free and Premium tiers
 - Razorpay payment integration
 - Case limit tracking
-- Automatic subscription renewal
+- Automatic subscription renewal and robust transaction history
 
 ### Responsive Design
-- Mobile-first approach
+- Mobile-first approach featuring a newly added `BottomNavbar`
 - Tablet and desktop optimized
 - Smooth animations with Framer Motion
 - Modern UI with Tailwind CSS
+
+### Deep Multi-Language Support
+- The frontend features fully integrated `LanguageContext` switching dynamically between English and Hindi based on user preference or browser settings, loading extensive JSON dictionaries via `translations.js`.
 
 ## 🎨 Styling
 
@@ -188,9 +210,9 @@ The application uses **Tailwind CSS** for styling with a custom configuration:
 
 - **Environment Variables**: Sensitive data in `.env` files
 - **Protected Routes**: Authentication required for sensitive pages
-- **Firebase Rules**: Secure authentication flow
+- **Firebase Rules**: Secure authentication flow & App check verified requests.
 - **XSS Protection**: React's built-in XSS prevention
-- **CORS Configuration**: Backend CORS properly configured
+- **CORS Configuration**: Strict routing policies handled by backend Origin and Referer checks.
 
 ## 🌐 API Integration
 
@@ -200,13 +222,26 @@ The client communicates with the backend API for:
 - `POST /api/users/auth` - Authenticate/create user
 - `PUT /api/users/:userId` - Update user profile
 - `GET /api/users/:userId/name-history` - Get name change history
+- `GET /api/users/verify` - Verify server JWT token on reload
 
 ### Case Management
 - `POST /api/cases` - Create new case
 - `GET /api/cases/user/:userId` - Get user's cases
 - `GET /api/cases/:caseId` - Get case details
+- `GET /api/cases/:caseId/result` - Get processed AI case result
 - `POST /api/cases/:caseId/process` - Process case with AI
 - `DELETE /api/cases/:caseId` - Delete case
+
+### AI Services
+- `POST /api/ask/:caseId/messages` - Chat with Ask VeAg
+- `GET /api/cases/:caseId/treatment-info` - Fetch all AI treatments
+- `POST /api/cases/:caseId/treatment-info/:type` - Generate granular AI treatment (treatment, causes, prevention)
+
+### Product & Admin Services
+- `GET /api/products` - Search marketplace
+- `POST /api/products/track-search` - Track search queries
+- `POST /api/admin/login` - Authenticate Admin
+- `PUT /api/admin/products/:productId` - Edit a marketplace item
 
 ### Subscription Management
 - `GET /api/subscriptions/:userId` - Get subscription status
@@ -216,6 +251,12 @@ The client communicates with the backend API for:
 
 ### Crop Information
 - `GET /api/crops` - Get all available crops
+
+## 🏛️ Architectural & Caching Patterns
+
+- **Optimistic Auth Caching**: `AuthContext.jsx` caches the user session and JWT in `localStorage` (`veag_auth_user` and `veag_jwt_token`) with a 7-day expiry to optimistically load the UI while silently verifying the token in the background.
+- **Background Polling & State Recovery**: `CaseDetail.jsx` uses `localStorage` (`veag_treatment_${caseId}_${type}`) to persist the state of AI treatment generation across page reloads. If a user refreshes the page while generation is "started", the component resumes polling the backend every 5 seconds until completion or timeout.
+- **Dynamic CSS Injection**: `ProductSearch.jsx` programmatically injects global CSS keyframes (`veagShimmer`, `veagSpin`) directly into the document `<head>` on mount, bypassing standard Tailwind configuration.
 
 ## 📱 Pages Overview
 
@@ -229,13 +270,20 @@ The client communicates with the backend API for:
 - **Register Case (`/register-case`)** - Submit new crop disease case
 - **Manage Cases (`/manage-cases`)** - View all cases
 - **Case Detail (`/case/:caseId`)** - Detailed case information
+- **Product Search (`/dashboard/products`)** - Agricultural shop
 - **Edit Profile (`/edit-profile`)** - Update user information
 - **Manage Subscription (`/manage-subscription`)** - Subscription and payments
+- **Ask VeAg** - Chat interface modal available on Case Details
+
+### Admin Pages
+- **Admin Login (`/dashboard/admin`)** - Secure login for admins
+- **Admin Panel (`/dashboard/admin/panel`)** - Control panel for editing app resources
 
 ## 🧩 Components
 
 ### Layout Components
 - **Header** - Navigation bar with auth status
+- **BottomNavbar** - Mobile navigation bar
 - **Layout** - Consistent page wrapper
 - **PageHeader** - Page title with breadcrumbs
 
@@ -245,14 +293,14 @@ The client communicates with the backend API for:
 
 ### Context Providers
 - **AuthContext** - Global authentication state
-- **LanguageContext** - Internationalization (future enhancement)
+- **LanguageContext** - Full English/Hindi app internationalization
 
 ## 🔧 Configuration Files
 
 ### vite.config.js
 - React plugin configuration
 - Build optimization
-- Development server settings
+- Proxy routing configuration for Nginx Docker deployments
 
 ### tailwind.config.js
 - Custom color palette
@@ -295,6 +343,7 @@ The client communicates with the backend API for:
   "axios": "^1.6.7",
   "firebase": "^10.8.0",
   "framer-motion": "^12.23.25",
+  "jspdf": "^4.2.0",
   "lucide-react": "^0.556.0",
   "react": "^18.3.1",
   "react-dom": "^18.3.1",
@@ -315,7 +364,10 @@ The client communicates with the backend API for:
 
 ## 🚢 Deployment
 
-### Firebase Hosting (Recommended)
+### Docker (Recommended for Production)
+The frontend contains a `Dockerfile` and `nginx.conf`. When run via Docker Compose in the project root, the React app is built and served via Nginx. Nginx handles proxying API requests to the Node server seamlessly, meaning `VITE_API_URL` should be left empty.
+
+### Firebase Hosting
 
 1. **Install Firebase CLI**
    ```bash
@@ -348,11 +400,9 @@ The client communicates with the backend API for:
 
 ## 🔄 Version History
 
-- **v3.3.3** - Current version
-  - Enhanced UI/UX
-  - Improved case management
-  - Subscription integration
-  - Bug fixes and optimizations
+- **v5.5.5** - Current version
+  - Massive overhaul introducing Ask VeAg, Admin Panel, Marketplace, integrated Gemini Insights, comprehensive i18n, and Docker/Nginx support.
+- **v3.3.3** - Previous version
 
 ## 📄 License
 
