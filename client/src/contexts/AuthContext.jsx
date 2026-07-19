@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useRef } from "react";
 import {
   signInWithPopup,
   signOut as firebaseSignOut,
@@ -24,6 +24,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  // Flag to prevent onAuthStateChanged from duplicating signInWithGoogle's backend call
+  const justSignedInRef = useRef(false);
 
   // Get cached user data
   const getCachedUser = () => {
@@ -63,6 +66,9 @@ export const AuthProvider = ({ children }) => {
   // Sign in with Google
   const signInWithGoogle = async () => {
     try {
+      // Mark that we're handling auth ourselves — skip onAuthStateChanged's backend call
+      justSignedInRef.current = true;
+
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
@@ -98,9 +104,11 @@ export const AuthProvider = ({ children }) => {
 
       cacheUser(userWithId);
       setCurrentUser(userWithId);
+      setLoading(false);
 
       return userWithId;
     } catch (error) {
+      justSignedInRef.current = false;
       // console.error('Error signing in with Google:', error);
       throw error;
     }
@@ -221,6 +229,13 @@ export const AuthProvider = ({ children }) => {
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
+        // If signInWithGoogle already handled everything, skip the duplicate backend call
+        if (justSignedInRef.current) {
+          justSignedInRef.current = false;
+          setLoading(false);
+          return;
+        }
+
         try {
           // Force refresh to get the latest photoURL from Firebase
           await user.reload();
@@ -254,6 +269,8 @@ export const AuthProvider = ({ children }) => {
           cacheUser(userWithId);
           setCurrentUser(userWithId);
         } catch (error) {
+          // On error, don't clear the user if they were already set by signInWithGoogle or cache
+          // Only leave state unchanged — the user stays logged in with existing data
           // console.error('Error fetching user data:', error);
         }
       } else {
