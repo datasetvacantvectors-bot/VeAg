@@ -11,6 +11,4 @@ COPY . .
 # Ensure the temp directory used by multer exists
 RUN mkdir -p temp
 
-EXPOSE 5000
-
 CMD ["node", "server.js"]
